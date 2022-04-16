@@ -95,7 +95,7 @@
 		13B07FAE1A68108700A75B9A /* DoctorCare */ = {
 			isa = PBXGroup;
 			children = (
-				B6A447E1280AC92D0061A857 /* Configurations */,
+				B6A447ED280AD34E0061A857 /* Configurations */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
@@ -147,12 +147,12 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		B6A447E1280AC92D0061A857 /* Configurations */ = {
+		B6A447ED280AD34E0061A857 /* Configurations */ = {
 			isa = PBXGroup;
 			children = (
 				B6A447E2280AC94B0061A857 /* Config.xcconfig */,
 			);
-			name = Configurations;
+			path = Configurations;
 			sourceTree = "<group>";
 		};
 		BBD78D7AC51CEA395F1C20DB /* Pods */ = {

@@ -59,3 +59,7 @@ buck-out/
 # Ruby / CocoaPods
 /ios/Pods/
 /vendor/bundle/
+
+# react-native-config codegen
+ios/tmp.xcconfig
+.env
