@@ -26,7 +26,6 @@ import {
   LearnMoreLinks,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
-
 const Section: React.FC<{
   title: string;
 }> = ({children, title}) => {
