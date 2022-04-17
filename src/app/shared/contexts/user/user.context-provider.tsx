@@ -1,28 +1,23 @@
 import React from 'react';
-import {User} from '@data/models';
+import {useQuery} from 'react-query';
 
 import {UserContext} from './user.context';
+import {AuthenticationService} from '@native/infrastructure';
 
 export const UserContextProvider: React.FC = ({children}) => {
-  const [user, setUser] = React.useState<User>();
-  const getPreviousSession = React.useCallback(() => {
-    setTimeout(() => {
-      setUser({id: 11111});
-    }, 1000);
-  }, []);
+  const {data, remove} = useQuery('user', AuthenticationService.getUser);
+
   const signOut = React.useCallback(() => {
     return new Promise<boolean>(res => {
       setTimeout(() => {
-        setUser(undefined);
+        remove();
         res(true);
       }, 1000);
     });
-  }, []);
-  React.useEffect(() => {
-    getPreviousSession();
-  }, [getPreviousSession]);
+  }, [remove]);
+
   return (
-    <UserContext.Provider value={{user, signOut}}>
+    <UserContext.Provider value={{user: data, signOut}}>
       {children}
     </UserContext.Provider>
   );

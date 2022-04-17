@@ -12,14 +12,17 @@ import React from 'react';
 import {UserContextProvider} from '@app/shared/contexts';
 import {configureApiProvider} from './infrastructure';
 import {RootNavigator} from './routes';
-
+import {QueryClient, QueryClientProvider} from 'react-query';
 configureApiProvider();
 
 const App = () => {
+  const queryClient = new QueryClient();
   return (
-    <UserContextProvider>
-      <RootNavigator />
-    </UserContextProvider>
+    <QueryClientProvider client={queryClient}>
+      <UserContextProvider>
+        <RootNavigator />
+      </UserContextProvider>
+    </QueryClientProvider>
   );
 };
 
