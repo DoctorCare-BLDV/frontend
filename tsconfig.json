@@ -46,8 +46,8 @@
       "@app/*": [
         "src/app/*"
       ],
-      "@mobile/*": [
-        "src/app/framework/mobile/*"
+      "@native/*": [
+        "src/app/framework/native/*"
       ],
       "@data/*": [
         "src/data/*"

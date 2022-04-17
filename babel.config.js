@@ -10,7 +10,7 @@ module.exports = {
           // Top Level alias
           '@assets': './assets',
           '@app': './src/app/',
-          '@mobile': './src/app/framework/mobile/',
+          '@native': './src/app/framework/native/',
           '@core': './src/core',
           '@data': './src/data/',
         },

@@ -5,13 +5,13 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 // import from alias
 import {Text} from '@native/components';
 // localImport
-import {use{{name}}Model} from './{{kebabCase name}}.hook';
-import {{{name}}Props} from './{{kebabCase name}}.type';
-import {styles} from './{{kebabCase name}}.style';
+import {useSignUpModel} from './sign-up.hook';
+import {SignUpProps} from './sign-up.type';
+import {styles} from './sign-up.style';
 
-const _{{name}}: React.FC<{{name}}Props> = props => {
+const _SignUp: React.FC<SignUpProps> = props => {
   const {} = props;
-  const {} = use{{name}}Model();
+  const {} = useSignUpModel();
 
   return (
     <SafeAreaView style={[styles.container]}>
@@ -20,4 +20,4 @@ const _{{name}}: React.FC<{{name}}Props> = props => {
   );
 };
 
-export const {{name}} = React.memo(_{{name}});
+export const SignUp = React.memo(_SignUp);
