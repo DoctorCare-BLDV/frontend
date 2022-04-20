@@ -6,7 +6,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import {Text} from '@native/components';
 // localImport
 import {use{{name}}Model} from './{{kebabCase name}}.hook';
-import {{{name}}Props} from './{{kebabCase name}}.type';
+import { {{name}}Props } from './{{kebabCase name}}.type';
 import {styles} from './{{kebabCase name}}.style';
 
 const _{{name}}: React.FC<{{name}}Props> = props => {

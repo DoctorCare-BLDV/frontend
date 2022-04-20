@@ -1,4 +1,4 @@
-import {AxiosError, AxiosInstance, AxiosRequestConfig} from 'axios';
+import {AxiosError, AxiosInstance, AxiosResponse} from 'axios';
 import {ApiErrorHandler} from '@core';
 export class AxiosApiErrorHandler {
   constructor(
@@ -6,15 +6,15 @@ export class AxiosApiErrorHandler {
     private readonly listener: ApiErrorHandler,
   ) {
     this.bootstrap.bind(this);
-    this.onRequest.bind(this);
+    this.onFulfilled.bind(this);
     this.onError.bind(this);
   }
 
   private bootstrap() {
-    this.client.interceptors.response.use(this.onRequest, this.onError);
+    this.client.interceptors.response.use(this.onFulfilled, this.onError);
   }
-  private onRequest(request: AxiosRequestConfig) {
-    return request;
+  private onFulfilled(response: AxiosResponse) {
+    return response;
   }
   private onError(error: AxiosError) {
     if (error.request) {
