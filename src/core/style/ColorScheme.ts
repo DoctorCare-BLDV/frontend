@@ -12,6 +12,8 @@ export interface ColorScheme {
   inactive: string;
   underlay: string;
   overlay: string;
+  overlay60: string;
   onOverlay: string;
+  screenBackground: string;
   border: string;
 }

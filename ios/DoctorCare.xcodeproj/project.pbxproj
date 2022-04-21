@@ -30,6 +30,22 @@
 		00E356EE1AD99517003FC87E /* DoctorCareTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DoctorCareTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* DoctorCareTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DoctorCareTests.m; sourceTree = "<group>"; };
+		0624909A2811A69C009E97AC /* Fontisto.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Fontisto.ttf; sourceTree = "<group>"; };
+		0624909B2811A69C009E97AC /* Octicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Octicons.ttf; sourceTree = "<group>"; };
+		0624909C2811A69C009E97AC /* Feather.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Feather.ttf; sourceTree = "<group>"; };
+		0624909D2811A69C009E97AC /* Entypo.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Entypo.ttf; sourceTree = "<group>"; };
+		0624909E2811A69C009E97AC /* FontAwesome5_Brands.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontAwesome5_Brands.ttf; sourceTree = "<group>"; };
+		0624909F2811A69C009E97AC /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = MaterialCommunityIcons.ttf; sourceTree = "<group>"; };
+		062490A02811A69C009E97AC /* AntDesign.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = AntDesign.ttf; sourceTree = "<group>"; };
+		062490A12811A69C009E97AC /* Foundation.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Foundation.ttf; sourceTree = "<group>"; };
+		062490A22811A69C009E97AC /* Ionicons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Ionicons.ttf; sourceTree = "<group>"; };
+		062490A32811A69C009E97AC /* FontAwesome5_Solid.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontAwesome5_Solid.ttf; sourceTree = "<group>"; };
+		062490A42811A69C009E97AC /* FontAwesome5_Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontAwesome5_Regular.ttf; sourceTree = "<group>"; };
+		062490A52811A69C009E97AC /* FontAwesome.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontAwesome.ttf; sourceTree = "<group>"; };
+		062490A62811A69C009E97AC /* Zocial.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Zocial.ttf; sourceTree = "<group>"; };
+		062490A72811A69C009E97AC /* EvilIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = EvilIcons.ttf; sourceTree = "<group>"; };
+		062490A82811A69C009E97AC /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = SimpleLineIcons.ttf; sourceTree = "<group>"; };
+		062490A92811A69C009E97AC /* MaterialIcons.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = MaterialIcons.ttf; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* DoctorCare.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DoctorCare.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = DoctorCare/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = DoctorCare/AppDelegate.mm; sourceTree = "<group>"; };
@@ -92,6 +108,30 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		062490992811A69C009E97AC /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				0624909A2811A69C009E97AC /* Fontisto.ttf */,
+				0624909B2811A69C009E97AC /* Octicons.ttf */,
+				0624909C2811A69C009E97AC /* Feather.ttf */,
+				0624909D2811A69C009E97AC /* Entypo.ttf */,
+				0624909E2811A69C009E97AC /* FontAwesome5_Brands.ttf */,
+				0624909F2811A69C009E97AC /* MaterialCommunityIcons.ttf */,
+				062490A02811A69C009E97AC /* AntDesign.ttf */,
+				062490A12811A69C009E97AC /* Foundation.ttf */,
+				062490A22811A69C009E97AC /* Ionicons.ttf */,
+				062490A32811A69C009E97AC /* FontAwesome5_Solid.ttf */,
+				062490A42811A69C009E97AC /* FontAwesome5_Regular.ttf */,
+				062490A52811A69C009E97AC /* FontAwesome.ttf */,
+				062490A62811A69C009E97AC /* Zocial.ttf */,
+				062490A72811A69C009E97AC /* EvilIcons.ttf */,
+				062490A82811A69C009E97AC /* SimpleLineIcons.ttf */,
+				062490A92811A69C009E97AC /* MaterialIcons.ttf */,
+			);
+			name = Fonts;
+			path = "../node_modules/react-native-vector-icons/Fonts";
+			sourceTree = "<group>";
+		};
 		13B07FAE1A68108700A75B9A /* DoctorCare */ = {
 			isa = PBXGroup;
 			children = (
@@ -126,6 +166,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				062490992811A69C009E97AC /* Fonts */,
 				13B07FAE1A68108700A75B9A /* DoctorCare */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* DoctorCareTests */,

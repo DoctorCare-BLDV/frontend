@@ -16,7 +16,9 @@ export const DarkTheme: Theme = {
     inactive: Colors.GRAY,
     underlay: Colors.LIGHT_GRAY_1,
     overlay: Colors.OVERLAY,
+    overlay60: Colors.BLACK_60,
     onOverlay: Colors.WHITE,
+    screenBackground: '#f2f2f2',
     border: Colors.LIGHT_GRAY,
   },
   textColorScheme: {
