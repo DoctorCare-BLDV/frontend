@@ -8,6 +8,22 @@
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* DoctorCareTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* DoctorCareTests.m */; };
+		0693A13528131678009D9B98 /* Fontisto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0624909A2811A69C009E97AC /* Fontisto.ttf */; };
+		0693A13628131678009D9B98 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0624909B2811A69C009E97AC /* Octicons.ttf */; };
+		0693A13728131678009D9B98 /* Feather.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0624909C2811A69C009E97AC /* Feather.ttf */; };
+		0693A13828131678009D9B98 /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0624909D2811A69C009E97AC /* Entypo.ttf */; };
+		0693A13928131678009D9B98 /* FontAwesome5_Brands.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0624909E2811A69C009E97AC /* FontAwesome5_Brands.ttf */; };
+		0693A13A28131678009D9B98 /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0624909F2811A69C009E97AC /* MaterialCommunityIcons.ttf */; };
+		0693A13B28131678009D9B98 /* AntDesign.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 062490A02811A69C009E97AC /* AntDesign.ttf */; };
+		0693A13C28131678009D9B98 /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 062490A12811A69C009E97AC /* Foundation.ttf */; };
+		0693A13D28131678009D9B98 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 062490A22811A69C009E97AC /* Ionicons.ttf */; };
+		0693A13E28131678009D9B98 /* FontAwesome5_Solid.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 062490A32811A69C009E97AC /* FontAwesome5_Solid.ttf */; };
+		0693A13F28131678009D9B98 /* FontAwesome5_Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 062490A42811A69C009E97AC /* FontAwesome5_Regular.ttf */; };
+		0693A14028131678009D9B98 /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 062490A52811A69C009E97AC /* FontAwesome.ttf */; };
+		0693A14128131678009D9B98 /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 062490A62811A69C009E97AC /* Zocial.ttf */; };
+		0693A14228131678009D9B98 /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 062490A72811A69C009E97AC /* EvilIcons.ttf */; };
+		0693A14328131678009D9B98 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 062490A82811A69C009E97AC /* SimpleLineIcons.ttf */; };
+		0693A14428131678009D9B98 /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 062490A92811A69C009E97AC /* MaterialIcons.ttf */; };
 		0C80B921A6F3F58F76C31292 /* libPods-DoctorCare.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DCACB8F33CDC322A6C60F78 /* libPods-DoctorCare.a */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
@@ -309,6 +325,22 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0693A13528131678009D9B98 /* Fontisto.ttf in Resources */,
+				0693A13628131678009D9B98 /* Octicons.ttf in Resources */,
+				0693A13728131678009D9B98 /* Feather.ttf in Resources */,
+				0693A13828131678009D9B98 /* Entypo.ttf in Resources */,
+				0693A13928131678009D9B98 /* FontAwesome5_Brands.ttf in Resources */,
+				0693A13A28131678009D9B98 /* MaterialCommunityIcons.ttf in Resources */,
+				0693A13B28131678009D9B98 /* AntDesign.ttf in Resources */,
+				0693A13C28131678009D9B98 /* Foundation.ttf in Resources */,
+				0693A13D28131678009D9B98 /* Ionicons.ttf in Resources */,
+				0693A13E28131678009D9B98 /* FontAwesome5_Solid.ttf in Resources */,
+				0693A13F28131678009D9B98 /* FontAwesome5_Regular.ttf in Resources */,
+				0693A14028131678009D9B98 /* FontAwesome.ttf in Resources */,
+				0693A14128131678009D9B98 /* Zocial.ttf in Resources */,
+				0693A14228131678009D9B98 /* EvilIcons.ttf in Resources */,
+				0693A14328131678009D9B98 /* SimpleLineIcons.ttf in Resources */,
+				0693A14428131678009D9B98 /* MaterialIcons.ttf in Resources */,
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 			);

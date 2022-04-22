@@ -1,22 +1,23 @@
 import React from 'react';
-import {} from 'react-native';
-// import from library
-import {SafeAreaView} from 'react-native-safe-area-context';
-// import from alias
-import {Text} from '@native/components';
+import {View} from 'react-native';
+// import alias
+import {ListProducts as ListProductsComponent} from '@native/components';
+
 // localImport
 import {useListProductsModel} from './list-products.hook';
 import {ListProductsProps} from './list-products.type';
 import {styles} from './list-products.style';
+import {Header} from './components';
 
 const _ListProducts: React.FC<ListProductsProps> = props => {
   const {} = props;
   const {} = useListProductsModel();
 
   return (
-    <SafeAreaView style={[styles.container]}>
-      <Text />
-    </SafeAreaView>
+    <View style={[styles.container]}>
+      <Header />
+      <ListProductsComponent />
+    </View>
   );
 };
 
