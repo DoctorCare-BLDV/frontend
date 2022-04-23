@@ -31,9 +31,9 @@ export const Product: React.FC<ProductProps> = ({
 }) => {
   const theme = useTheme();
 
-  const containerStyle = useMemo(() => {
+  const wrapperStyle = useMemo(() => {
     return [
-      styles.container,
+      styles.wrapper,
       {
         backgroundColor: theme.colorScheme.surface,
       },
@@ -75,31 +75,34 @@ export const Product: React.FC<ProductProps> = ({
   }, [coinPrice, theme]);
 
   return (
-    <TouchableOpacity activeOpacity={0.8} style={containerStyle}>
-      <Image
-        resizeMode="contain"
-        source={{uri: image}}
-        style={[styles.image, imageStyle]}
-      />
-      <View style={styles.infoContainer}>
-        <TextView style={styles.name}>{name}</TextView>
-        <View style={blockStyle}>
-          <View style={styles.priceContainer}>
-            <TextView style={priceStyle}>{price}</TextView>
-            {renderCoinPrice()}
-          </View>
+    <View style={wrapperStyle}>
+      <TouchableOpacity activeOpacity={0.8} style={styles.container}>
+        <Image
+          resizeMode="contain"
+          source={{uri: image}}
+          style={[styles.image, imageStyle]}
+        />
+        <View style={styles.infoContainer}>
+          <TextView style={styles.name}>{name}</TextView>
+          <View style={blockStyle}>
+            <View style={styles.priceContainer}>
+              <TextView style={priceStyle}>{price}</TextView>
+              {renderCoinPrice()}
+            </View>
 
-          <IconButton name="cart-plus" />
+            <IconButton name="cart-plus" />
+          </View>
         </View>
-      </View>
-    </TouchableOpacity>
+      </TouchableOpacity>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  wrapper: {
     flex: 1,
     borderRadius: 8,
+
     shadowColor: Colors.BLACK,
     shadowOffset: {
       width: 0,
@@ -110,6 +113,7 @@ const styles = StyleSheet.create({
 
     elevation: 8,
   },
+  container: {},
   image: {
     borderRadius: 8,
   },

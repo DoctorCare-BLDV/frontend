@@ -36,5 +36,7 @@ export const Input: React.FC<InputProps> = ({
 };
 
 const styles = StyleSheet.create({
-  input: {},
+  input: {
+    paddingVertical: 0,
+  },
 });

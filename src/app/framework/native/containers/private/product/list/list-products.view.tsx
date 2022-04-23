@@ -16,7 +16,7 @@ const _ListProducts: React.FC<ListProductsProps> = props => {
 
   return (
     <View style={[styles.container]}>
-      <Header />
+      <Header wrapperStyle={styles.headerWrapper} />
       <ListProductsComponent />
     </View>
   );
