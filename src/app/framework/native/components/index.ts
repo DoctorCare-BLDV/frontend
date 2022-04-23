@@ -4,4 +4,4 @@ export * from './input';
 export * from './search-bar';
 export * from './icon-button';
 export * from './image';
-export * from './list-products';
+export * from './product';
