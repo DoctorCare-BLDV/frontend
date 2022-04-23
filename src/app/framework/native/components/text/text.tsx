@@ -5,7 +5,7 @@ export interface TextProps {}
 
 export const Text: React.FC<TextProps> = props => {
   const {} = props;
-  return <View style={StyleSheet.flatten([styles.container])}></View>;
+  return <View style={StyleSheet.flatten([styles.container])} />;
 };
 
 const styles = StyleSheet.create({

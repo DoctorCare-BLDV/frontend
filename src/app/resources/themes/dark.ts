@@ -6,7 +6,7 @@ export const DarkTheme: Theme = {
     primary: Colors.BLUE,
     secondary: Colors.RED,
     onSecondary: Colors.WHITE,
-    background: Colors.WHITE,
+    background: Colors.LIGHT_GRAY_2,
     surface: Colors.PURPLE,
     error: Colors.PURPLE,
     onBackground: Colors.BLACK,
