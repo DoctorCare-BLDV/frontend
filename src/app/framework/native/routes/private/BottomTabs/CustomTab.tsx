@@ -6,8 +6,9 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 // import PushNotificationIOS from '@react-native-community/push-notification-ios';
 // import PushNotification from 'react-native-push-notification';
-import {Colors, LightTheme} from '@app/resources';
+import {Colors} from '@app/resources';
 import {TextView} from '@native/components';
+import {useTheme} from '@app/shared/hooks/useTheme';
 // import {useUser} from '@hooks';
 // import {FirebaseDataSource} from '@data';
 
@@ -38,7 +39,6 @@ const styles = StyleSheet.create({
   container: {
     height: 60,
     flexDirection: 'row',
-    backgroundColor: LightTheme.colorScheme.background,
     shadowColor: Colors.BLACK,
     shadowOffset: {
       width: 0,
@@ -60,15 +60,9 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 0,
   },
-  indicatorActive: {
-    backgroundColor: LightTheme.colorScheme.primary,
-  },
-  labelActive: {
-    color: LightTheme.colorScheme.primary,
-  },
-  labelInactive: {
-    color: LightTheme.textColorScheme.secondary,
-  },
+  indicatorActive: {},
+  labelActive: {},
+  labelInactive: {},
   icon: {
     fontSize: 24,
     height: 26,
@@ -100,6 +94,7 @@ const styles = StyleSheet.create({
 
 const CustomTab = ({state, descriptors, navigation}: BottomTabBarProps) => {
   const {bottom} = useSafeAreaInsets();
+  const theme = useTheme();
   // const [user] = useUser();
   // const [count, setCount] = useState(0);
 
@@ -126,9 +121,38 @@ const CustomTab = ({state, descriptors, navigation}: BottomTabBarProps) => {
       {
         height: 60 + bottom,
         paddingBottom: bottom,
+        backgroundColor: theme.colorScheme.surface,
       },
     ];
-  }, [bottom]);
+  }, [bottom, theme]);
+
+  const indicatorActiveStyle = useMemo(() => {
+    return [
+      styles.indicator,
+      styles.indicatorActive,
+      {
+        backgroundColor: theme.colorScheme.primary,
+      },
+    ];
+  }, [theme]);
+
+  const labelInactiveStyle = useMemo(() => {
+    return [
+      styles.labelInactive,
+      {
+        color: theme.textColorScheme.secondary,
+      },
+    ];
+  }, [theme]);
+
+  const labelActiveStyle = useMemo(() => {
+    return [
+      styles.labelActive,
+      {
+        color: theme.colorScheme.primary,
+      },
+    ];
+  }, [theme]);
 
   return (
     <View style={containerStyle}>
@@ -180,24 +204,22 @@ const CustomTab = ({state, descriptors, navigation}: BottomTabBarProps) => {
             onPress={onPress}
             onLongPress={onLongPress}
             style={styles.btnContainer}>
-            {isFocused && (
-              <View style={[styles.indicator, styles.indicatorActive]} />
-            )}
+            {isFocused && <View style={indicatorActiveStyle} />}
             <IconComponent
               name={iconName}
               solid
               style={[
-                styles.labelInactive,
+                labelInactiveStyle,
                 styles.icon,
                 // iconStyle,
-                isFocused && styles.labelActive,
+                isFocused && labelActiveStyle,
               ]}
             />
             <TextView
               style={[
-                styles.labelInactive,
+                labelInactiveStyle,
                 styles.label,
-                isFocused && styles.labelActive,
+                isFocused && labelActiveStyle,
               ]}>
               {label}
             </TextView>

@@ -6,8 +6,9 @@ import {ListProducts as ListProductsComponent} from '@native/components';
 // localImport
 import {useListProductsModel} from './list-products.hook';
 import {ListProductsProps} from './list-products.type';
-import {styles} from './list-products.style';
 import {Header} from './components';
+
+import {styles} from './list-products.style';
 
 const _ListProducts: React.FC<ListProductsProps> = props => {
   const {} = props;

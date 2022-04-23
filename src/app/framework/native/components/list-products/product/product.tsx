@@ -35,7 +35,7 @@ export const Product: React.FC<ProductProps> = ({
     return [
       styles.container,
       {
-        backgroundColor: theme.colorScheme.background,
+        backgroundColor: theme.colorScheme.surface,
       },
     ];
   }, [theme]);

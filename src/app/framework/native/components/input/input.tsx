@@ -1,7 +1,7 @@
-import {LightTheme} from '@app/resources';
-import {useTheme} from '@app/shared/hooks/useTheme';
 import React, {useMemo} from 'react';
 import {StyleSheet, TextInput, TextInputProps} from 'react-native';
+
+import {useTheme} from '@app/shared/hooks/useTheme';
 
 export interface InputProps extends TextInputProps {}
 
@@ -13,8 +13,8 @@ export const Input: React.FC<InputProps> = ({
   const theme = useTheme();
 
   const placeholderTextColorBase = useMemo(() => {
-    return placeholderTextColor || LightTheme.textColorScheme.tertiary;
-  }, [placeholderTextColor]);
+    return placeholderTextColor || theme.textColorScheme.tertiary;
+  }, [placeholderTextColor, theme]);
 
   const styleBase = useMemo(() => {
     return [

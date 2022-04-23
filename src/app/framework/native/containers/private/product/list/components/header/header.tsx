@@ -1,8 +1,9 @@
 import React, {useMemo} from 'react';
 import {View, StyleSheet} from 'react-native';
 
-import {IconButton, SearchBar} from '@app/framework/native/components';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+
+import {IconButton, SearchBar} from '@app/framework/native/components';
 import {useTheme} from '@app/shared/hooks/useTheme';
 
 export interface HeaderProps {}
@@ -20,7 +21,7 @@ export const Header: React.FC<HeaderProps> = () => {
       styles.wrapper,
       {
         paddingTop: top,
-        backgroundColor: theme.colorScheme.background,
+        backgroundColor: theme.colorScheme.surface,
       },
     ];
   }, [theme, top]);
