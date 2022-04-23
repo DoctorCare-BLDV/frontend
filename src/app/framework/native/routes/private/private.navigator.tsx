@@ -5,17 +5,14 @@ import {
 } from '@react-navigation/native-stack';
 import {PrivateParamList} from '@native/navigation';
 import BottomTabs from './BottomTabs';
-import {
-  // Colors,
-  LightTheme,
-} from '@app/resources';
+import {Colors} from '@app/resources';
 
 const Stack = createNativeStackNavigator<PrivateParamList>();
 
 const rootOptions: NativeStackNavigationOptions = {
   headerShown: false,
   contentStyle: {
-    backgroundColor: LightTheme.colorScheme.screenBackground,
+    backgroundColor: Colors.LIGHT_GRAY_2,
   },
 };
 

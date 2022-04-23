@@ -6,7 +6,7 @@ export const DarkTheme: Theme = {
     primary: Colors.BLUE,
     secondary: Colors.RED,
     onSecondary: Colors.WHITE,
-    background: Colors.WHITE,
+    background: Colors.LIGHT_GRAY_2,
     surface: Colors.PURPLE,
     error: Colors.PURPLE,
     onBackground: Colors.BLACK,
@@ -16,9 +16,7 @@ export const DarkTheme: Theme = {
     inactive: Colors.GRAY,
     underlay: Colors.LIGHT_GRAY_1,
     overlay: Colors.OVERLAY,
-    overlay60: Colors.BLACK_60,
     onOverlay: Colors.WHITE,
-    screenBackground: '#f2f2f2',
     border: Colors.LIGHT_GRAY,
   },
   textColorScheme: {
