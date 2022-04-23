@@ -42,7 +42,7 @@ const rootOptions: NativeStackNavigationOptions = {
 //     {color: Colors.BLACK},
 //   ],
 //   headerStyle: {
-//     backgroundColor: LightTheme.colorScheme.background,
+//     backgroundColor: LightTheme.colorScheme.surface,
 //   },
 // };
 
