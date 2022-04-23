@@ -1,5 +1,5 @@
 export type BottomTabsParamList = {
-  ListProducts: undefined;
+  ProductList: undefined;
   Orders: undefined;
   Revenue: undefined;
   Customers: undefined;

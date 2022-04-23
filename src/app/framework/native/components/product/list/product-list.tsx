@@ -4,9 +4,9 @@ import {StyleSheet, FlatList, View} from 'react-native';
 import {AppDimensions, Layout} from '@app/resources';
 
 import {ListHeader} from './list-header';
-import {Product, ProductData} from './product';
+import {ProductItem, ProductData} from './product-item';
 
-export interface ListProductsProps {}
+export interface ProductListProps {}
 
 const DATA: ProductData[] = [
   {
@@ -51,7 +51,7 @@ const DATA: ProductData[] = [
   },
 ];
 
-export const ListProducts: React.FC<ListProductsProps> = () => {
+export const ProductList: React.FC<ProductListProps> = () => {
   const listHeaderComponent = useMemo(() => {
     return <ListHeader />;
   }, []);
@@ -72,7 +72,7 @@ export const ListProducts: React.FC<ListProductsProps> = () => {
               Layout.spacingHorizontal / 2,
           },
         ]}>
-        <Product
+        <ProductItem
           name={product.name}
           price={product.price}
           coinPrice={product.coinPrice}

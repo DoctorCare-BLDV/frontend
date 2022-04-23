@@ -18,11 +18,11 @@ export type ProductData = {
   price: string;
 };
 
-export interface ProductProps extends Omit<ProductData, 'id'> {
+export interface ProductItemProps extends Omit<ProductData, 'id'> {
   imageStyle?: StyleProp<ImageStyle>;
 }
 
-export const Product: React.FC<ProductProps> = ({
+export const ProductItem: React.FC<ProductItemProps> = ({
   name,
   image,
   coinPrice,

@@ -1,5 +1,5 @@
 import {} from 'react-native';
 
-export function useListProductsModel() {
+export function useProductListModel() {
   return {};
 }
