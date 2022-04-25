@@ -8,7 +8,7 @@ import {PrivateNavigator} from './private';
 export function RootNavigator() {
   const {user} = useUser();
   const renderNavigator = () => {
-    if (!user) {
+    if (user) {
       return <PrivateNavigator />;
     }
     return <AuthenticationNavigator />;
