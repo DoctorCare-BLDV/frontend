@@ -5,9 +5,12 @@ import {AuthenticationParamList} from '@native/navigation';
 
 const Stack = createNativeStackNavigator<AuthenticationParamList>();
 
+const screenOptions = {
+  headerShown: false,
+};
 export function AuthenticationNavigator() {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator screenOptions={screenOptions}>
       <Stack.Screen name={'SignIn'} component={SignIn} />
       <Stack.Screen name={'SignUp'} component={SignUp} />
     </Stack.Navigator>
