@@ -27,7 +27,7 @@ export interface HeaderProps {
   rightOnpress?: () => void;
 }
 
-export const NormalHeader: React.FC<HeaderProps> = props => {
+export const Header: React.FC<HeaderProps> = props => {
   const {
     leftComponent,
     leftIcon,

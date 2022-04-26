@@ -6,7 +6,7 @@ import Animated, {Easing} from 'react-native-reanimated';
 import {CheckBox} from 'react-native-elements';
 // import from alias
 import {
-  NormalHeader,
+  Header,
   PasswordInput,
   RoundedButton,
   TextField,
@@ -66,7 +66,7 @@ const _SignUp: React.FC<SignUpProps> = props => {
   const {opacityStyle, tranYStyle} = useAnimation();
   return (
     <View style={[styles.container]}>
-      <NormalHeader leftOnpress={navigation.goBack} title="Đăng ký" />
+      <Header leftOnpress={navigation.goBack} title="Đăng ký" />
       <KeyboardAwareScrollView
         keyboardShouldPersistTaps="handled"
         style={styles.flex1}
@@ -110,7 +110,7 @@ const _SignUp: React.FC<SignUpProps> = props => {
             inputProps={{
               // editable: !isVerifying,
               style: styles.input,
-              placeholder: `Mật khẩu * (6 - 50 ký tự)`,
+              placeholder: 'Mật khẩu * (6 - 50 ký tự)',
               // onChangeText: value => (password.current = value),
               // placeholderTextColor: Colors.BLACK,
               autoCapitalize: 'none',
