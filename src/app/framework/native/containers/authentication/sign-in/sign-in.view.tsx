@@ -11,11 +11,11 @@ import {
   TextField,
   TextView,
 } from '@native/components';
+import {Colors} from '@app/resources';
 // localImport
 import {useSignInModel} from './sign-in.hook';
 import {SignInProps} from './sign-in.type';
 import {styles} from './sign-in.style';
-import {Colors} from '@app/resources';
 
 const useAnimation = () => {
   const {opacity, tranY, tranYStyle, opacityStyle} = React.useMemo(() => {
@@ -60,9 +60,13 @@ const useAnimation = () => {
 };
 
 const _SignIn: React.FC<SignInProps> = props => {
-  const {} = props;
+  const {navigation} = props;
   const {opacityStyle, tranYStyle} = useAnimation();
   const {} = useSignInModel();
+
+  const navigateToSignUp = React.useCallback(() => {
+    navigation.navigate('SignUp');
+  }, [navigation]);
 
   return (
     <View style={styles.container}>
@@ -145,7 +149,7 @@ const _SignIn: React.FC<SignInProps> = props => {
         <View style={styles.footer}>
           <TextView style={{color: Colors.GRAY}} text={'hoặc'} />
           <FlatButton
-            onPress={() => {}}
+            onPress={navigateToSignUp}
             title="Đăng kí tài khoản mới"
             containerStyle={styles.registerContainer}
             textStyle={styles.registerText}
