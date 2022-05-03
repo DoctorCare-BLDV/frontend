@@ -1130,8 +1130,8 @@ PODS:
     - Firebase/Messaging (= 8.15.0)
     - React-Core
     - RNFBApp
-  - RNReanimated (1.13.0):
-    - React
+  - RNReanimated (1.13.4):
+    - React-Core
   - RNScreens (3.13.1):
     - React-Core
     - React-RCTImage
@@ -1416,7 +1416,7 @@ SPEC CHECKSUMS:
   RNFBAuth: 4e11cf9ed2ab3d34b0ecb5e03896aab71265546b
   RNFBFirestore: 31b633a6cf7e59156f727a81a6cfae9b2f8764b4
   RNFBMessaging: 6c6016cc0b7682abacdfe3f2535134771424f976
-  RNReanimated: 89f5e0a04d1dd52fbf27e7e7030d8f80a646a3fc
+  RNReanimated: c1b56d030d1616239861534d9adb531f8cffab68
   RNScreens: 40a2cb40a02a609938137a1e0acfbf8fc9eebf19
   RNSVG: 302bfc9905bd8122f08966dc2ce2d07b7b52b9f8
   SDWebImage: a7f831e1a65eb5e285e3fb046a23fcfbf08e696d
