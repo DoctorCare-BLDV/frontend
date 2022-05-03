@@ -1,12 +1,18 @@
-import React, {useMemo} from 'react';
+import React, {useCallback, useMemo} from 'react';
 import {StyleSheet, FlatList, View} from 'react-native';
 
 import {AppDimensions, Layout} from '@app/resources';
 
+import {useNavigation} from '@react-navigation/native';
+import {FilterModalNavigationProps} from '@app/framework/native/containers/private/filter-modal/types';
+
 import {ListHeader} from './list-header';
 import {ProductItem, ProductData} from './product-item';
+import {RowItemType} from '../../row-item';
 
-export interface ProductListProps {}
+export interface ProductListProps {
+  onPressFilter?: () => void;
+}
 
 const DATA: ProductData[] = [
   {
@@ -51,10 +57,45 @@ const DATA: ProductData[] = [
   },
 ];
 
-export const ProductList: React.FC<ProductListProps> = () => {
+export const ProductList: React.FC<ProductListProps> = ({onPressFilter}) => {
+  const filterModalNavigation = useNavigation<FilterModalNavigationProps>();
+
+  const handlePressFilter = useCallback(() => {
+    if (onPressFilter) {
+      onPressFilter();
+      return;
+    }
+
+    filterModalNavigation.navigate('FilterModal', {
+      selectedData: [
+        {id: 3, label: 'Thuốc bổ gan', type: RowItemType.CHECK_BOX},
+        {id: 6, label: 'Kho Hà Đông', type: RowItemType.CHECK_BOX},
+      ],
+      data: [
+        {
+          title: 'Danh mục',
+          data: [
+            {id: 1, label: 'Thuốc bổ não', type: RowItemType.CHECK_BOX},
+            {id: 2, label: 'Thuốc bổ tim', type: RowItemType.CHECK_BOX},
+            {id: 3, label: 'Thuốc bổ gan', type: RowItemType.CHECK_BOX},
+          ],
+        },
+        {
+          title: 'Kho',
+          data: [
+            {id: 4, label: 'Kho Thanh Xuân', type: RowItemType.CHECK_BOX},
+            {id: 5, label: 'Kho Long Biên', type: RowItemType.CHECK_BOX},
+            {id: 6, label: 'Kho Hà Đông', type: RowItemType.CHECK_BOX},
+          ],
+        },
+      ],
+      onFinishSelectOptions: e => console.log(e),
+    });
+  }, [onPressFilter, filterModalNavigation]);
+
   const listHeaderComponent = useMemo(() => {
-    return <ListHeader />;
-  }, []);
+    return <ListHeader onPressFilter={handlePressFilter} />;
+  }, [handlePressFilter]);
 
   const renderProduct = ({
     item: product,

@@ -9,20 +9,33 @@
  */
 
 import React from 'react';
+import {LogBox} from 'react-native';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {UserContextProvider} from '@app/shared/contexts';
 import {configureApiProvider} from './infrastructure';
 import {RootNavigator} from './routes';
 import {QueryClient, QueryClientProvider} from 'react-query';
+import {StyleSheet} from 'react-native';
 configureApiProvider();
+
+LogBox.ignoreLogs([
+  'Non-serializable values were found in the navigation state',
+]);
+
+const styles = StyleSheet.create({
+  container: {flex: 1},
+});
 
 const App = () => {
   const queryClient = new QueryClient();
   return (
-    <QueryClientProvider client={queryClient}>
-      <UserContextProvider>
-        <RootNavigator />
-      </UserContextProvider>
-    </QueryClientProvider>
+    <GestureHandlerRootView style={styles.container}>
+      <QueryClientProvider client={queryClient}>
+        <UserContextProvider>
+          <RootNavigator />
+        </UserContextProvider>
+      </QueryClientProvider>
+    </GestureHandlerRootView>
   );
 };
 

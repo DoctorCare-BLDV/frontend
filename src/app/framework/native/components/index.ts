@@ -7,3 +7,6 @@ export * from './image';
 export * from './product';
 export * from './button';
 export * from './header';
+export * from './row-item';
+export * from './header-button';
+export * from './indicator';

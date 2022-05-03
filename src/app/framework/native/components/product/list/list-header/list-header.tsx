@@ -7,13 +7,17 @@ import {useTheme} from '@app/shared/hooks/useTheme';
 import {IconButton} from '../../../icon-button';
 import {TextView} from '../../../label';
 
-export interface ListHeaderProps {}
+export interface ListHeaderProps {
+  onPressFilter?: () => void;
+}
 
 const MESSAGES = {
   ALL_PRODUCTS: 'Toàn bộ sản phẩm: ',
 };
 
-export const ListHeader: React.FC<ListHeaderProps> = () => {
+export const ListHeader: React.FC<ListHeaderProps> = ({
+  onPressFilter = () => {},
+}) => {
   const theme = useTheme();
 
   const titleStyle = useMemo(() => {
@@ -28,7 +32,7 @@ export const ListHeader: React.FC<ListHeaderProps> = () => {
   return (
     <View style={StyleSheet.flatten([styles.container])}>
       <TextView style={titleStyle}>{MESSAGES.ALL_PRODUCTS}100</TextView>
-      <IconButton name="filter" style={styles.icon} />
+      <IconButton name="filter" style={styles.icon} onPress={onPressFilter} />
     </View>
   );
 };
