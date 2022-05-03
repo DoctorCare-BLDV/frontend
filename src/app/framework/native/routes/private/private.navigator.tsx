@@ -9,7 +9,7 @@ import {Colors} from '@app/resources';
 import {useTheme} from '@app/shared/hooks/useTheme';
 
 import BottomTabs from './BottomTabs';
-import {FilterModal} from '../../containers';
+import {FilterModal, ProductDetail} from '@native/containers';
 
 const Stack = createNativeStackNavigator<PrivateParamList>();
 
@@ -41,12 +41,12 @@ export function PrivateNavigator() {
     };
   }, [theme]);
 
-  // const cardOptions: NativeStackNavigationOptions = useMemo(() => {
-  //   return {
-  //     ...headerDefaultStyle,
-  //     headerShown: true,
-  //   };
-  // }, [headerDefaultStyle]);
+  const cardOptions: NativeStackNavigationOptions = useMemo(() => {
+    return {
+      ...headerDefaultStyle,
+      headerShown: true,
+    };
+  }, [headerDefaultStyle]);
 
   const headerModalStyle: NativeStackNavigationOptions = useMemo(() => {
     return {
@@ -77,7 +77,15 @@ export function PrivateNavigator() {
     <Stack.Navigator screenOptions={rootOptions}>
       <Stack.Screen name={'BottomTab'} component={BottomTabs} />
       {/* common screen */}
-      {/* <Stack.Group screenOptions={cardOptions}></Stack.Group> */}
+      <Stack.Group screenOptions={cardOptions}>
+        <Stack.Screen
+          name="ProductDetail"
+          options={{
+            title: 'Chi tiết sản phẩm',
+          }}
+          component={ProductDetail}
+        />
+      </Stack.Group>
 
       {/* common modal */}
       <Stack.Group screenOptions={modalOptions}>

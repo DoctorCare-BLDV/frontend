@@ -81,6 +81,7 @@ const styles = StyleSheet.create({
 
   title: {
     padding: Layout.spacingHorizontal,
+    paddingBottom: Layout.spacingHorizontal / 2,
     fontWeight: 'bold',
   },
 });
@@ -275,7 +276,6 @@ const _FilterModal: React.FC<FilterModalProps> = ({
       />
     );
   }, [confirmTitle, listSelectedOptions, hideModal, route.params]);
-  console.log(route);
 
   const renderHeader = useCallback(() => {
     return (
@@ -290,7 +290,7 @@ const _FilterModal: React.FC<FilterModalProps> = ({
             current: new Animated.Value(1),
           }}
           options={{
-            // ...route.,
+            headerTitle: route.params.headerTitle || 'Bộ lọc',
             headerTitleAlign: 'center',
             headerStatusBarHeight: 0,
             headerStyle: {
@@ -369,6 +369,7 @@ const _FilterModal: React.FC<FilterModalProps> = ({
             keyboardDismissMode="interactive"
             extraData={searchValue}
             ListEmptyComponent={renderListEmpty}
+            stickySectionHeadersEnabled={false}
             {...params}
             contentContainerStyle={[
               styles.listContentContainer,

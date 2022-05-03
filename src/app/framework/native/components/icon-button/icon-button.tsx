@@ -22,6 +22,7 @@ export enum IconButtonType {
 
 export interface IconButtonProps extends TouchableOpacityProps {
   name: string;
+  solid?: boolean;
   type?: IconButtonType;
   containerStyle?: StyleProp<ViewStyle>;
   style?: StyleProp<TextStyle>;
@@ -34,6 +35,7 @@ export const IconButton: React.FC<IconButtonProps> = ({
   containerStyle,
   style,
   badge,
+  solid = true,
   ...props
 }) => {
   const theme = useTheme();
@@ -78,7 +80,7 @@ export const IconButton: React.FC<IconButtonProps> = ({
     <TouchableOpacity
       style={StyleSheet.flatten([styles.container, containerStyle])}
       {...props}>
-      <FontAwesome5Icon solid name={name} style={iconStyle} />
+      <FontAwesome5Icon solid={solid} name={name} style={iconStyle} />
       {renderBadge()}
     </TouchableOpacity>
   );

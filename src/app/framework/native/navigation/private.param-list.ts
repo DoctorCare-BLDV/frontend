@@ -23,4 +23,5 @@ export interface FilterModalProps
 export type PrivateParamList = {
   BottomTab: undefined;
   FilterModal: FilterModalProps;
+  ProductDetail: undefined;
 };

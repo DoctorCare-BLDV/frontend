@@ -1,14 +1,16 @@
 import React, {useCallback, useMemo} from 'react';
 import {View, StyleSheet, StyleProp, TouchableOpacity} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 
 import {ImageStyle} from 'react-native-fast-image';
 
-import {Colors} from '@app/resources';
+import {Colors, Layout} from '@app/resources';
 import {useTheme} from '@app/shared/hooks/useTheme';
 
 import {Image} from '../../../image';
 import {TextView} from '../../../label';
 import {IconButton} from '../../../icon-button';
+import {Tag} from '../../../tag';
 
 export type ProductData = {
   id: number;
@@ -30,6 +32,7 @@ export const ProductItem: React.FC<ProductItemProps> = ({
   imageStyle = {},
 }) => {
   const theme = useTheme();
+  const productDetailNavigation = useNavigation<any>();
 
   const wrapperStyle = useMemo(() => {
     return [
@@ -48,35 +51,16 @@ export const ProductItem: React.FC<ProductItemProps> = ({
     return [styles.block, {borderColor: theme.colorScheme.border}];
   }, [theme]);
 
-  const renderCoinPrice = useCallback(() => {
-    if (!coinPrice) {
-      return null;
-    }
-
-    const coinPriceContainerStyle = [
-      styles.coinPriceContainer,
-      {
-        backgroundColor: theme.colorScheme.primary,
-      },
-    ];
-
-    const coinPriceStyle = [
-      styles.coinPrice,
-      {
-        color: theme.colorScheme.onPrimary,
-      },
-    ];
-
-    return (
-      <View style={coinPriceContainerStyle}>
-        <TextView style={coinPriceStyle}>{coinPrice}</TextView>
-      </View>
-    );
-  }, [coinPrice, theme]);
+  const handlePressProduct = useCallback(() => {
+    productDetailNavigation.navigate('ProductDetail', {});
+  }, [productDetailNavigation]);
 
   return (
     <View style={wrapperStyle}>
-      <TouchableOpacity activeOpacity={0.8} style={styles.container}>
+      <TouchableOpacity
+        activeOpacity={0.8}
+        style={styles.container}
+        onPress={handlePressProduct}>
         <Image
           resizeMode="contain"
           source={{uri: image}}
@@ -87,10 +71,13 @@ export const ProductItem: React.FC<ProductItemProps> = ({
           <View style={blockStyle}>
             <View style={styles.priceContainer}>
               <TextView style={priceStyle}>{price}</TextView>
-              {renderCoinPrice()}
+              <Tag
+                label={coinPrice}
+                containerStyle={styles.coinPriceContainer}
+              />
             </View>
 
-            <IconButton name="cart-plus" />
+            <IconButton name="cart-plus" hitSlop={Layout.hitSlop} />
           </View>
         </View>
       </TouchableOpacity>
@@ -113,7 +100,9 @@ const styles = StyleSheet.create({
 
     elevation: 8,
   },
-  container: {},
+  container: {
+    flex: 1,
+  },
   image: {
     borderRadius: 8,
   },
@@ -148,12 +137,5 @@ const styles = StyleSheet.create({
 
   coinPriceContainer: {
     marginTop: 2,
-    paddingHorizontal: 5,
-    paddingVertical: 2,
-    borderRadius: 10,
-    borderTopRightRadius: 0,
-  },
-  coinPrice: {
-    fontSize: 9,
   },
 });
