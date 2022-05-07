@@ -7,6 +7,7 @@ export const styles = StyleSheet.create({
   },
   contentContainer: {
     flexGrow: 1,
+    paddingBottom: Layout.spacingHorizontal,
   },
   imageContainer: {
     width: AppDimensions.width,

@@ -2,7 +2,13 @@ import React, {useMemo, useState} from 'react';
 import {ScrollView, View} from 'react-native';
 // import from library
 // import from alias
-import {Image, NumberPicker, Tag, TextView} from '@native/components';
+import {
+  CartFooter,
+  Image,
+  NumberPicker,
+  Tag,
+  TextView,
+} from '@native/components';
 // localImport
 import {ProductDetailProps} from './product-detail.type';
 import {styles} from './product-detail.style';
@@ -41,9 +47,10 @@ const _ProductDetail: React.FC<ProductDetailProps> = ({}) => {
     return [
       styles.contentContainer,
       {
-        paddingBottom: bottom,
+        // paddingBottom: bottom,
       },
     ];
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [bottom]);
 
   const priceStyle = useMemo(() => {
@@ -56,56 +63,59 @@ const _ProductDetail: React.FC<ProductDetailProps> = ({}) => {
   }, [theme]);
 
   return (
-    <ScrollView
-      keyboardShouldPersistTaps="handled"
-      style={containerStyle}
-      contentContainerStyle={contentContainerStyle}>
-      <View style={styles.imageContainer}>
-        <Image
-          source={{
-            uri: 'https://s3-alpha-sig.figma.com/img/61de/cd62/9c6ee9d606a6b57f222b15bff93aa82a?Expires=1652659200&Signature=GDhlO460K~DnILd2V-WyOqnrZVPf60hBVK2I-nlBqu~6iS~dAIy-qo3s15DsZugehaw7uqcP23~SQsJS4rYnoEqw50q~xDiAWqFxJbefQWXwJMMwOrGXVpQ5crLLwaJljgCZAvh5wY9mpbhbzxQbPVUR-8vs~r5HUW18WrqpAWNiwSGuRh-oYToAVRVeNQJhtG-yh~Sc~NGEWXqaMHsBukGunXxnXhp32-FraMDLRj1BEDgMsnnGc3ZbQ5~Ki-fQ1q3Mu6jpFvQgUH6-ZaHyYk2ogtI9dSND1s48-Th2a4k~8VBfVYIb6QGwMJL51aMceeEmvHLiW8CHC73IZ28O5w__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA',
-          }}
-          style={styles.image}
-        />
-      </View>
+    <>
+      <ScrollView
+        keyboardShouldPersistTaps="handled"
+        style={containerStyle}
+        contentContainerStyle={contentContainerStyle}>
+        <View style={styles.imageContainer}>
+          <Image
+            source={{
+              uri: 'https://s3-alpha-sig.figma.com/img/61de/cd62/9c6ee9d606a6b57f222b15bff93aa82a?Expires=1652659200&Signature=GDhlO460K~DnILd2V-WyOqnrZVPf60hBVK2I-nlBqu~6iS~dAIy-qo3s15DsZugehaw7uqcP23~SQsJS4rYnoEqw50q~xDiAWqFxJbefQWXwJMMwOrGXVpQ5crLLwaJljgCZAvh5wY9mpbhbzxQbPVUR-8vs~r5HUW18WrqpAWNiwSGuRh-oYToAVRVeNQJhtG-yh~Sc~NGEWXqaMHsBukGunXxnXhp32-FraMDLRj1BEDgMsnnGc3ZbQ5~Ki-fQ1q3Mu6jpFvQgUH6-ZaHyYk2ogtI9dSND1s48-Th2a4k~8VBfVYIb6QGwMJL51aMceeEmvHLiW8CHC73IZ28O5w__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA',
+            }}
+            style={styles.image}
+          />
+        </View>
 
-      <View style={styles.overview}>
-        <TextView style={styles.title}>{MESSAGES.TITLE}</TextView>
+        <View style={styles.overview}>
+          <TextView style={styles.title}>{MESSAGES.TITLE}</TextView>
 
-        <View style={styles.priceWrapper}>
-          <View style={styles.priceContainer}>
-            <TextView style={priceStyle}>{MESSAGES.PRICE}</TextView>
+          <View style={styles.priceWrapper}>
+            <View style={styles.priceContainer}>
+              <TextView style={priceStyle}>{MESSAGES.PRICE}</TextView>
 
-            <View style={styles.quantityContainer}>
-              <NumberPicker value={quantity} onChange={setQuantity} />
+              <View style={styles.quantityContainer}>
+                <NumberPicker value={quantity} onChange={setQuantity} />
+              </View>
+            </View>
+
+            <View style={styles.tagPriceContainer}>
+              <Tag
+                label={MESSAGES.MV}
+                containerStyle={styles.tagContainer}
+                labelStyle={styles.tagLabel}
+              />
+              <Tag
+                label={MESSAGES.PRICE_2}
+                containerStyle={styles.tagContainer}
+                labelStyle={styles.tagLabel}
+              />
             </View>
           </View>
 
-          <View style={styles.tagPriceContainer}>
-            <Tag
-              label={MESSAGES.MV}
-              containerStyle={styles.tagContainer}
-              labelStyle={styles.tagLabel}
-            />
-            <Tag
-              label={MESSAGES.PRICE_2}
-              containerStyle={styles.tagContainer}
-              labelStyle={styles.tagLabel}
-            />
+          <View style={styles.block}>
+            <TextView style={styles.blockTitle}>
+              {MESSAGES.PRODUCT_DESC_TITLE}
+            </TextView>
+
+            <TextView style={styles.blockContentText}>
+              {MESSAGES.PRODUCT_DESC}
+            </TextView>
           </View>
         </View>
-
-        <View style={styles.block}>
-          <TextView style={styles.blockTitle}>
-            {MESSAGES.PRODUCT_DESC_TITLE}
-          </TextView>
-
-          <TextView style={styles.blockContentText}>
-            {MESSAGES.PRODUCT_DESC}
-          </TextView>
-        </View>
-      </View>
-    </ScrollView>
+      </ScrollView>
+      <CartFooter />
+    </>
   );
 };
 
