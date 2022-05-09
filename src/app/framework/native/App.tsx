@@ -13,6 +13,7 @@ import {UserContextProvider} from '@app/shared/contexts';
 import {configureApiProvider} from './infrastructure';
 import {RootNavigator} from './routes';
 import {QueryClient, QueryClientProvider} from 'react-query';
+import FlashMessage from 'react-native-flash-message';
 configureApiProvider();
 
 const App = () => {
@@ -21,6 +22,7 @@ const App = () => {
     <QueryClientProvider client={queryClient}>
       <UserContextProvider>
         <RootNavigator />
+        <FlashMessage />
       </UserContextProvider>
     </QueryClientProvider>
   );

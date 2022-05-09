@@ -60,13 +60,9 @@ const useAnimation = () => {
 };
 
 const _SignIn: React.FC<SignInProps> = props => {
-  const {navigation} = props;
+  const {} = props;
   const {opacityStyle, tranYStyle} = useAnimation();
-  const {} = useSignInModel();
-
-  const navigateToSignUp = React.useCallback(() => {
-    navigation.navigate('SignUp');
-  }, [navigation]);
+  const {phone, password, onSubmit} = useSignInModel();
 
   return (
     <View style={styles.container}>
@@ -91,11 +87,9 @@ const _SignIn: React.FC<SignInProps> = props => {
           <TextField
             containerStyle={styles.inputContainer}
             inputProps={{
-              // editable: !isVerifying,
               style: styles.input,
               placeholder: 'Số điện thoại',
-              // onChangeText: value => (phone.current = value),
-              // placeholderTextColor: Colors.BLACK,
+              onChangeText: value => (phone.current = value),
               keyboardType: 'phone-pad',
             }}
           />
@@ -105,37 +99,23 @@ const _SignIn: React.FC<SignInProps> = props => {
               inputProps={{
                 style: styles.input,
                 maxLength: 16,
-                // value: password,
-                // onChangeText: value => setPassword(value),
+                onChangeText: value => (password.current = value),
                 placeholder: 'Mật khẩu',
                 secureTextEntry: true,
-                // editable: !isVerifying,
-                // placeholderTextColor: Colors.BLACK,
                 autoCapitalize: 'none',
                 autoCorrect: false,
               }}
             />
           </Animated.View>
           <Animated.View style={tranYStyle}>
-            <View
-              // pointerEvents={isDisabled ? 'none' : 'auto'}
-              style={styles.shadow}>
+            <View style={styles.shadow}>
               <RoundedButton
                 color={[Colors.PRIMARY_ORAGE, Colors.PRIMARY_ORAGE]}
                 loading={false}
                 containerStyle={styles.buttonContainer}
-                // color={
-                //   isDisabled
-                //     ? [
-                //         LightTheme.colorScheme.inactive,
-                //         LightTheme.colorScheme.inactive,
-                //       ]
-                //     : [Colors.PRIMARY_BLUE, Colors.PRIMARY_BLUE]
-                // }
-                // title={isVerifying ? 'Xác minh' : 'Đăng nhập'}
                 title={'Đăng nhập'}
                 textStyle={styles.btnText}
-                onPress={() => {}}
+                onPress={onSubmit}
               />
             </View>
             <FlatButton
@@ -146,7 +126,7 @@ const _SignIn: React.FC<SignInProps> = props => {
             />
           </Animated.View>
         </View>
-        <View style={styles.footer}>
+        {/* <View style={styles.footer}>
           <TextView style={{color: Colors.GRAY}} text={'hoặc'} />
           <FlatButton
             onPress={navigateToSignUp}
@@ -154,7 +134,7 @@ const _SignIn: React.FC<SignInProps> = props => {
             containerStyle={styles.registerContainer}
             textStyle={styles.registerText}
           />
-        </View>
+        </View> */}
       </KeyboardAwareScrollView>
     </View>
   );
