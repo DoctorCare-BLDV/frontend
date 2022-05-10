@@ -1,7 +1,7 @@
 import React, {useCallback, useState} from 'react';
 
 import {UserContext} from './user.context';
-import {AuthenticationService} from '@native/infrastructure';
+import {AuthenticationService, LocalService} from '@native/infrastructure';
 import {showMessage} from 'react-native-flash-message';
 import {User} from '@data/models';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -22,7 +22,11 @@ export const UserContextProvider: React.FC = ({children}) => {
 
   const checkAuthentication = useCallback(async () => {
     const id = await AsyncStorage.getItem('userId');
+    console.log('-----id', id);
+
     if (!id) return setLanchScreen(false);
+    const token = await AsyncStorage.getItem('token');
+    AuthenticationService.setAuthorizationHeader(token + '');
     const {user, errMessage} = await AuthenticationService.getUser(id);
     if (user) {
       setUser(user);
@@ -47,13 +51,24 @@ export const UserContextProvider: React.FC = ({children}) => {
 
   const signIn = React.useCallback(
     async (props: {phone: string; password: string}) => {
-      const {errMessage} = await AuthenticationService.login(props);
+      const {user, errMessage} = await AuthenticationService.login(props);
       if (!!errMessage) {
         return showMessage({
           message: errMessage,
           type: 'danger',
         });
       }
+      if (!user) {
+        return showMessage({
+          message: 'Đã có lỗi xảy ra, vui lòng thử lại sau',
+          type: 'danger',
+        });
+      }
+      setUser(user);
+      LocalService.saveAuthenInfor({
+        token: user.token,
+        userId: user.userInfoId,
+      });
     },
     [],
   );
