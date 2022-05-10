@@ -13,3 +13,5 @@ export * from './indicator';
 export * from './tag';
 export * from './number-picker';
 export * from './footer-action-bar';
+export * from './tabbar';
+export * from './order';
