@@ -9,13 +9,13 @@
  */
 
 import React from 'react';
-import {LogBox} from 'react-native';
+import {LogBox, StyleSheet} from 'react-native';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {UserContextProvider} from '@app/shared/contexts';
 import {configureApiProvider} from './infrastructure';
 import {RootNavigator} from './routes';
 import {QueryClient, QueryClientProvider} from 'react-query';
-import {StyleSheet} from 'react-native';
+import FlashMessage from 'react-native-flash-message';
 configureApiProvider();
 
 LogBox.ignoreLogs([
@@ -33,6 +33,7 @@ const App = () => {
       <QueryClientProvider client={queryClient}>
         <UserContextProvider>
           <RootNavigator />
+          <FlashMessage />
         </UserContextProvider>
       </QueryClientProvider>
     </GestureHandlerRootView>

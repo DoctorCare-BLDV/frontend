@@ -2,6 +2,7 @@ import React from 'react';
 import {View, StyleSheet, Image} from 'react-native';
 import {Colors} from '@app/resources';
 import {TextView} from '../label';
+import {IconButton} from '../icon-button';
 
 export interface OrderProps {}
 
@@ -21,9 +22,11 @@ export const Order: React.FC<OrderProps> = props => {
         <TextView style={styles.count}>{'3 sản phẩm'}</TextView>
       </View>
       <View style={styles.infoWrapper}>
-        <TextView style={styles.title} numberOfLines={1}>
-          {'Tên khách hàng: '}
-          <TextView style={styles.bold}>{'Nguyễn Ngọc Anh'}</TextView>
+        <TextView style={[styles.title, styles.name]} numberOfLines={1}>
+          {'Khách hàng: '}
+          <TextView style={styles.bold}>
+            {'Nguyễn Ngọc Anh laknsl knasl nalks nlk'}
+          </TextView>
         </TextView>
         <View style={styles.infoSpacing} />
         <TextView style={styles.title} numberOfLines={1}>
@@ -36,20 +39,21 @@ export const Order: React.FC<OrderProps> = props => {
           </TextView>
         </View>
         <View style={styles.infoSpacing} />
-        <View style={styles.row}>
-          <TextView style={[styles.title, styles.flex1]} numberOfLines={1}>
-            {'Tiền hàng: '}
-            <TextView style={styles.bold} color={Colors.PRIMARY_ORAGE}>
-              {'1.000.000đ'}
-            </TextView>
+        <TextView style={[styles.title, styles.flex1]} numberOfLines={1}>
+          {'Tiền hàng: '}
+          <TextView style={styles.bold} color={Colors.PRIMARY_ORAGE}>
+            {'1.000.000đ'}
           </TextView>
-          <TextView style={styles.title} numberOfLines={1}>
-            {'Lợi nhuận: '}
-            <TextView style={styles.bold} color={Colors.PRIMARY_ORAGE}>
-              {'500.000đ'}
-            </TextView>
+        </TextView>
+        <View style={styles.infoSpacing} />
+        <TextView style={styles.title} numberOfLines={1}>
+          {'Lợi nhuận: '}
+          <TextView style={styles.bold} color={Colors.PRIMARY_ORAGE}>
+            {'500.000đ'}
           </TextView>
-        </View>
+        </TextView>
+        <TextView style={styles.status}>{'Chờ xác nhận'}</TextView>
+        <IconButton name="edit" containerStyle={styles.editWrapper} />
       </View>
     </View>
   );
@@ -79,6 +83,9 @@ const styles = StyleSheet.create({
     flex: 1,
     marginLeft: 16,
   },
+  name: {
+    marginRight: 30,
+  },
   title: {
     fontSize: 13,
   },
@@ -95,5 +102,16 @@ const styles = StyleSheet.create({
   },
   infoSpacing: {
     marginTop: 12,
+  },
+  status: {
+    color: Colors.YELLOW,
+    position: 'absolute',
+    bottom: 0,
+    right: 0,
+  },
+  editWrapper: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
   },
 });

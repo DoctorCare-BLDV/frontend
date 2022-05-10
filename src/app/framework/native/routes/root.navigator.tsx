@@ -1,6 +1,6 @@
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
-import {useUser} from '@app/shared/contexts';
+import {useLaunchScreen, useUser} from '@app/shared/contexts';
 
 import {AuthenticationNavigator} from './authentication.navigator';
 import {PrivateNavigator} from './private';
@@ -8,8 +8,9 @@ import {LaunchAppNavigator} from './launch-screen.navigator';
 
 export function RootNavigator() {
   const {user} = useUser();
+  const {isOnLaunchScreen} = useLaunchScreen();
   const renderNavigator = () => {
-    if (false) {
+    if (isOnLaunchScreen) {
       return <LaunchAppNavigator />;
     }
     if (user) {
