@@ -1,6 +1,7 @@
-import React, {useMemo, useState} from 'react';
+import React, {useCallback, useMemo, useRef, useState} from 'react';
 import {ScrollView, View} from 'react-native';
 // import from library
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 // import from alias
 import {
   CartFooter,
@@ -9,11 +10,11 @@ import {
   Tag,
   TextView,
 } from '@native/components';
+import {useTheme} from '@app/shared/hooks/useTheme';
+import {useFloatingReaction} from '@app/shared/contexts';
 // localImport
 import {ProductDetailProps} from './product-detail.type';
 import {styles} from './product-detail.style';
-import {useTheme} from '@app/shared/hooks/useTheme';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 const MESSAGES = {
   TITLE:
@@ -29,10 +30,41 @@ const MESSAGES = {
 
 const _ProductDetail: React.FC<ProductDetailProps> = ({}) => {
   const theme = useTheme();
+  const imageRef = useRef();
+  const {addFloatingReactionSource} = useFloatingReaction();
 
   const {bottom} = useSafeAreaInsets();
 
   const [quantity, setQuantity] = useState(0);
+
+  const addToCart = useCallback(() => {
+    if (imageRef.current) {
+      const ELEMENT_WIDTH = 100;
+      const ELEMENT_HEIGHT = 100;
+      const elementStyle = {width: ELEMENT_WIDTH, height: ELEMENT_HEIGHT};
+      const element = (
+        <Image
+          source={{
+            uri: 'https://s3-alpha-sig.figma.com/img/61de/cd62/9c6ee9d606a6b57f222b15bff93aa82a?Expires=1652659200&Signature=GDhlO460K~DnILd2V-WyOqnrZVPf60hBVK2I-nlBqu~6iS~dAIy-qo3s15DsZugehaw7uqcP23~SQsJS4rYnoEqw50q~xDiAWqFxJbefQWXwJMMwOrGXVpQ5crLLwaJljgCZAvh5wY9mpbhbzxQbPVUR-8vs~r5HUW18WrqpAWNiwSGuRh-oYToAVRVeNQJhtG-yh~Sc~NGEWXqaMHsBukGunXxnXhp32-FraMDLRj1BEDgMsnnGc3ZbQ5~Ki-fQ1q3Mu6jpFvQgUH6-ZaHyYk2ogtI9dSND1s48-Th2a4k~8VBfVYIb6QGwMJL51aMceeEmvHLiW8CHC73IZ28O5w__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA',
+          }}
+          style={elementStyle}
+        />
+      );
+
+      // @ts-ignore
+      imageRef.current.measure((x, y, width, height, pageX, pageY) => {
+        addFloatingReactionSource({
+          element,
+          position: {
+            x: pageX + width / 2 - ELEMENT_WIDTH / 2,
+            y: pageY + height / 2 - ELEMENT_HEIGHT / 2,
+            width: ELEMENT_WIDTH,
+            height: ELEMENT_HEIGHT,
+          },
+        });
+      });
+    }
+  }, [addFloatingReactionSource]);
 
   const containerStyle = useMemo(() => {
     return [
@@ -70,6 +102,7 @@ const _ProductDetail: React.FC<ProductDetailProps> = ({}) => {
         contentContainerStyle={contentContainerStyle}>
         <View style={styles.imageContainer}>
           <Image
+            ref={imageRef}
             source={{
               uri: 'https://s3-alpha-sig.figma.com/img/61de/cd62/9c6ee9d606a6b57f222b15bff93aa82a?Expires=1652659200&Signature=GDhlO460K~DnILd2V-WyOqnrZVPf60hBVK2I-nlBqu~6iS~dAIy-qo3s15DsZugehaw7uqcP23~SQsJS4rYnoEqw50q~xDiAWqFxJbefQWXwJMMwOrGXVpQ5crLLwaJljgCZAvh5wY9mpbhbzxQbPVUR-8vs~r5HUW18WrqpAWNiwSGuRh-oYToAVRVeNQJhtG-yh~Sc~NGEWXqaMHsBukGunXxnXhp32-FraMDLRj1BEDgMsnnGc3ZbQ5~Ki-fQ1q3Mu6jpFvQgUH6-ZaHyYk2ogtI9dSND1s48-Th2a4k~8VBfVYIb6QGwMJL51aMceeEmvHLiW8CHC73IZ28O5w__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA',
             }}
@@ -114,7 +147,7 @@ const _ProductDetail: React.FC<ProductDetailProps> = ({}) => {
           </View>
         </View>
       </ScrollView>
-      <CartFooter />
+      <CartFooter onLabelPress={addToCart} />
     </>
   );
 };

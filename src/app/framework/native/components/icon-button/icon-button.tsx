@@ -12,6 +12,7 @@ import {
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 
 import {useTheme} from '@app/shared/hooks/useTheme';
+
 import {TextView} from '../label';
 
 export enum IconButtonType {
@@ -21,6 +22,7 @@ export enum IconButtonType {
 }
 
 export interface IconButtonProps extends TouchableOpacityProps {
+  ref?: any;
   name: string;
   solid?: boolean;
   type?: IconButtonType;
@@ -29,62 +31,69 @@ export interface IconButtonProps extends TouchableOpacityProps {
   badge?: string | number;
 }
 
-export const IconButton: React.FC<IconButtonProps> = ({
-  name,
-  type = IconButtonType.PRIMARY,
-  containerStyle,
-  style,
-  badge,
-  solid = true,
-  ...props
-}) => {
-  const theme = useTheme();
+export const IconButton: React.FC<IconButtonProps> = React.forwardRef(
+  (
+    {
+      name,
+      type = IconButtonType.PRIMARY,
+      containerStyle,
+      style,
+      badge,
+      solid = true,
+      ...props
+    },
+    ref: any,
+  ) => {
+    const theme = useTheme();
 
-  const iconStyle = useMemo(() => {
-    const baseStyle: StyleProp<TextStyle> = [styles.icon];
+    const iconStyle = useMemo(() => {
+      const baseStyle: StyleProp<TextStyle> = [styles.icon];
 
-    switch (type) {
-      case IconButtonType.PRIMARY:
-        baseStyle.push({color: theme.colorScheme.primary});
-        break;
-      case IconButtonType.CANCEL:
-        baseStyle.push({color: theme.colorScheme.onBackground});
-        break;
-      case IconButtonType.DISABLED:
-        baseStyle.push({color: theme.colorScheme.inactive});
-        break;
-    }
+      switch (type) {
+        case IconButtonType.PRIMARY:
+          baseStyle.push({color: theme.colorScheme.primary});
+          break;
+        case IconButtonType.CANCEL:
+          baseStyle.push({color: theme.colorScheme.onBackground});
+          break;
+        case IconButtonType.DISABLED:
+          baseStyle.push({color: theme.colorScheme.inactive});
+          break;
+      }
 
-    return [baseStyle, style];
-  }, [style, theme, type]);
+      return [baseStyle, style];
+    }, [style, theme, type]);
 
-  const renderBadge = useCallback(() => {
-    if (!badge) {
-      return null;
-    }
+    const renderBadge = useCallback(() => {
+      if (!badge) {
+        return null;
+      }
+
+      return (
+        <View
+          style={[
+            styles.badgeContainer,
+            {backgroundColor: theme.colorScheme.primary},
+          ]}>
+          <TextView
+            style={[styles.badge, {color: theme.colorScheme.onPrimary}]}>
+            {badge}
+          </TextView>
+        </View>
+      );
+    }, [theme, badge]);
 
     return (
-      <View
-        style={[
-          styles.badgeContainer,
-          {backgroundColor: theme.colorScheme.primary},
-        ]}>
-        <TextView style={[styles.badge, {color: theme.colorScheme.onPrimary}]}>
-          {badge}
-        </TextView>
-      </View>
+      <TouchableOpacity
+        ref={ref}
+        style={StyleSheet.flatten([styles.container, containerStyle])}
+        {...props}>
+        <FontAwesome5Icon solid={solid} name={name} style={iconStyle} />
+        {renderBadge()}
+      </TouchableOpacity>
     );
-  }, [theme, badge]);
-
-  return (
-    <TouchableOpacity
-      style={StyleSheet.flatten([styles.container, containerStyle])}
-      {...props}>
-      <FontAwesome5Icon solid={solid} name={name} style={iconStyle} />
-      {renderBadge()}
-    </TouchableOpacity>
-  );
-};
+  },
+);
 
 const styles = StyleSheet.create({
   container: {},

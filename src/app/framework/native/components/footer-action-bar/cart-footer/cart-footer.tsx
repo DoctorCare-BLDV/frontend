@@ -1,4 +1,6 @@
-import React from 'react';
+import React, {useEffect, useRef} from 'react';
+import {useFloatingReaction} from '@app/shared/contexts';
+import {useIsFocused} from '@react-navigation/native';
 import {
   FooterActionBar,
   FooterActionBarProps,
@@ -14,6 +16,24 @@ const MESSAGES = {
 };
 
 export const CartFooter: React.FC<CartFooterProps> = props => {
+  const isFocused = useIsFocused();
+  const labelBlockRef = useRef();
+  const {setFloatingReactionTarget} = useFloatingReaction();
+
+  useEffect(() => {
+    if (isFocused && labelBlockRef.current) {
+      // @ts-ignore
+      labelBlockRef.current.measure((x, y, width, height, pageX, pageY) => {
+        setFloatingReactionTarget({
+          x: pageX,
+          y: pageY,
+          width,
+          height,
+        });
+      });
+    }
+  }, [isFocused, setFloatingReactionTarget]);
+
   return (
     <FooterActionBar
       type={FooterActionBarType.PRIMARY}
@@ -23,6 +43,7 @@ export const CartFooter: React.FC<CartFooterProps> = props => {
       value={MESSAGES.VALUE}
       safeLayout
       onLabelPress={() => {}}
+      labelBlockRef={labelBlockRef}
       {...props}
     />
   );

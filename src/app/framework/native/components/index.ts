@@ -15,3 +15,4 @@ export * from './number-picker';
 export * from './footer-action-bar';
 export * from './tabbar';
 export * from './order';
+export * from './floating-reaction';

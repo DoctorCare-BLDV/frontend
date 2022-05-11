@@ -20,6 +20,7 @@ export enum FooterActionBarType {
 }
 
 export interface FooterActionBarProps {
+  labelBlockRef?: any;
   type?: FooterActionBarType;
   safeLayout?: boolean;
   iconLeftName?: string;
@@ -39,6 +40,7 @@ export interface FooterActionBarProps {
 }
 
 export const FooterActionBar: React.FC<FooterActionBarProps> = ({
+  labelBlockRef,
   type = FooterActionBarType.PRIMARY,
   iconLeftName,
   iconLeftStyle,
@@ -130,6 +132,7 @@ export const FooterActionBar: React.FC<FooterActionBarProps> = ({
 
     return (
       <TouchableOpacity
+        ref={labelBlockRef}
         style={labelContainerBaseStyle}
         disabled={!onLabelPress}
         onPress={onLabelPress}>
@@ -140,6 +143,7 @@ export const FooterActionBar: React.FC<FooterActionBarProps> = ({
       </TouchableOpacity>
     );
   }, [
+    labelBlockRef,
     iconLeftName,
     label,
     onLabelPress,

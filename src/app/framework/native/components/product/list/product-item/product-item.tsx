@@ -1,4 +1,4 @@
-import React, {useCallback, useMemo} from 'react';
+import React, {useCallback, useMemo, useRef} from 'react';
 import {View, StyleSheet, StyleProp, TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
@@ -6,6 +6,7 @@ import {ImageStyle} from 'react-native-fast-image';
 
 import {Colors, Layout} from '@app/resources';
 import {useTheme} from '@app/shared/hooks/useTheme';
+import {useFloatingReaction} from '@app/shared/contexts';
 
 import {Image} from '../../../image';
 import {TextView} from '../../../label';
@@ -33,6 +34,8 @@ export const ProductItem: React.FC<ProductItemProps> = ({
 }) => {
   const theme = useTheme();
   const productDetailNavigation = useNavigation<any>();
+  const {addFloatingReactionSource} = useFloatingReaction();
+  const imageRef = useRef();
 
   const wrapperStyle = useMemo(() => {
     return [
@@ -55,6 +58,28 @@ export const ProductItem: React.FC<ProductItemProps> = ({
     productDetailNavigation.navigate('ProductDetail', {});
   }, [productDetailNavigation]);
 
+  const addToCart = useCallback(() => {
+    if (imageRef.current) {
+      const ELEMENT_WIDTH = 100;
+      const ELEMENT_HEIGHT = 100;
+      const elementStyle = {width: ELEMENT_WIDTH, height: ELEMENT_HEIGHT};
+      const element = <Image source={{uri: image}} style={elementStyle} />;
+
+      // @ts-ignore
+      imageRef.current.measure((x, y, width, height, pageX, pageY) => {
+        addFloatingReactionSource({
+          element,
+          position: {
+            x: pageX + width / 2 - ELEMENT_WIDTH / 2,
+            y: pageY + height / 2 - ELEMENT_HEIGHT / 2,
+            width: ELEMENT_WIDTH,
+            height: ELEMENT_HEIGHT,
+          },
+        });
+      });
+    }
+  }, [image, addFloatingReactionSource]);
+
   return (
     <View style={wrapperStyle}>
       <TouchableOpacity
@@ -62,6 +87,7 @@ export const ProductItem: React.FC<ProductItemProps> = ({
         style={styles.container}
         onPress={handlePressProduct}>
         <Image
+          ref={imageRef}
           resizeMode="contain"
           source={{uri: image}}
           style={[styles.image, imageStyle]}
@@ -77,7 +103,11 @@ export const ProductItem: React.FC<ProductItemProps> = ({
               />
             </View>
 
-            <IconButton name="cart-plus" hitSlop={Layout.hitSlop} />
+            <IconButton
+              name="cart-plus"
+              hitSlop={Layout.hitSlop}
+              onPress={addToCart}
+            />
           </View>
         </View>
       </TouchableOpacity>
