@@ -1,14 +1,17 @@
-import React, {useCallback, useMemo} from 'react';
+import React, {useCallback, useMemo, useRef} from 'react';
 import {View, StyleSheet, StyleProp, TouchableOpacity} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 
 import {ImageStyle} from 'react-native-fast-image';
 
-import {Colors} from '@app/resources';
+import {Colors, Layout} from '@app/resources';
 import {useTheme} from '@app/shared/hooks/useTheme';
+import {useFloatingReaction} from '@app/shared/contexts';
 
 import {Image} from '../../../image';
 import {TextView} from '../../../label';
 import {IconButton} from '../../../icon-button';
+import {Tag} from '../../../tag';
 
 export type ProductData = {
   id: number;
@@ -30,6 +33,9 @@ export const ProductItem: React.FC<ProductItemProps> = ({
   imageStyle = {},
 }) => {
   const theme = useTheme();
+  const productDetailNavigation = useNavigation<any>();
+  const {addFloatingReactionSource} = useFloatingReaction();
+  const imageRef = useRef();
 
   const wrapperStyle = useMemo(() => {
     return [
@@ -48,36 +54,40 @@ export const ProductItem: React.FC<ProductItemProps> = ({
     return [styles.block, {borderColor: theme.colorScheme.border}];
   }, [theme]);
 
-  const renderCoinPrice = useCallback(() => {
-    if (!coinPrice) {
-      return null;
+  const handlePressProduct = useCallback(() => {
+    productDetailNavigation.navigate('ProductDetail', {});
+  }, [productDetailNavigation]);
+
+  const addToCart = useCallback(() => {
+    if (imageRef.current) {
+      const ELEMENT_WIDTH = 100;
+      const ELEMENT_HEIGHT = 100;
+      const elementStyle = {width: ELEMENT_WIDTH, height: ELEMENT_HEIGHT};
+      const element = <Image source={{uri: image}} style={elementStyle} />;
+
+      // @ts-ignore
+      imageRef.current.measure((x, y, width, height, pageX, pageY) => {
+        addFloatingReactionSource({
+          element,
+          position: {
+            x: pageX + width / 2 - ELEMENT_WIDTH / 2,
+            y: pageY + height / 2 - ELEMENT_HEIGHT / 2,
+            width: ELEMENT_WIDTH,
+            height: ELEMENT_HEIGHT,
+          },
+        });
+      });
     }
-
-    const coinPriceContainerStyle = [
-      styles.coinPriceContainer,
-      {
-        backgroundColor: theme.colorScheme.primary,
-      },
-    ];
-
-    const coinPriceStyle = [
-      styles.coinPrice,
-      {
-        color: theme.colorScheme.onPrimary,
-      },
-    ];
-
-    return (
-      <View style={coinPriceContainerStyle}>
-        <TextView style={coinPriceStyle}>{coinPrice}</TextView>
-      </View>
-    );
-  }, [coinPrice, theme]);
+  }, [image, addFloatingReactionSource]);
 
   return (
     <View style={wrapperStyle}>
-      <TouchableOpacity activeOpacity={0.8} style={styles.container}>
+      <TouchableOpacity
+        activeOpacity={0.8}
+        style={styles.container}
+        onPress={handlePressProduct}>
         <Image
+          ref={imageRef}
           resizeMode="contain"
           source={{uri: image}}
           style={[styles.image, imageStyle]}
@@ -87,10 +97,17 @@ export const ProductItem: React.FC<ProductItemProps> = ({
           <View style={blockStyle}>
             <View style={styles.priceContainer}>
               <TextView style={priceStyle}>{price}</TextView>
-              {renderCoinPrice()}
+              <Tag
+                label={coinPrice}
+                containerStyle={styles.coinPriceContainer}
+              />
             </View>
 
-            <IconButton name="cart-plus" />
+            <IconButton
+              name="cart-plus"
+              hitSlop={Layout.hitSlop}
+              onPress={addToCart}
+            />
           </View>
         </View>
       </TouchableOpacity>
@@ -113,7 +130,9 @@ const styles = StyleSheet.create({
 
     elevation: 8,
   },
-  container: {},
+  container: {
+    flex: 1,
+  },
   image: {
     borderRadius: 8,
   },
@@ -148,12 +167,5 @@ const styles = StyleSheet.create({
 
   coinPriceContainer: {
     marginTop: 2,
-    paddingHorizontal: 5,
-    paddingVertical: 2,
-    borderRadius: 10,
-    borderTopRightRadius: 0,
-  },
-  coinPrice: {
-    fontSize: 9,
   },
 });

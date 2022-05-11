@@ -6,6 +6,7 @@ import FastImage, {FastImageProps, Source} from 'react-native-fast-image';
 import {useTheme} from '@app/shared/hooks/useTheme';
 
 export interface ImageProps extends FastImageProps {
+  ref?: any;
   source: Source | {uri: string};
 }
 
@@ -13,7 +14,7 @@ const styles = StyleSheet.create({
   error: {},
 });
 
-const _Image = ({style, ...props}: ImageProps) => {
+const _Image = React.forwardRef(({style, ...props}: ImageProps, ref: any) => {
   const theme = useTheme();
 
   const [isError, setError] = useState(!props.source?.uri || !props.source);
@@ -42,10 +43,11 @@ const _Image = ({style, ...props}: ImageProps) => {
     <FastImage
       onLoad={handleLoad}
       onError={handleError}
+      ref={ref}
       {...props}
       style={imageStyle}
     />
   );
-};
+});
 
 export const Image = memo(_Image);

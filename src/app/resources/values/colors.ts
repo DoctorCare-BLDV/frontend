@@ -19,8 +19,8 @@ export const Colors = {
   DIM_BLACK: 'rgba(0, 0, 0, 0.3)',
   YELLOW: '#ffc300',
 
-  SUCCESS: '#007E33',
+  SUCCESS: '#369F4D',
   DANGER: '#CC0000',
-  WARNING: '#FF8800',
+  WARNING: '#FBCA03',
   INFO: '#0099CC',
 };

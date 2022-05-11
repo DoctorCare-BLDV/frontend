@@ -1,4 +1,4 @@
-import React, {useMemo} from 'react';
+import React, {useEffect, useMemo, useRef} from 'react';
 import {
   View,
   StyleSheet,
@@ -8,10 +8,12 @@ import {
 } from 'react-native';
 
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {useIsFocused} from '@react-navigation/native';
 
 import {IconButton, SearchBar} from '@app/framework/native/components';
 import {useTheme} from '@app/shared/hooks/useTheme';
 import {Colors} from '@app/resources';
+import {useFloatingReaction} from '@app/shared/contexts';
 
 export interface HeaderProps {
   wrapperStyle?: StyleProp<ViewStyle>;
@@ -24,6 +26,23 @@ const MESSAGES = {
 export const Header: React.FC<HeaderProps> = ({wrapperStyle}) => {
   const theme = useTheme();
   const {top} = useSafeAreaInsets();
+  const cartRef = useRef<any>();
+  const {setFloatingReactionTarget} = useFloatingReaction();
+  const isFocused = useIsFocused();
+
+  useEffect(() => {
+    if (cartRef.current && isFocused) {
+      // @ts-ignore
+      cartRef.current.measure((x, y, width, height, pageX, pageY) => {
+        setFloatingReactionTarget({
+          x: pageX,
+          y: pageY,
+          width,
+          height,
+        });
+      });
+    }
+  }, [isFocused, setFloatingReactionTarget]);
 
   const wrapperBaseStyle = useMemo(() => {
     return [
@@ -54,8 +73,12 @@ export const Header: React.FC<HeaderProps> = ({wrapperStyle}) => {
           containerStyle={styles.inputContainer}
           placeholder={MESSAGES.SEARCH_BAR_PLACEHOLDER}
         />
-        <IconButton name="bell" badge={10} style={styles.icon} />
-        <IconButton name="cart-plus" style={styles.icon} />
+        <View style={styles.iconContainer}>
+          <IconButton name="bell" badge={10} style={styles.icon} />
+        </View>
+        <View style={styles.iconContainer}>
+          <IconButton ref={cartRef} name="cart-plus" style={styles.icon} />
+        </View>
       </View>
     </TouchableOpacity>
   );
@@ -82,7 +105,8 @@ const styles = StyleSheet.create({
   inputContainer: {
     flex: 1,
   },
-  icon: {
+  iconContainer: {
     marginLeft: 16,
   },
+  icon: {},
 });

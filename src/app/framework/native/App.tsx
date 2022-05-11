@@ -9,22 +9,43 @@
  */
 
 import React from 'react';
-import {UserContextProvider} from '@app/shared/contexts';
+import {LogBox, StyleSheet} from 'react-native';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import {
+  FloatingReactionContextProvider,
+  UserContextProvider,
+} from '@app/shared/contexts';
 import {configureApiProvider} from './infrastructure';
 import {RootNavigator} from './routes';
 import {QueryClient, QueryClientProvider} from 'react-query';
 import FlashMessage from 'react-native-flash-message';
+import {FloatingReactionList} from './components';
 configureApiProvider();
+
+LogBox.ignoreLogs([
+  'Non-serializable values were found in the navigation state',
+]);
+
+const styles = StyleSheet.create({
+  container: {flex: 1},
+});
 
 const App = () => {
   const queryClient = new QueryClient();
   return (
-    <QueryClientProvider client={queryClient}>
-      <UserContextProvider>
-        <RootNavigator />
-        <FlashMessage />
-      </UserContextProvider>
-    </QueryClientProvider>
+    <GestureHandlerRootView style={styles.container}>
+      <FloatingReactionContextProvider>
+        <QueryClientProvider client={queryClient}>
+          <UserContextProvider>
+            <RootNavigator />
+            <FlashMessage />
+
+            {/* Last UI Component */}
+            <FloatingReactionList />
+          </UserContextProvider>
+        </QueryClientProvider>
+      </FloatingReactionContextProvider>
+    </GestureHandlerRootView>
   );
 };
 
