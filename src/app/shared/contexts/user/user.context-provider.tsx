@@ -11,19 +11,16 @@ export const UserContextProvider: React.FC = ({children}) => {
   const [isOnLaunchScreen, setLanchScreen] = useState<boolean>(true);
 
   const fetchUser = useCallback(async () => {
-    // const id = await AsyncStorage.getItem('userId');
-    // if (!id) return;
-    // const {user, errMessage} = await AuthenticationService.getUser(id);
-    // if (user) {
-    //   setUser(user);
-    //   setLanchScreen(false);
-    // }
+    const id = await AsyncStorage.getItem('userId');
+    if (!id) return;
+    const {user} = await AuthenticationService.getUser(id);
+    if (user) {
+      setUser(user);
+    }
   }, []);
 
   const checkAuthentication = useCallback(async () => {
     const id = await AsyncStorage.getItem('userId');
-    console.log('-----id', id);
-
     if (!id) return setLanchScreen(false);
     const token = await AsyncStorage.getItem('token');
     AuthenticationService.setAuthorizationHeader(token + '');
@@ -40,13 +37,14 @@ export const UserContextProvider: React.FC = ({children}) => {
     });
   }, []);
 
-  const signOut = React.useCallback(() => {
-    return new Promise<boolean>(res => {
-      setTimeout(() => {
-        setUser(undefined);
-        res(true);
-      }, 1000);
-    });
+  const signOut = React.useCallback(async () => {
+    const id = await AsyncStorage.getItem('userId');
+    if (!id) return;
+    const errMessage = await AuthenticationService.logout(id);
+    if (!errMessage) {
+      UserLocalService.clearLocalData();
+      setUser(undefined);
+    }
   }, []);
 
   const signIn = React.useCallback(
