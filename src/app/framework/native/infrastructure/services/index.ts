@@ -1,2 +1,2 @@
 export * from './axios-authentication.service';
-export * from './local.service';
+export * from './user-local.service';

@@ -1,7 +1,7 @@
 import React, {useCallback, useState} from 'react';
 
 import {UserContext} from './user.context';
-import {AuthenticationService, LocalService} from '@native/infrastructure';
+import {AuthenticationService, UserLocalService} from '@native/infrastructure';
 import {showMessage} from 'react-native-flash-message';
 import {User} from '@data/models';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -65,7 +65,7 @@ export const UserContextProvider: React.FC = ({children}) => {
         });
       }
       setUser(user);
-      LocalService.saveAuthenInfor({
+      UserLocalService.saveAuthenInfor({
         token: user.token,
         userId: user.userInfoId,
       });

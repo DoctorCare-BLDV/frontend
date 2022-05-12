@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-community/async-storage';
 
-export class _LocalService {
+export class _UserLocalService {
   removeAuthenInfor() {
     AsyncStorage.removeItem('token');
     AsyncStorage.removeItem('userId');
@@ -20,4 +20,4 @@ export class _LocalService {
   }
 }
 
-export const LocalService = new _LocalService();
+export const UserLocalService = new _UserLocalService();
