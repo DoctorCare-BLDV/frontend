@@ -8,4 +8,5 @@ export interface User {
   phone?: string;
   userInfoId: number;
   userName: string;
+  token: string;
 }

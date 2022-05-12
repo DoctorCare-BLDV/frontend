@@ -1,6 +1,6 @@
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {SignIn, SignUp} from '@native/containers';
+import {SignIn, SignUp, ForgotPassword} from '@native/containers';
 import {AuthenticationParamList} from '@native/navigation';
 
 const Stack = createNativeStackNavigator<AuthenticationParamList>();
@@ -13,6 +13,7 @@ export function AuthenticationNavigator() {
     <Stack.Navigator screenOptions={screenOptions}>
       <Stack.Screen name={'SignIn'} component={SignIn} />
       <Stack.Screen name={'SignUp'} component={SignUp} />
+      <Stack.Screen name={'ForgotPassword'} component={ForgotPassword} />
     </Stack.Navigator>
   );
 }
