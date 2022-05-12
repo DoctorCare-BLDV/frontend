@@ -9,7 +9,6 @@ import {
   ViewStyle,
 } from 'react-native';
 
-import {useTheme} from '@app/shared/hooks/useTheme';
 import {Layout} from '@app/resources';
 
 import {TextView} from '../label';
@@ -21,7 +20,8 @@ export interface NumberPickerProps {
   min?: number;
   max?: number;
   containerStyle?: StyleProp<ViewStyle>;
-  labelStyle?: StyleProp<TextStyle>;
+  valueContainerStyle?: StyleProp<ViewStyle>;
+  valueStyle?: StyleProp<TextStyle>;
   onChange?: (number: number) => void;
 }
 
@@ -33,13 +33,12 @@ const MESSAGES = {
 export const NumberPicker: React.FC<NumberPickerProps> = ({
   value = 0,
   containerStyle,
-  labelStyle,
+  valueContainerStyle,
+  valueStyle,
   min = 0,
   max = Infinity,
   onChange = () => {},
 }) => {
-  const theme = useTheme();
-
   const [isShowQuantityModal, setShowQuantityModal] = useState(false);
 
   const containerBaseStyle = useMemo(() => {
@@ -47,14 +46,12 @@ export const NumberPicker: React.FC<NumberPickerProps> = ({
   }, [containerStyle]);
 
   const quantityContainerBaseStyle = useMemo(() => {
-    return [
-      styles.quantityContainer,
-      {
-        color: theme.colorScheme.onPrimary,
-      },
-      labelStyle,
-    ];
-  }, [theme, labelStyle]);
+    return [styles.quantityContainer, valueContainerStyle];
+  }, [valueContainerStyle]);
+
+  const quantityBaseStyle = useMemo(() => {
+    return [styles.quantity, valueStyle];
+  }, [valueStyle]);
 
   const isDecreaseDisabled = useMemo(() => {
     return typeof min === 'number' && value <= min;
@@ -106,7 +103,7 @@ export const NumberPicker: React.FC<NumberPickerProps> = ({
         <TouchableOpacity
           style={quantityContainerBaseStyle}
           onPress={handlePressQuantity}>
-          <TextView style={styles.quantity}>{value}</TextView>
+          <TextView style={quantityBaseStyle}>{value}</TextView>
         </TouchableOpacity>
         <IconButton
           disabled={isIncreaseDisabled}

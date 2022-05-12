@@ -13,7 +13,7 @@ export function RootNavigator() {
     if (isOnLaunchScreen) {
       return <LaunchAppNavigator />;
     }
-    if (user) {
+    if (!user) {
       return <PrivateNavigator />;
     }
     return <AuthenticationNavigator />;
