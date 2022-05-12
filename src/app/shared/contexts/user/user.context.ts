@@ -4,7 +4,7 @@ import {User} from '@data/models';
 export type UserContextState = {
   user?: User;
   signOut: () => Promise<boolean>;
-  signIn: (props: {phone: string; password: string}) => void;
+  signIn: (props: {phone: string; password: string}) => Promise<void>;
   isOnLaunchScreen: boolean;
   fetchUser: () => void;
   checkAuthentication: () => void;
@@ -12,7 +12,7 @@ export type UserContextState = {
 
 export const INITIAL_VALUE: UserContextState = {
   signOut: () => Promise.resolve(false),
-  signIn: () => null,
+  signIn: () => Promise.resolve(),
   fetchUser: () => null,
   checkAuthentication: () => null,
   isOnLaunchScreen: true,

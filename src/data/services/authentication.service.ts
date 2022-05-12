@@ -3,18 +3,27 @@ import {User} from '../models';
 export class ApiAuthenticationService {
   constructor(private readonly provider: AxiosInstance) {}
 
+  setAuthorizationHeader(token: string) {
+    this.provider.defaults.headers.common.Authorization = token;
+  }
+
+  removeAuthorizationHeader() {
+    this.provider.defaults.headers.common.Authorization = '';
+  }
+
   async getUser(
     userId: string | number,
   ): Promise<{user?: User; errMessage?: string}> {
     try {
       const response = await this.provider.post(
-        '/public/user/getLv2Detail?userId=',
-        userId,
+        '/public/user/getLv2Detail?userId=' + userId,
       );
-      if (!response?.data?.content)
+      if (!response?.data?.content) {
         return {errMessage: 'Đã có lỗi xảy ra, vui lòng thử lại sau'};
+      }
       return {user: response.data.content};
     } catch (error: any) {
+      this.removeAuthorizationHeader();
       return {
         errMessage:
           error?.response?.data?.message ||
@@ -28,8 +37,10 @@ export class ApiAuthenticationService {
   }): Promise<{user?: User; errMessage?: string}> {
     try {
       const response = await this.provider.post('/login', body);
-      if (!response?.data?.content)
+      if (!response?.data?.content) {
         return {errMessage: 'Đã có lỗi xảy ra, vui lòng thử lại sau'};
+      }
+      this.setAuthorizationHeader(response.data.content.token);
       return {user: response.data.content};
     } catch (error: any) {
       return {
@@ -37,6 +48,21 @@ export class ApiAuthenticationService {
           error?.response?.data?.message ||
           'Đã có lỗi xảy ra, vui lòng thử lại sau',
       };
+    }
+  }
+
+  async forgotPass(body: {
+    phone: string;
+    email: string;
+  }): Promise<string | null> {
+    try {
+      await this.provider.post('/public/user/forgotPassword', body);
+      return null;
+    } catch (error: any) {
+      return (
+        error?.response?.data?.message ||
+        'Đã có lỗi xảy ra, vui lòng thử lại sau'
+      );
     }
   }
 }
