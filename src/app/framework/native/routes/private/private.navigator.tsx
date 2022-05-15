@@ -9,7 +9,12 @@ import {Colors} from '@app/resources';
 import {useTheme} from '@app/shared/hooks/useTheme';
 
 import BottomTabs from './BottomTabs';
-import {FilterModal, ProductDetail} from '@native/containers';
+import {
+  FilterModal,
+  ProductDetail,
+  Cart,
+  ConfirmationModal,
+} from '@native/containers';
 
 const Stack = createNativeStackNavigator<PrivateParamList>();
 
@@ -85,6 +90,13 @@ export function PrivateNavigator() {
           }}
           component={ProductDetail}
         />
+        <Stack.Screen
+          name="Cart"
+          options={{
+            title: 'Giỏ hàng',
+          }}
+          component={Cart}
+        />
       </Stack.Group>
 
       {/* common modal */}
@@ -97,6 +109,14 @@ export function PrivateNavigator() {
             animation: 'none',
           })}
           component={FilterModal}
+        />
+        <Stack.Screen
+          name={'ConfirmationModal'}
+          options={{
+            headerShown: false,
+            animation: 'none',
+          }}
+          component={ConfirmationModal}
         />
       </Stack.Group>
     </Stack.Navigator>

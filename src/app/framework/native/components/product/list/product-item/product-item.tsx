@@ -134,7 +134,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   image: {
-    borderRadius: 8,
+    borderTopLeftRadius: 8,
+    borderTopRightRadius: 8,
   },
   infoContainer: {
     flex: 1,

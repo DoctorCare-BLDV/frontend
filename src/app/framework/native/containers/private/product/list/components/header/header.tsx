@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo, useRef} from 'react';
+import React, {useCallback, useEffect, useMemo, useRef} from 'react';
 import {
   View,
   StyleSheet,
@@ -8,12 +8,13 @@ import {
 } from 'react-native';
 
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {useIsFocused} from '@react-navigation/native';
+import {useIsFocused, useNavigation} from '@react-navigation/native';
 
 import {IconButton, SearchBar} from '@app/framework/native/components';
 import {useTheme} from '@app/shared/hooks/useTheme';
 import {Colors} from '@app/resources';
 import {useFloatingReaction} from '@app/shared/contexts';
+import {CarNavigationProps} from '../../../../cart/cart.type';
 
 export interface HeaderProps {
   wrapperStyle?: StyleProp<ViewStyle>;
@@ -29,6 +30,7 @@ export const Header: React.FC<HeaderProps> = ({wrapperStyle}) => {
   const cartRef = useRef<any>();
   const {setFloatingReactionTarget} = useFloatingReaction();
   const isFocused = useIsFocused();
+  const cartNavigation = useNavigation<CarNavigationProps>();
 
   useEffect(() => {
     if (cartRef.current && isFocused) {
@@ -64,6 +66,10 @@ export const Header: React.FC<HeaderProps> = ({wrapperStyle}) => {
     ];
   }, [top]);
 
+  const goToCart = useCallback(() => {
+    cartNavigation.navigate('Cart');
+  }, [cartNavigation]);
+
   return (
     <TouchableOpacity style={wrapperBaseStyle}>
       <View style={containerStyle}>
@@ -77,7 +83,12 @@ export const Header: React.FC<HeaderProps> = ({wrapperStyle}) => {
           <IconButton name="bell" badge={10} style={styles.icon} />
         </View>
         <View style={styles.iconContainer}>
-          <IconButton ref={cartRef} name="cart-plus" style={styles.icon} />
+          <IconButton
+            ref={cartRef}
+            name="shopping-cart"
+            style={styles.icon}
+            onPress={goToCart}
+          />
         </View>
       </View>
     </TouchableOpacity>

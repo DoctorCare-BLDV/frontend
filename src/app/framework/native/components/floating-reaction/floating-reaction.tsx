@@ -1,5 +1,17 @@
 import React, {useEffect, useState, useMemo} from 'react';
-import {StyleSheet, Animated, Easing} from 'react-native';
+import {StyleSheet} from 'react-native';
+// import {Animated, Easing} from 'react-native';
+import Animated, {
+  block,
+  call,
+  clockRunning,
+  cond,
+  Easing,
+  set,
+  useCode,
+  useValue,
+} from 'react-native-reanimated';
+import {timing, useClock} from 'react-native-redash';
 
 import {
   FloatingReactionNodePosition,
@@ -21,38 +33,86 @@ export const FloatingReaction: React.FC<FloatingReactionProps> = ({
   onStartReaction = () => {},
   onFinishReaction = () => {},
 }) => {
-  const [animatedTranslateValue] = useState(new Animated.Value(0));
-  const [animatedTranslateYValue] = useState(new Animated.Value(0));
+  // const [animatedTranslateXValue] = useState(new Animated.Value(0));
+  // const [animatedTranslateYValue] = useState(new Animated.Value(0));
+
+  const clockX = useClock();
+  const clockY = useClock();
+  const animatedTranslateXValue = useValue(0);
+  const animatedTranslateYValue = useValue(0);
   const [element, setElement] = useState<FloatingReactionSourceElement>();
 
   useEffect(() => {
     setElement(React.cloneElement(source.element));
     onStartReaction();
+
+    const timeout = setTimeout(() => {
+      onFinishReaction();
+    }, 500);
+
+    return () => {
+      clearTimeout(timeout);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useEffect(() => {
-    if (element) {
-      Animated.parallel([
-        Animated.timing(animatedTranslateValue, {
-          toValue: 1,
-          easing: Easing.quad,
-          duration: 300,
-          useNativeDriver: true,
-        }),
-        Animated.timing(animatedTranslateYValue, {
-          toValue: 1,
-          easing: Easing.bezier(0.33, 0.61, 0.59, 0.96),
-          duration: 300,
-          useNativeDriver: true,
-        }),
-      ]).start(({finished}) => {
-        if (finished) {
-          onFinishReaction();
-        }
-      });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+  // useEffect(() => {
+  //   if (element) {
+  //     Animated.parallel([
+  //       Animated.timing(animatedTranslateValue, {
+  //         toValue: 1,
+  //         easing: Easing.quad,
+  //         duration: 300,
+  //         useNativeDriver: true,
+  //       }),
+  //       Animated.timing(animatedTranslateYValue, {
+  //         toValue: 1,
+  //         easing: Easing.bezier(0.33, 0.61, 0.59, 0.96),
+  //         duration: 300,
+  //         useNativeDriver: true,
+  //       }),
+  //     ]).start(({finished}) => {
+  //       if (finished) {
+  //         onFinishReaction();
+  //       }
+  //     });
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [element]);
+
+  useCode(() => {
+    return block([
+      cond(element ? 1 : 0, [
+        set(
+          animatedTranslateXValue,
+          timing({
+            clock: clockX,
+            duration: 300,
+            from: animatedTranslateXValue,
+            to: 1,
+            easing: Easing.quad,
+          }),
+        ),
+        set(
+          animatedTranslateYValue,
+          timing({
+            clock: clockY,
+            duration: 300,
+            from: animatedTranslateYValue,
+            to: 1,
+            easing: Easing.bezier(0.33, 0.61, 0.59, 0.96),
+          }),
+        ),
+      ]),
+      call(
+        [clockRunning(clockX), clockRunning(clockY)],
+        ([isClockXRunning, isClockYRunning]) => {
+          if (!isClockXRunning && !isClockYRunning && element) {
+            onFinishReaction();
+          }
+        },
+      ),
+    ]);
   }, [element]);
 
   const containerStyle = useMemo(() => {
@@ -60,7 +120,7 @@ export const FloatingReaction: React.FC<FloatingReactionProps> = ({
       {
         transform: [
           {
-            scale: animatedTranslateValue.interpolate({
+            scale: animatedTranslateXValue.interpolate({
               inputRange: [0, 1],
               outputRange: [1, 0.4],
             }),
@@ -77,7 +137,7 @@ export const FloatingReaction: React.FC<FloatingReactionProps> = ({
       {
         transform: [
           {
-            translateX: animatedTranslateValue.interpolate({
+            translateX: animatedTranslateXValue.interpolate({
               inputRange: [0, 1],
               outputRange: [
                 source.position.x,
@@ -95,14 +155,13 @@ export const FloatingReaction: React.FC<FloatingReactionProps> = ({
             }),
           },
         ],
-        opacity: animatedTranslateValue.interpolate({
+        opacity: animatedTranslateXValue.interpolate({
           inputRange: [0, 0.8, 1],
           outputRange: [1, 0.6, 0],
         }),
       },
     ];
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [animatedTranslateXValue, animatedTranslateYValue, source, target]);
 
   return (
     <Animated.View pointerEvents="none" style={wrapperStyle}>

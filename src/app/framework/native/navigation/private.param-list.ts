@@ -1,5 +1,6 @@
 import {SectionListProps, ListRenderItem} from 'react-native';
 import {RowItemData} from '../components';
+import {ConfirmationModalProps} from '../components/confirmation-modal';
 import {FilterModalData} from '../containers';
 
 export interface FilterModalProps
@@ -22,6 +23,9 @@ export interface FilterModalProps
 
 export type PrivateParamList = {
   BottomTab: undefined;
-  FilterModal: FilterModalProps;
   ProductDetail: undefined;
+  Cart: undefined;
+
+  FilterModal: FilterModalProps;
+  ConfirmationModal: ConfirmationModalProps;
 };
