@@ -14,6 +14,7 @@ import {
   ProductDetail,
   Cart,
   ConfirmationModal,
+  OrderConfirmation,
 } from '@native/containers';
 
 const Stack = createNativeStackNavigator<PrivateParamList>();
@@ -96,6 +97,13 @@ export function PrivateNavigator() {
             title: 'Giỏ hàng',
           }}
           component={Cart}
+        />
+        <Stack.Screen
+          name="OrderConfirmation"
+          options={{
+            title: 'Xác nhận đơn hàng',
+          }}
+          component={OrderConfirmation}
         />
       </Stack.Group>
 

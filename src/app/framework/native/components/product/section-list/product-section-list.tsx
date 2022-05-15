@@ -110,8 +110,8 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
   },
   headerIcon: {
-    fontSize: 18,
-    marginRight: 8,
+    fontSize: 16,
+    marginRight: 10,
   },
   headerTitle: {
     fontWeight: 'bold',
