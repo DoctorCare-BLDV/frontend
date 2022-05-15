@@ -1,6 +1,6 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {OrderList, ProductList} from '@native/containers';
+import {OrderList, ProductList, Profile} from '@native/containers';
 import CustomTab from './CustomTab';
 import {BottomTabsParamList} from '@app/framework/native/navigation';
 
@@ -34,7 +34,7 @@ const BottomTabs: React.FC = () => {
       <Tab.Screen
         name="Profile"
         options={{title: 'Hồ sơ'}}
-        component={ProductList}
+        component={Profile}
       />
     </Tab.Navigator>
   );

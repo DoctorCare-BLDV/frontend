@@ -16,3 +16,4 @@ export * from './footer-action-bar';
 export * from './tabbar';
 export * from './order';
 export * from './floating-reaction';
+export * from './action-sheet';
