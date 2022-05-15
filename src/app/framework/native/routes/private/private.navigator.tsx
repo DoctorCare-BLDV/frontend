@@ -15,6 +15,7 @@ import {
   Cart,
   ConfirmationModal,
   OrderConfirmation,
+  ProductSearch,
 } from '@native/containers';
 
 const Stack = createNativeStackNavigator<PrivateParamList>();
@@ -105,6 +106,13 @@ export function PrivateNavigator() {
           }}
           component={OrderConfirmation}
         />
+        <Stack.Screen
+          name="ProductSearch"
+          options={{
+            headerShown: false,
+          }}
+          component={ProductSearch}
+        />
       </Stack.Group>
 
       {/* common modal */}
@@ -112,7 +120,7 @@ export function PrivateNavigator() {
         <Stack.Screen
           name={'FilterModal'}
           options={({route}) => ({
-            title: route.params.headerTitle || 'Bộ lọc',
+            title: route.params.title || 'Bộ lọc',
             headerShown: false,
             animation: 'none',
           })}
