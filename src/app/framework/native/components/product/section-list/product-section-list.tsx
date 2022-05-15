@@ -1,8 +1,11 @@
-import {Layout} from '@app/resources';
-import {useTheme} from '@app/shared/hooks/useTheme';
 import React, {useCallback, useMemo} from 'react';
 import {StyleSheet, SectionList, SectionListProps, View} from 'react-native';
+
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
+
+import {Layout} from '@app/resources';
+import {useTheme} from '@app/shared/hooks/useTheme';
+
 import {TextView} from '../../label';
 import {ProductSectionData, ProductSectionItem} from './product-section-item';
 

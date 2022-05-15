@@ -20,6 +20,7 @@ export interface KeyValueLabelProps extends TextProps {
   divider?: number;
   multiline?: boolean;
   onPress?: () => void;
+  disabled?: boolean;
 }
 
 const _KeyValueLabel: React.FC<KeyValueLabelProps> = props => {
@@ -32,6 +33,7 @@ const _KeyValueLabel: React.FC<KeyValueLabelProps> = props => {
     multiline,
     divider,
     onPress,
+    disabled,
   } = props;
 
   return (
@@ -39,6 +41,7 @@ const _KeyValueLabel: React.FC<KeyValueLabelProps> = props => {
       <TouchableOpacity
         activeOpacity={1}
         onPress={onPress}
+        disabled={disabled}
         style={[_styles.container, containerStyle]}>
         <Text style={[_styles.key, keyStyle]}>{keyLabel}</Text>
         <Text
