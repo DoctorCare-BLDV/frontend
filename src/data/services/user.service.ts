@@ -24,6 +24,21 @@ export class UserApiService {
     }
   }
 
+  async changePassword(body: {
+    newPassword: string;
+    password: string;
+  }): Promise<string | null> {
+    try {
+      await this.provider.post('/public/user/changePassword', body);
+      return null;
+    } catch (error: any) {
+      return (
+        error?.response?.data?.message ||
+        'Đã có lỗi xảy ra, vui lòng thử lại sau'
+      );
+    }
+  }
+
   async updateAvatar(avatar: PostImageAPI): Promise<string | null> {
     try {
       const formData = new FormData();
