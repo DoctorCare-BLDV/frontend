@@ -1,7 +1,28 @@
-import {PostImageAPI} from '@data/models';
+import {PostImageAPI, User} from '@data/models';
 import {AxiosInstance} from 'axios';
 export class UserApiService {
   constructor(private readonly provider: AxiosInstance) {}
+
+  async updateProfile(body: {
+    address?: string;
+    bankAccount?: string;
+    bankName?: string;
+    fullName: string;
+  }): Promise<{user?: User; errMessage?: string}> {
+    try {
+      const response = await this.provider.post(
+        '/public/user/updateInfo',
+        body,
+      );
+      return {user: response.data.content};
+    } catch (error: any) {
+      return {
+        errMessage:
+          error?.response?.data?.message ||
+          'Đã có lỗi xảy ra, vui lòng thử lại sau',
+      };
+    }
+  }
 
   async updateAvatar(avatar: PostImageAPI): Promise<string | null> {
     try {
