@@ -9,7 +9,7 @@ import {Colors} from '@app/resources';
 import {useTheme} from '@app/shared/hooks/useTheme';
 
 import BottomTabs from './BottomTabs';
-import {FilterModal, ProductDetail} from '@native/containers';
+import {FilterModal, ProductDetail, EditProfile} from '@native/containers';
 
 const Stack = createNativeStackNavigator<PrivateParamList>();
 
@@ -84,6 +84,11 @@ export function PrivateNavigator() {
             title: 'Chi tiết sản phẩm',
           }}
           component={ProductDetail}
+        />
+        <Stack.Screen
+          name="EditProfile"
+          options={{headerShown: false}}
+          component={EditProfile}
         />
       </Stack.Group>
 

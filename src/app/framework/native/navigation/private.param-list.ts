@@ -24,4 +24,5 @@ export type PrivateParamList = {
   BottomTab: undefined;
   FilterModal: FilterModalProps;
   ProductDetail: undefined;
+  EditProfile: undefined;
 };

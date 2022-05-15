@@ -9,6 +9,8 @@ export interface User {
   userInfoId: number;
   userName: string;
   token: string;
+  bankAccount?: string;
+  bankName?: string;
 }
 
 export interface Avatar {
