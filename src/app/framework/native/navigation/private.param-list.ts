@@ -25,4 +25,5 @@ export type PrivateParamList = {
   FilterModal: FilterModalProps;
   ProductDetail: undefined;
   EditProfile: undefined;
+  ChangePassword: undefined;
 };

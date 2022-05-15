@@ -4,6 +4,8 @@ import {RefreshControl, ScrollView, TouchableOpacity, View} from 'react-native';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faPenToSquare} from '@fortawesome/free-solid-svg-icons';
 import {Icon} from '@fortawesome/fontawesome-svg-core';
+import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
+import {Divider} from 'react-native-elements';
 // import from alias
 import {useUser} from '@app/shared/contexts';
 import {
@@ -43,6 +45,10 @@ const _Profile: React.FC<ProfileProps> = props => {
 
   const navigateToEditScreen = React.useCallback(() => {
     navigation.navigate('EditProfile');
+  }, [navigation]);
+
+  const goToChangePassword = React.useCallback(() => {
+    navigation.navigate('ChangePassword');
   }, [navigation]);
 
   return (
@@ -93,6 +99,15 @@ const _Profile: React.FC<ProfileProps> = props => {
             valueStyle={styles.infoValue}
             divider={1}
           />
+          <TouchableOpacity activeOpacity={1} onPress={goToChangePassword}>
+            <IconLabel
+              containerStyle={styles.achievement}
+              labelStyle={styles.copyright}
+              text={'Đổi mật khẩu'}
+              suffix={<FontAwesome5Icon name="chevron-right" />}
+            />
+            <Divider />
+          </TouchableOpacity>
           <IconLabel
             containerStyle={styles.copyrightWrapper}
             labelStyle={styles.copyright}

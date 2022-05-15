@@ -9,7 +9,12 @@ import {Colors} from '@app/resources';
 import {useTheme} from '@app/shared/hooks/useTheme';
 
 import BottomTabs from './BottomTabs';
-import {FilterModal, ProductDetail, EditProfile} from '@native/containers';
+import {
+  FilterModal,
+  ProductDetail,
+  EditProfile,
+  ChangePassword,
+} from '@native/containers';
 
 const Stack = createNativeStackNavigator<PrivateParamList>();
 
@@ -89,6 +94,11 @@ export function PrivateNavigator() {
           name="EditProfile"
           options={{headerShown: false}}
           component={EditProfile}
+        />
+        <Stack.Screen
+          name="ChangePassword"
+          options={{headerShown: false}}
+          component={ChangePassword}
         />
       </Stack.Group>
 
