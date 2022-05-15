@@ -1,20 +1,22 @@
 import React from 'react';
-import {User} from '@data/models';
+import {PostImageAPI, User} from '@data/models';
 
 export type UserContextState = {
   user?: User;
-  signOut: () => Promise<boolean>;
+  signOut: () => Promise<void>;
   signIn: (props: {phone: string; password: string}) => Promise<void>;
   isOnLaunchScreen: boolean;
   fetchUser: () => void;
   checkAuthentication: () => void;
+  onUpdateAvatar: (img: PostImageAPI) => void;
 };
 
 export const INITIAL_VALUE: UserContextState = {
-  signOut: () => Promise.resolve(false),
+  signOut: () => Promise.resolve(),
   signIn: () => Promise.resolve(),
   fetchUser: () => null,
   checkAuthentication: () => null,
+  onUpdateAvatar: () => null,
   isOnLaunchScreen: true,
 };
 

@@ -1,6 +1,6 @@
 export interface User {
   address?: string;
-  avatar?: string;
+  avatar?: Avatar;
   email?: string;
   fullName: string;
   introCode: string;
@@ -9,4 +9,10 @@ export interface User {
   userInfoId: number;
   userName: string;
   token: string;
+}
+
+export interface Avatar {
+  businessCode: string;
+  fileName: string;
+  url: string;
 }

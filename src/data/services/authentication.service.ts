@@ -65,4 +65,17 @@ export class ApiAuthenticationService {
       );
     }
   }
+
+  async logout(id: string): Promise<string | null> {
+    try {
+      await this.provider.post('/logout/' + id);
+      this.removeAuthorizationHeader();
+      return null;
+    } catch (error: any) {
+      return (
+        error?.response?.data?.message ||
+        'Đã có lỗi xảy ra, vui lòng thử lại sau'
+      );
+    }
+  }
 }
