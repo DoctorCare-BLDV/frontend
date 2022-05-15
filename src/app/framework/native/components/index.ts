@@ -18,3 +18,4 @@ export * from './order';
 export * from './floating-reaction';
 export * from './confirmation-modal';
 export * from './form';
+export * from './action-sheet';

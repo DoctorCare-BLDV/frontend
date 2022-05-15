@@ -1,14 +1,14 @@
 import React, {useCallback, useMemo} from 'react';
 import {View} from 'react-native';
 // import from library
+import {useNavigation} from '@react-navigation/native';
 // import from alias
 import {CartFooter, ProductSectionList, TextView} from '@native/components';
+import {useTheme} from '@app/shared/hooks/useTheme';
 // localImport
 import {useCartModel} from './cart.hook';
 import {CartProps} from './cart.type';
 import {styles} from './cart.style';
-import {useTheme} from '@app/shared/hooks/useTheme';
-import {useNavigation} from '@react-navigation/native';
 import {ConfirmationModalNavigationProps} from '../confirmation-modal/types';
 
 const MESSAGES = {

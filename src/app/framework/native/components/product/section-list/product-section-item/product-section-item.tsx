@@ -2,11 +2,11 @@ import React, {useMemo} from 'react';
 import {View, StyleSheet, StyleProp, ViewStyle} from 'react-native';
 
 import {useTheme} from '@app/shared/hooks/useTheme';
+import {Layout} from '@app/resources';
 
 import {TextView} from '../../../label';
 import {Tag} from '../../../tag';
 import {ProductData} from '../../list/product-item';
-import {Layout} from '@app/resources';
 import {Image} from '../../../image';
 import {NumberPicker} from '../../../number-picker';
 
