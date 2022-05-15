@@ -1,5 +1,5 @@
 import React from 'react';
-import {User} from '@data/models';
+import {PostImageAPI, User} from '@data/models';
 
 export type UserContextState = {
   user?: User;
@@ -8,6 +8,7 @@ export type UserContextState = {
   isOnLaunchScreen: boolean;
   fetchUser: () => void;
   checkAuthentication: () => void;
+  onUpdateAvatar: (img: PostImageAPI) => void;
 };
 
 export const INITIAL_VALUE: UserContextState = {
@@ -15,6 +16,7 @@ export const INITIAL_VALUE: UserContextState = {
   signIn: () => Promise.resolve(),
   fetchUser: () => null,
   checkAuthentication: () => null,
+  onUpdateAvatar: () => null,
   isOnLaunchScreen: true,
 };
 

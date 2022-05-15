@@ -6,7 +6,12 @@ import {faPenToSquare} from '@fortawesome/free-solid-svg-icons';
 import {Icon} from '@fortawesome/fontawesome-svg-core';
 // import from alias
 import {useUser} from '@app/shared/contexts';
-import {IconLabel, KeyValueLabel, TextView} from '@native/components';
+import {
+  IconLabel,
+  ImagePicker,
+  KeyValueLabel,
+  TextView,
+} from '@native/components';
 import {callPhone, copyText} from '@app/utils';
 import {Colors} from '@app/resources';
 // localImport
@@ -24,8 +29,13 @@ const _INFO = [
 
 const _Profile: React.FC<ProfileProps> = props => {
   const {} = props;
-  const {onConfirmLogout, fetchUser} = useProfileModel();
-  const {user} = useUser();
+  const {
+    onConfirmLogout,
+    fetchUser,
+    isPhotoPickerVisible,
+    setPhotoPickerVisible,
+  } = useProfileModel();
+  const {user, onUpdateAvatar} = useUser();
   return (
     <>
       <View style={[styles.container]}>
@@ -34,7 +44,7 @@ const _Profile: React.FC<ProfileProps> = props => {
             <RefreshControl refreshing={false} onRefresh={fetchUser} />
           }
           showsVerticalScrollIndicator={false}>
-          <Header />
+          <Header onSelectImg={() => setPhotoPickerVisible(true)} />
           <TouchableOpacity
             onPress={() => null} //navigation.navigate('EditProfile')}
             style={styles.editBtn}>
@@ -89,6 +99,11 @@ const _Profile: React.FC<ProfileProps> = props => {
             />
           </TouchableOpacity>
         </ScrollView>
+        <ImagePicker
+          visible={isPhotoPickerVisible}
+          onDone={onUpdateAvatar}
+          onClose={() => setPhotoPickerVisible(false)}
+        />
       </View>
     </>
   );

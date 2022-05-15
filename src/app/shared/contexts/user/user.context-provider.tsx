@@ -1,11 +1,16 @@
 import React, {useCallback, useState} from 'react';
 
-import {UserContext} from './user.context';
-import {AuthenticationService, UserLocalService} from '@native/infrastructure';
 import {showMessage} from 'react-native-flash-message';
-import {User} from '@data/models';
 import AsyncStorage from '@react-native-community/async-storage';
+import {
+  AuthenticationService,
+  UserLocalService,
+  UserService,
+} from '@native/infrastructure';
 
+import {PostImageAPI, User} from '@data/models';
+
+import {UserContext} from './user.context';
 export const UserContextProvider: React.FC = ({children}) => {
   const [data, setUser] = useState<User>();
   const [isOnLaunchScreen, setLanchScreen] = useState<boolean>(true);
@@ -71,6 +76,20 @@ export const UserContextProvider: React.FC = ({children}) => {
     [],
   );
 
+  const onUpdateAvatar = useCallback(
+    async (img: PostImageAPI) => {
+      const errorMessage = await UserService.updateAvatar(img);
+      if (!!errorMessage) {
+        return showMessage({
+          message: errorMessage,
+          type: 'danger',
+        });
+      }
+      fetchUser();
+    },
+    [fetchUser],
+  );
+
   return (
     <UserContext.Provider
       value={{
@@ -80,6 +99,7 @@ export const UserContextProvider: React.FC = ({children}) => {
         checkAuthentication,
         signOut,
         signIn,
+        onUpdateAvatar,
       }}>
       {children}
     </UserContext.Provider>

@@ -1,8 +1,9 @@
 import React from 'react';
 import {UserContext} from './user.context';
 export function useUser() {
-  const {user, signOut, signIn, fetchUser} = React.useContext(UserContext);
-  return {user, signOut, signIn, fetchUser};
+  const {user, signOut, signIn, fetchUser, onUpdateAvatar} =
+    React.useContext(UserContext);
+  return {user, signOut, signIn, fetchUser, onUpdateAvatar};
 }
 
 export function useLaunchScreen() {

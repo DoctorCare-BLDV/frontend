@@ -14,9 +14,11 @@ import {TextView} from '@app/framework/native/components';
 import {useUser} from '@app/shared/contexts';
 import {getUserAvatarForImage} from '@app/utils';
 
-export interface HeaderProps {}
+export interface HeaderProps {
+  onSelectImg: () => void;
+}
 
-export const Header: React.FC<HeaderProps> = _ => {
+export const Header: React.FC<HeaderProps> = ({onSelectImg}) => {
   const {user} = useUser();
   return (
     <View style={styles.container}>
@@ -28,7 +30,7 @@ export const Header: React.FC<HeaderProps> = _ => {
           renderPlaceholderContent={<ActivityIndicator color={Colors.GRAY} />}
           rounded
         />
-        <TouchableOpacity onPress={() => {}} style={styles.uploadAvatarIcon}>
+        <TouchableOpacity onPress={onSelectImg} style={styles.uploadAvatarIcon}>
           <FontAwesomeIcon color={Colors.WHITE} size={16} name="pencil" />
         </TouchableOpacity>
       </View>

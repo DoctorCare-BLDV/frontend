@@ -4,6 +4,7 @@ import {Alert} from 'react-native';
 
 export function useProfileModel() {
   const {signOut, fetchUser} = useUser();
+  const [isPhotoPickerVisible, setPhotoPickerVisible] = React.useState(false);
 
   const onConfirmLogout = React.useCallback(() => {
     Alert.alert('Đăng xuất', 'Bạn có chắc chắn muốn đăng xuất?', [
@@ -15,5 +16,7 @@ export function useProfileModel() {
   return {
     onConfirmLogout,
     fetchUser,
+    isPhotoPickerVisible,
+    setPhotoPickerVisible,
   };
 }
