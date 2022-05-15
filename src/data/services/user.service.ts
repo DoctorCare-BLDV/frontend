@@ -1,6 +1,6 @@
 import {PostImageAPI} from '@data/models';
 import {AxiosInstance} from 'axios';
-export class ApiUserService {
+export class UserApiService {
   constructor(private readonly provider: AxiosInstance) {}
 
   async updateAvatar(avatar: PostImageAPI): Promise<string | null> {

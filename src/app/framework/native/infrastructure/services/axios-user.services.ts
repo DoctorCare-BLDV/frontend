@@ -1,4 +1,4 @@
 import axios from 'axios';
-import {ApiUserService} from '@data/services';
+import {UserApiService} from '@data/services';
 
-export const UserService = new ApiUserService(axios);
+export const UserService = new UserApiService(axios);
