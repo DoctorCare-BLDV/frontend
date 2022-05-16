@@ -16,6 +16,7 @@ import {
   ConfirmationModal,
   OrderConfirmation,
   ProductSearch,
+  Notifications,
 } from '@native/containers';
 
 const Stack = createNativeStackNavigator<PrivateParamList>();
@@ -112,6 +113,13 @@ export function PrivateNavigator() {
             headerShown: false,
           }}
           component={ProductSearch}
+        />
+        <Stack.Screen
+          name="Notifications"
+          options={{
+            title: 'Thông báo',
+          }}
+          component={Notifications}
         />
       </Stack.Group>
 

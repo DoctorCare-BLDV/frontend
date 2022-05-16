@@ -81,6 +81,6 @@ const styles = StyleSheet.create({
     flexBasis: undefined,
   },
   cartContainer: {
-    marginRight: 10,
+    marginRight: 15,
   },
 });
