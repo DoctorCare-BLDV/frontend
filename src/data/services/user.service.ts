@@ -8,6 +8,7 @@ export class UserApiService {
     bankAccount?: string;
     bankName?: string;
     fullName: string;
+    email: string;
   }): Promise<{user?: User; errMessage?: string}> {
     try {
       const response = await this.provider.post(

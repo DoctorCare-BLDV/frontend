@@ -8,6 +8,7 @@ export function useEditProfileModel() {
   const [loading, setLoading] = useState<boolean>(false);
   const name = useRef(user?.fullName || '');
   const address = useRef(user?.address || '');
+  const email = useRef(user?.email || '');
   const bankAccount = useRef(user?.bankAccount || '');
   const bankName = useRef(user?.bankName || '');
 
@@ -16,6 +17,7 @@ export function useEditProfileModel() {
       !address.current ||
       !bankAccount.current ||
       !bankName.current ||
+      !email.current ||
       !name.current
     ) {
       return showMessage({
@@ -29,6 +31,7 @@ export function useEditProfileModel() {
       bankAccount: bankAccount.current,
       bankName: bankName.current,
       fullName: name.current,
+      email: email.current,
     });
     setLoading(false);
   }, [updateProfile]);
@@ -40,6 +43,7 @@ export function useEditProfileModel() {
     bankName,
     onSubmit,
     user,
+    email,
     loading,
   };
 }

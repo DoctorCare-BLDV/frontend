@@ -16,7 +16,7 @@ import {styles} from './edit-profile.style';
 
 const _EditProfile: React.FC<EditProfileProps> = props => {
   const {} = props;
-  const {name, address, loading, bankAccount, bankName, onSubmit, user} =
+  const {name, address, email, loading, bankAccount, bankName, onSubmit, user} =
     useEditProfileModel();
 
   return (
@@ -37,6 +37,16 @@ const _EditProfile: React.FC<EditProfileProps> = props => {
           title="Tên"
           onChangeText={e => {
             name.current = e;
+          }}
+        />
+        <InputWithTitle
+          inputProps={{
+            defaultValue: user?.email || '',
+          }}
+          type="input"
+          title="Email"
+          onChangeText={e => {
+            email.current = e;
           }}
         />
         <InputWithTitle

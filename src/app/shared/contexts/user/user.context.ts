@@ -13,6 +13,7 @@ export type UserContextState = {
     bankAccount: string;
     bankName: string;
     fullName: string;
+    email: string;
   }) => Promise<void>;
   onUpdateAvatar: (img: PostImageAPI) => void;
 };

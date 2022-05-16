@@ -58,6 +58,7 @@ export const UserContextProvider: React.FC = ({children}) => {
       bankAccount?: string;
       bankName?: string;
       fullName: string;
+      email: string;
     }) => {
       const {user, errMessage} = await UserService.updateProfile(body);
       if (!!errMessage) {
