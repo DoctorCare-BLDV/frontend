@@ -30,4 +30,6 @@ export type PrivateParamList = {
 
   FilterModal: FilterModalProps;
   ConfirmationModal: ConfirmationModalProps;
+  EditProfile: undefined;
+  ChangePassword: undefined;
 };

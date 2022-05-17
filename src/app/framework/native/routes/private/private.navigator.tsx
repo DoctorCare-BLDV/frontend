@@ -16,6 +16,8 @@ import {
   ConfirmationModal,
   OrderConfirmation,
   ProductSearch,
+  EditProfile,
+  ChangePassword,
 } from '@native/containers';
 
 const Stack = createNativeStackNavigator<PrivateParamList>();
@@ -112,6 +114,16 @@ export function PrivateNavigator() {
             headerShown: false,
           }}
           component={ProductSearch}
+        />
+        <Stack.Screen
+          name="EditProfile"
+          options={{headerShown: false}}
+          component={EditProfile}
+        />
+        <Stack.Screen
+          name="ChangePassword"
+          options={{headerShown: false}}
+          component={ChangePassword}
         />
       </Stack.Group>
 
