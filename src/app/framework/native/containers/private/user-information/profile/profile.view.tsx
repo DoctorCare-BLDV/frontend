@@ -4,6 +4,8 @@ import {RefreshControl, ScrollView, TouchableOpacity, View} from 'react-native';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faPenToSquare} from '@fortawesome/free-solid-svg-icons';
 import {Icon} from '@fortawesome/fontawesome-svg-core';
+import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
+import {Divider} from 'react-native-elements';
 // import from alias
 import {useUser} from '@app/shared/contexts';
 import {
@@ -21,14 +23,18 @@ import {styles} from './profile.style';
 import {Header} from './components';
 
 const _INFO = [
-  {key: 'Số điện thoại', value: 'userName', hasAction: false},
-  {key: 'Mã giới thiệu', value: 'myIntroCode', hasAction: true},
+  {key: 'Số điện thoại', value: 'phone', hasAction: false},
+  {key: 'Email', value: 'email', hasAction: false},
+  {
+    key: 'Mã giới thiệu',
+    value: 'myIntroCode',
+    hasAction: true,
+  },
   {key: 'Địa chỉ', value: 'address', hasAction: false},
-  {key: 'Thông tin ngân hàng', value: 'bank', hasAction: false},
 ];
 
 const _Profile: React.FC<ProfileProps> = props => {
-  const {} = props;
+  const {navigation} = props;
   const {
     onConfirmLogout,
     fetchUser,
@@ -36,6 +42,15 @@ const _Profile: React.FC<ProfileProps> = props => {
     setPhotoPickerVisible,
   } = useProfileModel();
   const {user, onUpdateAvatar} = useUser();
+
+  const navigateToEditScreen = React.useCallback(() => {
+    navigation.navigate('EditProfile');
+  }, [navigation]);
+
+  const goToChangePassword = React.useCallback(() => {
+    navigation.navigate('ChangePassword');
+  }, [navigation]);
+
   return (
     <>
       <View style={[styles.container]}>
@@ -46,7 +61,7 @@ const _Profile: React.FC<ProfileProps> = props => {
           showsVerticalScrollIndicator={false}>
           <Header onSelectImg={() => setPhotoPickerVisible(true)} />
           <TouchableOpacity
-            onPress={() => null} //navigation.navigate('EditProfile')}
+            onPress={navigateToEditScreen}
             style={styles.editBtn}>
             <FontAwesomeIcon
               color={Colors.PRIMARY_ORAGE}
@@ -72,6 +87,27 @@ const _Profile: React.FC<ProfileProps> = props => {
               divider={1}
             />
           ))}
+          <KeyValueLabel
+            containerStyle={styles.infoRow}
+            keyLabel={'Thông tin ngân hàng:'}
+            valueLabel={
+              !!user?.bankAccount
+                ? user.bankAccount + '\n' + user.bankName
+                : 'Chưa có thông tin ngân hàng'
+            }
+            keyStyle={styles.infoKey}
+            valueStyle={styles.infoValue}
+            divider={1}
+          />
+          <TouchableOpacity activeOpacity={1} onPress={goToChangePassword}>
+            <IconLabel
+              containerStyle={styles.achievement}
+              labelStyle={styles.copyright}
+              text={'Đổi mật khẩu'}
+              suffix={<FontAwesome5Icon name="chevron-right" />}
+            />
+            <Divider />
+          </TouchableOpacity>
           <IconLabel
             containerStyle={styles.copyrightWrapper}
             labelStyle={styles.copyright}
