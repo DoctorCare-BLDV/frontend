@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useMemo, useRef} from 'react';
+import React, {useCallback, useMemo} from 'react';
 import {
   View,
   StyleSheet,
@@ -8,13 +8,15 @@ import {
 } from 'react-native';
 
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {useIsFocused, useNavigation} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 
-import {IconButton, SearchBar} from '@app/framework/native/components';
+import {
+  CartButton,
+  IconButton,
+  SearchBar,
+} from '@app/framework/native/components';
 import {useTheme} from '@app/shared/hooks/useTheme';
 import {Colors} from '@app/resources';
-import {useFloatingReaction} from '@app/shared/contexts';
-import {CarNavigationProps} from '../../../../cart/cart.type';
 
 export interface HeaderProps {
   wrapperStyle?: StyleProp<ViewStyle>;
@@ -27,24 +29,7 @@ const MESSAGES = {
 export const Header: React.FC<HeaderProps> = ({wrapperStyle}) => {
   const theme = useTheme();
   const {top} = useSafeAreaInsets();
-  const cartRef = useRef<any>();
-  const {setFloatingReactionTarget} = useFloatingReaction();
-  const isFocused = useIsFocused();
-  const cartNavigation = useNavigation<CarNavigationProps>();
-
-  useEffect(() => {
-    if (cartRef.current && isFocused) {
-      // @ts-ignore
-      cartRef.current.measure((x, y, width, height, pageX, pageY) => {
-        setFloatingReactionTarget({
-          x: pageX,
-          y: pageY,
-          width,
-          height,
-        });
-      });
-    }
-  }, [isFocused, setFloatingReactionTarget]);
+  const productSearchNavigation = useNavigation<any>();
 
   const wrapperBaseStyle = useMemo(() => {
     return [
@@ -66,9 +51,9 @@ export const Header: React.FC<HeaderProps> = ({wrapperStyle}) => {
     ];
   }, [top]);
 
-  const goToCart = useCallback(() => {
-    cartNavigation.navigate('Cart');
-  }, [cartNavigation]);
+  const goToProductSearch = useCallback(() => {
+    productSearchNavigation.navigate('ProductSearch');
+  }, [productSearchNavigation]);
 
   return (
     <TouchableOpacity style={wrapperBaseStyle}>
@@ -78,17 +63,13 @@ export const Header: React.FC<HeaderProps> = ({wrapperStyle}) => {
           editable={false}
           containerStyle={styles.inputContainer}
           placeholder={MESSAGES.SEARCH_BAR_PLACEHOLDER}
+          onPress={goToProductSearch}
         />
         <View style={styles.iconContainer}>
           <IconButton name="bell" badge={10} style={styles.icon} />
         </View>
         <View style={styles.iconContainer}>
-          <IconButton
-            ref={cartRef}
-            name="shopping-cart"
-            style={styles.icon}
-            onPress={goToCart}
-          />
+          <CartButton />
         </View>
       </View>
     </TouchableOpacity>

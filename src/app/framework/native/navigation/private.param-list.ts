@@ -5,7 +5,7 @@ import {FilterModalData} from '../containers';
 
 export interface FilterModalProps
   extends Omit<SectionListProps<RowItemData>, 'renderItem' | 'sections'> {
-  headerTitle?: string;
+  title?: string;
   cancelTitle?: string;
   confirmTitle?: string;
 
@@ -26,6 +26,8 @@ export type PrivateParamList = {
   ProductDetail: undefined;
   Cart: undefined;
   OrderConfirmation: undefined;
+  ProductSearch: undefined;
+
   FilterModal: FilterModalProps;
   ConfirmationModal: ConfirmationModalProps;
   EditProfile: undefined;

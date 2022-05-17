@@ -18,6 +18,7 @@ export interface SearchBarProps extends InputProps {
   iconRightName?: string;
   containerStyle?: StyleProp<ViewStyle>;
   iconRightStyle?: StyleProp<TextStyle>;
+  onPress?: () => void;
 }
 
 export const SearchBar: React.FC<SearchBarProps> = ({
@@ -25,6 +26,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({
   containerStyle,
   iconRightStyle,
   style,
+  onPress,
   ...props
 }) => {
   const theme = useTheme();
@@ -45,7 +47,8 @@ export const SearchBar: React.FC<SearchBarProps> = ({
 
   return (
     <TouchableOpacity
-      style={StyleSheet.flatten([styles.container, containerStyle])}>
+      style={StyleSheet.flatten([styles.container, containerStyle])}
+      onPress={onPress}>
       <Input {...props} style={inputStyle} />
       <FontAwesomeIcon name={iconRightName} style={iconRightStyleBase} />
     </TouchableOpacity>

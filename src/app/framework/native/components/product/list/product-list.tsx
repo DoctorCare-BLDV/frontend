@@ -18,6 +18,7 @@ export interface ProductListProps
 export const ProductList: React.FC<ProductListProps> = ({
   data,
   onPressFilter,
+  ...props
 }) => {
   const filterModalNavigation = useNavigation<FilterModalNavigationProps>();
 
@@ -93,6 +94,8 @@ export const ProductList: React.FC<ProductListProps> = ({
       numColumns={2}
       keyExtractor={(item, index) => String(item?.id || index)}
       ListHeaderComponent={listHeaderComponent}
+      keyboardShouldPersistTaps="handled"
+      {...props}
     />
   );
 };
