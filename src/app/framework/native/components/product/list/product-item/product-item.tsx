@@ -4,7 +4,7 @@ import {useNavigation} from '@react-navigation/native';
 
 import {ImageStyle} from 'react-native-fast-image';
 
-import {Colors, Layout} from '@app/resources';
+import {Colors, Layout, vndCurrencyFormat} from '@app/resources';
 import {useTheme} from '@app/shared/hooks/useTheme';
 import {useFloatingReaction} from '@app/shared/contexts';
 
@@ -12,14 +12,7 @@ import {Image} from '../../../image';
 import {TextView} from '../../../label';
 import {IconButton} from '../../../icon-button';
 import {Tag} from '../../../tag';
-
-export type ProductData = {
-  id: number;
-  name: string;
-  image: string;
-  coinPrice: string;
-  price: string;
-};
+import {ProductData} from '@data/models';
 
 export interface ProductItemProps extends Omit<ProductData, 'id'> {
   imageStyle?: StyleProp<ImageStyle>;
@@ -28,8 +21,8 @@ export interface ProductItemProps extends Omit<ProductData, 'id'> {
 export const ProductItem: React.FC<ProductItemProps> = ({
   name,
   image,
-  coinPrice,
-  price,
+  point,
+  originalPrice,
   imageStyle = {},
 }) => {
   const theme = useTheme();
@@ -63,7 +56,7 @@ export const ProductItem: React.FC<ProductItemProps> = ({
       const ELEMENT_WIDTH = 100;
       const ELEMENT_HEIGHT = 100;
       const elementStyle = {width: ELEMENT_WIDTH, height: ELEMENT_HEIGHT};
-      const element = <Image source={{uri: image}} style={elementStyle} />;
+      const element = <Image source={{uri: image?.url}} style={elementStyle} />;
 
       // @ts-ignore
       imageRef.current.measure((x, y, width, height, pageX, pageY) => {
@@ -89,16 +82,18 @@ export const ProductItem: React.FC<ProductItemProps> = ({
         <Image
           ref={imageRef}
           resizeMode="contain"
-          source={{uri: image}}
+          source={{uri: image?.url}}
           style={[styles.image, imageStyle]}
         />
         <View style={styles.infoContainer}>
           <TextView style={styles.name}>{name}</TextView>
           <View style={blockStyle}>
             <View style={styles.priceContainer}>
-              <TextView style={priceStyle}>{price}</TextView>
+              <TextView style={priceStyle}>
+                {vndCurrencyFormat(originalPrice)}
+              </TextView>
               <Tag
-                label={coinPrice}
+                label={String(point || '')}
                 containerStyle={styles.coinPriceContainer}
               />
             </View>

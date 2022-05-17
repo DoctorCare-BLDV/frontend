@@ -8,14 +8,12 @@ import {IconButton} from '../../../icon-button';
 import {TextView} from '../../../label';
 
 export interface ListHeaderProps {
+  title?: string;
   onPressFilter?: () => void;
 }
 
-const MESSAGES = {
-  ALL_PRODUCTS: 'Toàn bộ sản phẩm: ',
-};
-
 export const ListHeader: React.FC<ListHeaderProps> = ({
+  title,
   onPressFilter = () => {},
 }) => {
   const theme = useTheme();
@@ -31,7 +29,7 @@ export const ListHeader: React.FC<ListHeaderProps> = ({
 
   return (
     <View style={StyleSheet.flatten([styles.container])}>
-      <TextView style={titleStyle}>{MESSAGES.ALL_PRODUCTS}100</TextView>
+      <TextView style={titleStyle}>{title}</TextView>
       <IconButton name="filter" style={styles.icon} onPress={onPressFilter} />
     </View>
   );

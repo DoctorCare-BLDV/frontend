@@ -1,33 +1,21 @@
-import React, {useCallback, useMemo} from 'react';
+import React, {useMemo} from 'react';
 import {View} from 'react-native';
 // import from library
-import {useNavigation} from '@react-navigation/native';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 // import from alias
-import {CartFooter, ProductSectionList, TextView} from '@native/components';
+import {ProductSectionList} from '@native/components';
 import {useTheme} from '@app/shared/hooks/useTheme';
 // localImport
-import {useCartModel} from './cart.hook';
-import {CartProps} from './cart.type';
-import {styles} from './cart.style';
-import {ConfirmationModalNavigationProps} from '../confirmation-modal/types';
+import {useOrderConfirmationModel} from './order-confirmation.hook';
+import {OrderConfirmationProps} from './order-confirmation.type';
+import {styles} from './order-confirmation.style';
+import {CustomerInformation} from './components';
 
-const MESSAGES = {
-  DELETE_ALL: 'Xoá tất cả',
-  DELETE_ALL_CONFIRM_TITLE: 'Xoá tất cả sản phẩm',
-  DELETE_ALL_CONFIRM_DESCRIPTION:
-    'Bạn có chắc chắn muốn xoá tất cả sản phẩm đang có trong giỏ hàng?',
-  CONFIRM: 'Xác nhận',
-  PRICE: '100.000.000đ',
-  TOTAL_PROFIT: 'Tổng lợi nhuận',
-  TOTAL_PROFIT_VALUE: '400.000đ',
-};
-
-const _Cart: React.FC<CartProps> = () => {
-  const {} = useCartModel();
+const _OrderConfirmation: React.FC<OrderConfirmationProps> = () => {
   const theme = useTheme();
-  const confirmationModalNavigation =
-    useNavigation<ConfirmationModalNavigationProps>();
-  const orderConfirmationNavigation = useNavigation<any>();
+  const {} = useOrderConfirmationModel();
+
+  const {bottom} = useSafeAreaInsets();
 
   const containerStyle = useMemo(() => {
     return [
@@ -38,61 +26,26 @@ const _Cart: React.FC<CartProps> = () => {
     ];
   }, [theme]);
 
-  const totalProfitContainerStyle = useMemo(() => {
-    return [
-      styles.totalProfitContainer,
-      {
-        backgroundColor: theme.colorScheme.surface,
-        borderColor: theme.colorScheme.primary,
-      },
-    ];
-  }, [theme]);
+  const listContentContainerStyle = useMemo(() => {
+    return {
+      paddingBottom: bottom,
+    };
+  }, [bottom]);
 
-  const totalProfitTextStyle = useMemo(() => {
-    return [
-      styles.totalProfitText,
-      {
-        color: theme.colorScheme.primary,
-      },
-    ];
-  }, [theme]);
-
-  const handlePressDeleteAll = useCallback(() => {
-    confirmationModalNavigation.navigate('ConfirmationModal', {
-      title: MESSAGES.DELETE_ALL_CONFIRM_TITLE,
-      content: MESSAGES.DELETE_ALL_CONFIRM_DESCRIPTION,
-    });
-  }, [confirmationModalNavigation]);
-
-  const goToOrderConfirmation = useCallback(() => {
-    orderConfirmationNavigation.navigate('OrderConfirmation');
-  }, [orderConfirmationNavigation]);
+  const listHeaderComponent = CustomerInformation;
 
   return (
     <View style={containerStyle}>
-      <View style={totalProfitContainerStyle}>
-        <TextView style={totalProfitTextStyle}>
-          {MESSAGES.TOTAL_PROFIT}
-        </TextView>
-        <TextView style={totalProfitTextStyle}>
-          {MESSAGES.TOTAL_PROFIT_VALUE}
-        </TextView>
-      </View>
-      <ProductSectionList sections={SECTIONS} />
-      <CartFooter
-        label={MESSAGES.DELETE_ALL}
-        value={MESSAGES.PRICE}
-        iconLeftName="trash-alt"
-        btnTitle={MESSAGES.CONFIRM}
-        safeLayout
-        onLabelPress={handlePressDeleteAll}
-        onBtnPress={goToOrderConfirmation}
+      <ProductSectionList
+        contentContainerStyle={listContentContainerStyle}
+        sections={SECTIONS}
+        ListHeaderComponent={listHeaderComponent}
       />
     </View>
   );
 };
 
-export const Cart = React.memo(_Cart);
+export const OrderConfirmation = React.memo(_OrderConfirmation);
 
 const SECTIONS = [
   {
