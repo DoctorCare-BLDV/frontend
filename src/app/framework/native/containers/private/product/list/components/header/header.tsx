@@ -1,11 +1,5 @@
 import React, {useCallback, useMemo} from 'react';
-import {
-  View,
-  StyleSheet,
-  StyleProp,
-  ViewStyle,
-  TouchableOpacity,
-} from 'react-native';
+import {View, StyleSheet, StyleProp, ViewStyle} from 'react-native';
 
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useNavigation} from '@react-navigation/native';
@@ -30,6 +24,7 @@ export const Header: React.FC<HeaderProps> = ({wrapperStyle}) => {
   const theme = useTheme();
   const {top} = useSafeAreaInsets();
   const productSearchNavigation = useNavigation<any>();
+  const notificationsNavigation = useNavigation<any>();
 
   const wrapperBaseStyle = useMemo(() => {
     return [
@@ -55,8 +50,12 @@ export const Header: React.FC<HeaderProps> = ({wrapperStyle}) => {
     productSearchNavigation.navigate('ProductSearch');
   }, [productSearchNavigation]);
 
+  const goToNotifications = useCallback(() => {
+    notificationsNavigation.navigate('Notifications');
+  }, [notificationsNavigation]);
+
   return (
-    <TouchableOpacity style={wrapperBaseStyle}>
+    <View style={wrapperBaseStyle}>
       <View style={containerStyle}>
         <SearchBar
           pointerEvents="none"
@@ -66,13 +65,18 @@ export const Header: React.FC<HeaderProps> = ({wrapperStyle}) => {
           onPress={goToProductSearch}
         />
         <View style={styles.iconContainer}>
-          <IconButton name="bell" badge={10} style={styles.icon} />
+          <IconButton
+            name="bell"
+            badge={10}
+            style={styles.icon}
+            onPress={goToNotifications}
+          />
         </View>
         <View style={styles.iconContainer}>
           <CartButton />
         </View>
       </View>
-    </TouchableOpacity>
+    </View>
   );
 };
 

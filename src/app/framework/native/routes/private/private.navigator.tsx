@@ -16,6 +16,7 @@ import {
   ConfirmationModal,
   OrderConfirmation,
   ProductSearch,
+  Notifications,
   EditProfile,
   ChangePassword,
 } from '@native/containers';
@@ -114,6 +115,13 @@ export function PrivateNavigator() {
             headerShown: false,
           }}
           component={ProductSearch}
+        />
+        <Stack.Screen
+          name="Notifications"
+          options={{
+            title: 'Thông báo',
+          }}
+          component={Notifications}
         />
         <Stack.Screen
           name="EditProfile"
