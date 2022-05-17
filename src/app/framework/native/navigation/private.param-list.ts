@@ -26,7 +26,8 @@ export type PrivateParamList = {
   ProductDetail: undefined;
   Cart: undefined;
   OrderConfirmation: undefined;
-
   FilterModal: FilterModalProps;
   ConfirmationModal: ConfirmationModalProps;
+  EditProfile: undefined;
+  ChangePassword: undefined;
 };

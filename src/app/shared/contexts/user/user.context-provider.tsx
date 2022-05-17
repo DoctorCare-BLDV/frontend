@@ -52,6 +52,36 @@ export const UserContextProvider: React.FC = ({children}) => {
     }
   }, []);
 
+  const updateProfile = React.useCallback(
+    async (body: {
+      address?: string;
+      bankAccount?: string;
+      bankName?: string;
+      fullName: string;
+      email: string;
+    }) => {
+      const {user, errMessage} = await UserService.updateProfile(body);
+      if (!!errMessage) {
+        return showMessage({
+          message: errMessage,
+          type: 'danger',
+        });
+      }
+      if (!user) {
+        return showMessage({
+          message: 'Đã có lỗi xảy ra, vui lòng thử lại sau',
+          type: 'danger',
+        });
+      }
+      showMessage({
+        message: 'Cập nhật thông tin thành công',
+        type: 'success',
+      });
+      setUser(user);
+    },
+    [],
+  );
+
   const signIn = React.useCallback(
     async (props: {phone: string; password: string}) => {
       const {user, errMessage} = await AuthenticationService.login(props);
@@ -94,6 +124,7 @@ export const UserContextProvider: React.FC = ({children}) => {
     <UserContext.Provider
       value={{
         user: data,
+        updateProfile,
         isOnLaunchScreen,
         fetchUser,
         checkAuthentication,
