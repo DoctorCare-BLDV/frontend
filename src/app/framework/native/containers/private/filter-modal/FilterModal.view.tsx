@@ -308,6 +308,7 @@ const _FilterModal: React.FC<FilterModalProps> = ({
   }, [route, navigation, renderHeaderLeft, renderHeaderRight]);
 
   const renderSectionHeader = ({section}: {section: any}) => {
+    if (!section.title) return null;
     return <TextView style={titleStyle}>{section.title}</TextView>;
   };
 

@@ -75,6 +75,7 @@ export const Tabbar: React.FC<TabbarProps> = props => {
     <View style={StyleSheet.flatten([styles.container])}>
       {list.map((tab, index) => (
         <Tab
+          key={index.toString()}
           currentIdx={currentIdx}
           onPress={() => onChangeTab(index)}
           item={tab}
