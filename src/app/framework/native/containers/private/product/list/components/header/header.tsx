@@ -14,16 +14,19 @@ import {Colors} from '@app/resources';
 
 export interface HeaderProps {
   wrapperStyle?: StyleProp<ViewStyle>;
+  onPressSearchBar?: () => void;
 }
 
 const MESSAGES = {
   SEARCH_BAR_PLACEHOLDER: 'Tìm kiếm sản phẩm',
 };
 
-export const Header: React.FC<HeaderProps> = ({wrapperStyle}) => {
+export const Header: React.FC<HeaderProps> = ({
+  wrapperStyle,
+  onPressSearchBar,
+}) => {
   const theme = useTheme();
   const {top} = useSafeAreaInsets();
-  const productSearchNavigation = useNavigation<any>();
   const notificationsNavigation = useNavigation<any>();
 
   const wrapperBaseStyle = useMemo(() => {
@@ -46,10 +49,6 @@ export const Header: React.FC<HeaderProps> = ({wrapperStyle}) => {
     ];
   }, [top]);
 
-  const goToProductSearch = useCallback(() => {
-    productSearchNavigation.navigate('ProductSearch');
-  }, [productSearchNavigation]);
-
   const goToNotifications = useCallback(() => {
     notificationsNavigation.navigate('Notifications');
   }, [notificationsNavigation]);
@@ -62,7 +61,7 @@ export const Header: React.FC<HeaderProps> = ({wrapperStyle}) => {
           editable={false}
           containerStyle={styles.inputContainer}
           placeholder={MESSAGES.SEARCH_BAR_PLACEHOLDER}
-          onPress={goToProductSearch}
+          onPress={onPressSearchBar}
         />
         <View style={styles.iconContainer}>
           <IconButton

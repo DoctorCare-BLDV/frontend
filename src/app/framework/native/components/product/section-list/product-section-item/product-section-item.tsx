@@ -2,11 +2,11 @@ import React, {useMemo} from 'react';
 import {View, StyleSheet, StyleProp, ViewStyle} from 'react-native';
 
 import {useTheme} from '@app/shared/hooks/useTheme';
-import {Layout} from '@app/resources';
+import {Layout, vndCurrencyFormat} from '@app/resources';
+import {ProductData} from '@data/models';
 
 import {TextView} from '../../../label';
 import {Tag} from '../../../tag';
-import {ProductData} from '../../list/product-item';
 import {Image} from '../../../image';
 import {NumberPicker} from '../../../number-picker';
 
@@ -25,8 +25,8 @@ export interface ProductSectionItemProps
 export const ProductSectionItem: React.FC<ProductSectionItemProps> = ({
   name,
   image,
-  price,
-  coinPrice,
+  originalPrice,
+  point,
   totalPrice,
   quantity,
   readonly,
@@ -68,15 +68,20 @@ export const ProductSectionItem: React.FC<ProductSectionItemProps> = ({
 
   return (
     <View style={containerBaseStyle}>
-      <Image source={{uri: image}} style={styles.image} />
+      <Image source={{uri: image?.url}} style={styles.image} />
 
       <View style={styles.mainInfoContainer}>
         <TextView style={styles.title}>{name}</TextView>
 
         <View style={styles.priceWrapper}>
           <View style={styles.priceContainer}>
-            <TextView style={priceStyle}>{price}</TextView>
-            <Tag label={coinPrice} containerStyle={styles.coinPriceContainer} />
+            <TextView style={priceStyle}>
+              {vndCurrencyFormat(originalPrice)}
+            </TextView>
+            <Tag
+              label={String(point)}
+              containerStyle={styles.coinPriceContainer}
+            />
           </View>
 
           <View style={styles.quantityWrapper}>

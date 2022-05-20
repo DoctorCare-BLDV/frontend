@@ -16,6 +16,7 @@ import {hexToRgba} from '@app/utils';
 
 import {TextView} from '../label';
 import {useTheme} from '@app/shared/hooks/useTheme';
+import {ItemModel} from '@data/models';
 
 export enum RowItemType {
   NORMAL = 'normal',
@@ -33,7 +34,7 @@ export type RowItemData = {
   checked?: boolean;
   description?: string;
   key?: number;
-};
+} & Omit<ItemModel, 'itemId' | 'itemCode' | 'itemName' | 'categoryId'>;
 
 export interface RowItemProps {
   type?: RowItemType;

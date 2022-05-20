@@ -1,21 +1,21 @@
 import React, {useMemo} from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, ActivityIndicator} from 'react-native';
 
-import {Layout} from '@app/resources';
+import {HIT_SLOP, Layout} from '@app/resources';
 import {useTheme} from '@app/shared/hooks/useTheme';
 
 import {IconButton} from '../../../icon-button';
 import {TextView} from '../../../label';
 
 export interface ListHeaderProps {
+  title?: string;
+  isLoading?: boolean;
   onPressFilter?: () => void;
 }
 
-const MESSAGES = {
-  ALL_PRODUCTS: 'Toàn bộ sản phẩm: ',
-};
-
 export const ListHeader: React.FC<ListHeaderProps> = ({
+  title,
+  isLoading,
   onPressFilter = () => {},
 }) => {
   const theme = useTheme();
@@ -30,9 +30,27 @@ export const ListHeader: React.FC<ListHeaderProps> = ({
   }, [theme]);
 
   return (
-    <View style={StyleSheet.flatten([styles.container])}>
-      <TextView style={titleStyle}>{MESSAGES.ALL_PRODUCTS}100</TextView>
-      <IconButton name="filter" style={styles.icon} onPress={onPressFilter} />
+    <View style={styles.container}>
+      <TextView style={titleStyle}>{title}</TextView>
+
+      <View>
+        <IconButton
+          hitSlop={HIT_SLOP}
+          disabled={isLoading}
+          name="filter"
+          style={[styles.icon, isLoading && styles.hideIcon]}
+          onPress={onPressFilter}
+        />
+        {isLoading && (
+          <View
+            style={{
+              ...StyleSheet.absoluteFillObject,
+              left: undefined,
+            }}>
+            <ActivityIndicator size="small" />
+          </View>
+        )}
+      </View>
     </View>
   );
 };
@@ -42,7 +60,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     padding: Layout.spacingHorizontal,
-    paddingBottom: 0,
+    paddingBottom: 10,
   },
   title: {
     fontWeight: '700',
@@ -51,5 +69,8 @@ const styles = StyleSheet.create({
   icon: {
     fontSize: 18,
     paddingLeft: 15,
+  },
+  hideIcon: {
+    opacity: 0,
   },
 });

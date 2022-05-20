@@ -75,8 +75,8 @@ export const ProductSectionList = ({
       return (
         <ProductSectionItem
           name={product.name}
-          price={product.price}
-          coinPrice={product.coinPrice}
+          originalPrice={product.originalPrice}
+          point={product.point}
           image={product.image}
           quantity={product.quantity}
           totalPrice={product.totalPrice}

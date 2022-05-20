@@ -44,7 +44,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-end',
     margin: 0,
-    paddingTop: '30%',
   },
   container: {
     minHeight: AppDimensions.height * 0.4,
@@ -168,14 +167,15 @@ const _FilterModal: React.FC<FilterModalProps> = ({
     setListSearchedOptions(listFilteredOptions);
   }, [searchValue, listOptions]);
 
-  const containerStyle = useMemo(() => {
+  const containerBaseStyle = useMemo(() => {
     return [
       styles.container,
       {
         backgroundColor: theme.colorScheme.surface,
       },
+      route.params.containerStyle,
     ];
-  }, [theme]);
+  }, [theme, route.params.containerStyle]);
 
   const emptyIconStyle = useMemo(() => {
     return [
@@ -290,7 +290,7 @@ const _FilterModal: React.FC<FilterModalProps> = ({
             current: new Animated.Value(1),
           }}
           options={{
-            headerTitle: route.params.headerTitle || 'Bộ lọc',
+            headerTitle: route.params.title || 'Bộ lọc',
             headerTitleAlign: 'center',
             headerStatusBarHeight: 0,
             headerStyle: {
@@ -342,7 +342,7 @@ const _FilterModal: React.FC<FilterModalProps> = ({
       avoidKeyboard
       propagateSwipe
       style={styles.modal}>
-      <View style={containerStyle}>
+      <View style={containerBaseStyle}>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <View>
             {renderHeader()}
@@ -357,32 +357,30 @@ const _FilterModal: React.FC<FilterModalProps> = ({
           </View>
         </TouchableWithoutFeedback>
 
-        <View>
-          <FullScreenLoadingIndicator
-            containerStyle={styles.loadingContainer}
-            useModal={false}
-            visible={isLoading}
-          />
-          <SectionList
-            keyExtractor={item => item.id.toString()}
-            keyboardShouldPersistTaps="handled"
-            keyboardDismissMode="interactive"
-            extraData={searchValue}
-            ListEmptyComponent={renderListEmpty}
-            stickySectionHeadersEnabled={false}
-            {...params}
-            contentContainerStyle={[
-              styles.listContentContainer,
-              params.contentContainerStyle,
-            ]}
-            //@ts-ignore
-            sections={searchValue ? listSearchedOptions : listOptions}
-            renderItem={params.renderItem || renderOption}
-            renderSectionHeader={
-              params.renderSectionHeader || renderSectionHeader
-            }
-          />
-        </View>
+        <FullScreenLoadingIndicator
+          containerStyle={styles.loadingContainer}
+          useModal={false}
+          visible={isLoading}
+        />
+        <SectionList
+          keyExtractor={item => item.id.toString()}
+          keyboardShouldPersistTaps="handled"
+          keyboardDismissMode="interactive"
+          extraData={searchValue}
+          ListEmptyComponent={renderListEmpty}
+          stickySectionHeadersEnabled={false}
+          {...params}
+          contentContainerStyle={[
+            styles.listContentContainer,
+            params.contentContainerStyle,
+          ]}
+          //@ts-ignore
+          sections={searchValue ? listSearchedOptions : listOptions}
+          renderItem={params.renderItem || renderOption}
+          renderSectionHeader={
+            params.renderSectionHeader || renderSectionHeader
+          }
+        />
       </View>
     </ReactNativeModal>
   );
