@@ -34,12 +34,14 @@ const _Notifications: React.FC<NotificationsProps> = props => {
   };
 
   return (
-    <FlatList
-      data={NOTIFICATIONS}
-      contentContainerStyle={listContentContainerStyle}
-      renderItem={renderNotification}
-      keyExtractor={keyExtractor}
-    />
+    <>
+      <FlatList
+        data={NOTIFICATIONS}
+        contentContainerStyle={listContentContainerStyle}
+        renderItem={renderNotification}
+        keyExtractor={keyExtractor}
+      />
+    </>
   );
 };
 

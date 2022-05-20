@@ -12,6 +12,7 @@ import {
   ApiRequest,
   ProductData,
   GetProductListAPIResponse,
+  InventoryModel,
 } from '@data/models';
 
 export type GetListHookOptions = {
@@ -32,13 +33,17 @@ const PAGE_SIZE = 3;
 
 export function useProductList(initProductList = []): {
   productList: ProductData[];
-  getProductList: (options?: GetProductListHookOptions) => void;
+  inventory?: InventoryModel[];
+  getProductList: (
+    options?: GetProductListHookOptions,
+  ) => Promise<InventoryModel[] | undefined>;
   totalProduct: number;
   setProductList: React.Dispatch<React.SetStateAction<ProductData[]>>;
 } {
   const [getProductListRequest] = useState(
     new ApiRequest<GetProductListAPIResponse>(),
   );
+  const [inventory, setInventory] = useState<InventoryModel[] | undefined>();
   const [totalProduct, setTotalProduct] = useState(0);
 
   const canLoadMore = useRef(true);
@@ -119,7 +124,7 @@ export function useProductList(initProductList = []): {
 
       isRequesting.current = true;
       let isLoadMoreFail = false;
-
+      console.log(options, customOptions);
       try {
         options.onBeforeRequest();
         getProductListRequest.updateData(
@@ -133,11 +138,16 @@ export function useProductList(initProductList = []): {
         canLoadMore.current = !!response?.data?.content?.hasNext;
 
         if (response && response.status === HTTPS_SUCCESS_STATUS) {
-          setTotalProduct(response?.data?.content?.totalRows);
+          if (response?.data?.content?.inventory) {
+            setInventory(response?.data?.content?.inventory);
+          }
+          setTotalProduct(response?.data?.content?.totalRows || 0);
           executeSuccessRequest(
             response?.data?.content?.content || [],
             options,
           );
+
+          return response?.data?.content?.inventory;
         } else {
           showFlashMessage({
             type: 'danger',
@@ -152,7 +162,7 @@ export function useProductList(initProductList = []): {
         console.log('err_get_list_post', error);
         showFlashMessage({
           type: 'danger',
-          message: error?.message,
+          message: error?.message || HTTPS_ERROR_MESSAGE,
         });
       } finally {
         isRequesting.current = false;
@@ -179,5 +189,5 @@ export function useProductList(initProductList = []): {
     };
   }, [getProductListRequest]);
 
-  return {productList, getProductList, totalProduct, setProductList};
+  return {productList, inventory, getProductList, totalProduct, setProductList};
 }

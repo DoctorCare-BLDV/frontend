@@ -1,7 +1,7 @@
 import {AxiosInstance} from 'axios';
 
-import {ApiRequestor} from '@data/models/ApiRequest';
 import {
+  ApiRequestor,
   GetProductListAPIRequest,
   GetProductListAPIResponse,
 } from '@data/models';

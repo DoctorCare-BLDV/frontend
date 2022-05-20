@@ -1,4 +1,4 @@
-import React, {useCallback, useMemo} from 'react';
+import React, {useCallback, useMemo, useState} from 'react';
 import {
   StyleSheet,
   FlatList,
@@ -9,43 +9,64 @@ import {
 
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 
-import {AppDimensions, Colors, Layout} from '@app/resources';
+import {
+  AppDimensions,
+  Colors,
+  convertItemModelToRowItemData,
+  Layout,
+} from '@app/resources';
 
 import {useNavigation} from '@react-navigation/native';
 import {FilterModalNavigationProps} from '@app/framework/native/containers/private/filter-modal/types';
-import {ProductData} from '@data/models';
+import {ItemModel, ItemType, ItemCategoryCode, ProductData} from '@data/models';
 
 import {ListHeader} from './list-header';
 import {ProductItem} from './product-item';
-import {RowItemType} from '../../row-item';
+import {RowItemData, RowItemType} from '../../row-item';
 import {TextView} from '../../label';
 import {useTheme} from '@app/shared/hooks/useTheme';
+import {useItemList} from '@app/framework/native/hooks';
+import {FullScreenLoadingIndicator} from '../../indicator';
 
 export interface ProductListProps
   extends Omit<FlatListProps<ProductData>, 'renderItem'> {
   totalProduct?: number;
-  onPressFilter?: () => void;
-  onLoadMore?: () => void;
+
   isLoading?: boolean;
   isLoadMore?: boolean;
+
+  selectedFilters?: RowItemData[];
+
+  onPressFilter?: () => void;
+  onLoadMore?: () => void;
+  onFilterChange?: (selectedFilters: RowItemData[]) => void;
 }
 
 const MESSAGES = {
   NO_POST: 'Chưa có sản phẩm!',
   ALL_PRODUCT: 'Toàn bộ sản phẩm',
+  CATEGORY: 'Danh mục',
+  INVENTORY: 'Kho',
 };
 
 export const ProductList: React.FC<ProductListProps> = ({
   data,
   totalProduct,
-  isLoading,
+  isLoading = false,
   isLoadMore,
+  selectedFilters,
   onPressFilter,
   onLoadMore = () => {},
+  onFilterChange = () => {},
+  contentContainerStyle,
   ...props
 }) => {
   const filterModalNavigation = useNavigation<FilterModalNavigationProps>();
   const theme = useTheme();
+
+  const [isFilterLoading, setLoadingFilters] = useState(false);
+
+  const {getItemList} = useItemList();
 
   const emptyTitleStyle = useMemo(() => {
     return [
@@ -57,48 +78,87 @@ export const ProductList: React.FC<ProductListProps> = ({
   }, [theme]);
 
   const listContentContainerStyle = useMemo(() => {
-    return [styles.listContentContainer, props.contentContainerStyle];
-  }, [props.contentContainerStyle]);
+    return [styles.listContentContainer, contentContainerStyle];
+  }, [contentContainerStyle]);
 
-  const handlePressFilter = useCallback(() => {
+  const handlePressFilter = useCallback(async () => {
     if (onPressFilter) {
       onPressFilter();
       return;
     }
+    setLoadingFilters(true);
+
+    let productTypeList: RowItemData[] = [],
+      inventoryList: RowItemData[] = [];
+
+    const formatItems = (
+      items: ItemModel[],
+      categoryCode: ItemCategoryCode,
+    ) => {
+      return items.map(item => ({
+        ...convertItemModelToRowItemData(item),
+        type: RowItemType.CHECK_BOX,
+        checked: false,
+        categoryCode,
+      }));
+    };
+
+    await Promise.all([
+      new Promise(async resolve => {
+        productTypeList =
+          (await getItemList({
+            data: {categoryCode: ItemType.PRODUCT_TYPE},
+            dataFormatter: items =>
+              formatItems(items, ItemCategoryCode.PRODUCT_TYPE),
+          })) || [];
+        resolve('');
+      }),
+      new Promise(async resolve => {
+        inventoryList =
+          (await getItemList({
+            data: {categoryCode: ItemType.INVENTORY},
+            dataFormatter: items =>
+              formatItems(items, ItemCategoryCode.INVENTORY),
+          })) || [];
+        resolve('');
+      }),
+    ]);
+
+    setLoadingFilters(false);
 
     filterModalNavigation.navigate('FilterModal', {
-      selectedData: [
-        {id: 3, label: 'Thuốc bổ gan', type: RowItemType.CHECK_BOX},
-        {id: 6, label: 'Kho Hà Đông', type: RowItemType.CHECK_BOX},
-      ],
+      selectedData: selectedFilters,
       data: [
         {
-          title: 'Danh mục',
-          data: [
-            {id: 1, label: 'Thuốc bổ não', type: RowItemType.CHECK_BOX},
-            {id: 2, label: 'Thuốc bổ tim', type: RowItemType.CHECK_BOX},
-            {id: 3, label: 'Thuốc bổ gan', type: RowItemType.CHECK_BOX},
-          ],
+          title: MESSAGES.CATEGORY,
+          data: productTypeList,
         },
         {
-          title: 'Kho',
-          data: [
-            {id: 4, label: 'Kho Thanh Xuân', type: RowItemType.CHECK_BOX},
-            {id: 5, label: 'Kho Long Biên', type: RowItemType.CHECK_BOX},
-            {id: 6, label: 'Kho Hà Đông', type: RowItemType.CHECK_BOX},
-          ],
+          title: MESSAGES.INVENTORY,
+          data: inventoryList,
         },
       ],
-      onFinishSelectOptions: e => console.log(e),
+      onFinishSelectOptions: onFilterChange,
     });
-  }, [onPressFilter, filterModalNavigation]);
+  }, [
+    onPressFilter,
+    selectedFilters,
+    filterModalNavigation,
+    getItemList,
+    onFilterChange,
+  ]);
 
   const listHeaderComponent = useMemo(() => {
-    const title = totalProduct
-      ? MESSAGES.ALL_PRODUCT + ': ' + totalProduct
-      : '';
-    return <ListHeader title={title} onPressFilter={handlePressFilter} />;
-  }, [handlePressFilter, totalProduct]);
+    const title = MESSAGES.ALL_PRODUCT + ': ' + (totalProduct || 0);
+
+    return (
+      <ListHeader
+        title={title}
+        isLoading={isFilterLoading}
+        onPressFilter={handlePressFilter}
+      />
+    );
+  }, [handlePressFilter, totalProduct, isFilterLoading]);
 
   const handleLoadMore = useCallback(() => {
     onLoadMore();
@@ -157,21 +217,24 @@ export const ProductList: React.FC<ProductListProps> = ({
   };
 
   return (
-    <FlatList
-      contentContainerStyle={listContentContainerStyle}
-      data={data || []}
-      renderItem={renderProduct}
-      numColumns={2}
-      keyExtractor={(item, index) => String(item?.id || index)}
-      keyboardShouldPersistTaps="handled"
-      ListHeaderComponent={listHeaderComponent}
-      ListEmptyComponent={renderListEmpty}
-      ListFooterComponent={renderLoadMore}
-      scrollEventThrottle={16}
-      onEndReachedThreshold={0.4}
-      onEndReached={handleLoadMore}
-      {...props}
-    />
+    <View style={styles.container}>
+      {listHeaderComponent}
+      <FlatList
+        contentContainerStyle={listContentContainerStyle}
+        data={data || []}
+        renderItem={renderProduct}
+        numColumns={2}
+        keyExtractor={(item, index) => String(item?.id || index)}
+        keyboardShouldPersistTaps="handled"
+        ListEmptyComponent={renderListEmpty}
+        ListFooterComponent={renderLoadMore}
+        scrollEventThrottle={16}
+        onEndReachedThreshold={0.4}
+        onEndReached={handleLoadMore}
+        {...props}
+      />
+      <FullScreenLoadingIndicator useModal={false} visible={isLoading} />
+    </View>
   );
 };
 
@@ -181,7 +244,9 @@ const IMAGE_DIMENSIONS =
   Layout.spacingHorizontal / 2;
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+    flex: 1,
+  },
   headerContainer: {
     flexDirection: 'row',
     alignItems: 'center',

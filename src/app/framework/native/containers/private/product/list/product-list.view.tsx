@@ -1,66 +1,44 @@
-import React, {useCallback, useEffect, useMemo, useState} from 'react';
+import React, {useCallback} from 'react';
 import {RefreshControl, View} from 'react-native';
 // import alias
 import {ProductList as ProductListComponent} from '@native/components';
-import {useProductList} from '@app/framework/native/hooks';
 // localImport
 import {ProductListProps} from './product-list.type';
 import {Header} from './components';
-
 import {styles} from './product-list.style';
-import {ProductFilterValues} from '@data/models';
+import {useProductListModel} from './product-list.hook';
+import {useNavigation} from '@react-navigation/native';
 
 const _ProductList: React.FC<ProductListProps> = () => {
-  const {productList, getProductList, totalProduct} = useProductList([]);
+  const {
+    selectedFilters,
+    productList,
+    totalProduct,
+    isLoading,
+    isLoadMore,
+    isRefreshing,
+    handleFilterChange,
+    handleLoadMore,
+    handleRefresh,
+  } = useProductListModel();
 
-  const [isLoading, setLoading] = useState(true);
-  const [isLoadMore, setLoadMore] = useState(false);
-  const [isRefreshing, setRefreshing] = useState(false);
-  console.log(productList);
-  const filterValues: ProductFilterValues = useMemo(() => {
-    return {
-      productType: '',
-      inventoryId: 19,
-    };
-  }, []);
+  const productSearchNavigation = useNavigation<any>();
 
-  useEffect(() => {
-    getProductList();
-  }, [getProductList]);
-
-  const handleEndRequest = useCallback(() => {
-    setLoadMore(false);
-    setLoading(false);
-    setRefreshing(false);
-  }, []);
-
-  const handleLoadMore = useCallback(() => {
-    getProductList({
-      data: {
-        filterValues,
-      },
-      isLoadMore: true,
-      onBeforeRequest: () => setLoadMore(true),
-      onEndRequest: handleEndRequest,
+  const goToProductSearch = useCallback(() => {
+    productSearchNavigation.navigate('ProductSearch', {
+      selectedFilters,
     });
-  }, [filterValues, handleEndRequest, getProductList]);
-
-  const handleRefresh = useCallback(() => {
-    setRefreshing(true);
-
-    getProductList({
-      data: {
-        filterValues,
-      },
-      isRefreshing: true,
-      onEndRequest: handleEndRequest,
-    });
-  }, [getProductList, handleEndRequest, filterValues]);
+  }, [productSearchNavigation, selectedFilters]);
 
   return (
     <View style={[styles.container]}>
-      <Header wrapperStyle={styles.headerWrapper} />
+      <Header
+        wrapperStyle={styles.headerWrapper}
+        onPressSearchBar={goToProductSearch}
+      />
       <ProductListComponent
+        selectedFilters={selectedFilters}
+        onFilterChange={handleFilterChange}
         totalProduct={totalProduct}
         data={productList}
         isLoadMore={isLoadMore}

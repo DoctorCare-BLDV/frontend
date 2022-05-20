@@ -5,7 +5,7 @@ import {InventoryModel} from './inventory';
 export type ProductFilterValues = {
   productName?: string;
   productType?: string;
-  inventoryId: number; // bắt buộc
+  inventoryId?: string;
 };
 
 export type ProductType = {
@@ -48,6 +48,7 @@ export type GetProductListAPIResponse = AxiosResponse<{
     hasNext: boolean;
     hasPrevious: boolean;
     content: ProductModel[];
+    inventory: InventoryModel[];
   };
   message: string;
   status: number;
