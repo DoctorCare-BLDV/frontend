@@ -4,9 +4,9 @@ import {
   StyleProp,
   ViewStyle,
 } from 'react-native';
-import { RowItemData } from '../components';
-import { ConfirmationModalProps } from '../components/confirmation-modal';
-import { FilterModalData } from '../containers';
+import {RowItemData} from '../components';
+import {ConfirmationModalProps} from '../components/confirmation-modal';
+import {FilterModalData} from '../containers';
 
 export interface FilterModalProps
   extends Omit<SectionListProps<RowItemData>, 'renderItem' | 'sections'> {

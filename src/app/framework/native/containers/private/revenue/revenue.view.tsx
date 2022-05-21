@@ -37,10 +37,10 @@ const _Revenue: React.FC<RevenueProps> = () => {
   const sortData = () => {
     let dataSort;
     if (sort) {
-      dataSort = dataSecodary.sort((a, b) => b.mv - a.mv);
+      dataSort = dataSecodary.sort((a, b) => Number(b.mv) - Number(a.mv));
       sort = false;
     } else {
-      dataSort = dataSecodary.sort((a, b) => a.mv - b.mv);
+      dataSort = dataSecodary.sort((a, b) => Number(a.mv) - Number(b.mv));
       sort = true;
     }
     console.log(dataSort);
@@ -94,9 +94,9 @@ const _Revenue: React.FC<RevenueProps> = () => {
         open={openCalendar}
         date={date}
         mode={'date'}
-        onConfirm={(date: Date) => {
+        onConfirm={value => {
           setOpenCalendar(false);
-          setDate(date);
+          setDate(value);
         }}
         onCancel={() => {
           setOpenCalendar(false);
