@@ -15,6 +15,7 @@ export const Colors = {
   LIGHT_GRAY: '#DDDDDD',
   LIGHT_GRAY_1: '#EEEEEE',
   LIGHT_GRAY_2: '#F2F2F2',
+  LIGHT_GRAY_4: '#F4F4F4',
   MEDIUM_GRAY: '#C1C1C1',
   DIM_BLACK: 'rgba(0, 0, 0, 0.3)',
   YELLOW: '#ffc300',
