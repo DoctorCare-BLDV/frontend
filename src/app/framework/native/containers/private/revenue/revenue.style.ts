@@ -27,18 +27,7 @@ export const styles = StyleSheet.create({
     color: Colors.PRIMARY_ORAGE,
     fontWeight: '700',
   },
-  infoCategories: {
-    marginTop: 20,
-    marginHorizontal: 16,
-  },
-  textCategories: {
-    fontSize: 14,
-    fontWeight: '400',
-  },
-  valueCategories: {
-    fontSize: 15,
-    fontWeight: '500',
-  },
+
   footer: {
     alignItems: 'center',
   },
@@ -61,45 +50,5 @@ export const styles = StyleSheet.create({
     color: Colors.WHITE,
     fontSize: 16,
     fontWeight: '600',
-  },
-  alignStart: {
-    alignItems: 'flex-start',
-  },
-  infoMV: {
-    marginLeft: 8,
-  },
-  textTotal: {
-    fontWeight: '700',
-    fontSize: 16,
-    marginBottom: 8,
-    color: Colors.PRIMARY_ORAGE,
-  },
-  table: {
-    backgroundColor: Colors.LIGHT_GRAY_4,
-    padding: 15,
-  },
-  textTable: {
-    fontSize: 15,
-    fontWeight: '500',
-  },
-  iconSort: {
-    marginLeft: 4,
-  },
-  infoSecondary: {
-    padding: 15,
-  },
-  textSecondary: {
-    fontSize: 14,
-    fontWeight: '400',
-  },
-  flex40: {
-    flex: 0.4,
-  },
-  flex30: {
-    flex: 0.3,
-    textAlign: 'right',
-  },
-  justifyEnd: {
-    justifyContent: 'flex-end',
   },
 });

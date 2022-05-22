@@ -9,23 +9,25 @@ const SecondaryData = [
   {id: 4, name: 'nguyen van 4', revenue: '1.000.000d', mv: '404'},
   {id: 5, name: 'nguyen van 5', revenue: '1.000.000d', mv: '405'},
 ];
+let sort = true;
 export function useRevenueModel() {
-  let sort = true;
   const [dataSecodary, setDataSecodary] = useState(SecondaryData);
   const [totalRevenue, setTotalRevenue] = useState<
-    TotalRevenueType[] | undefined
+    TotalRevenueType | undefined
   >();
 
   useEffect(() => {
-    RevenueService.getTotalRevenie({
+    getTotalRevenue();
+  }, []);
+  async function getTotalRevenue() {
+    const getDataTotal = await RevenueService.getTotalRevenie({
       fromDate: '2022-05-21T08:57:29.161Z',
       toDate: '2022-05-21T08:57:29.161Z',
-    }).then(res => {
-      setTotalRevenue(res?.totalRevenue);
     });
-  }, []);
-
+    setTotalRevenue(getDataTotal?.totalRevenue);
+  }
   const sortData = () => {
+    console.log(sort);
     let dataSort;
     if (sort) {
       dataSort = dataSecodary.sort((a, b) => Number(b.mv) - Number(a.mv));
@@ -34,8 +36,7 @@ export function useRevenueModel() {
       dataSort = dataSecodary.sort((a, b) => Number(a.mv) - Number(b.mv));
       sort = true;
     }
-    console.log(dataSort);
-    setDataSecodary(dataSort);
+    setDataSecodary([...dataSort]);
   };
   return {
     sortData,
