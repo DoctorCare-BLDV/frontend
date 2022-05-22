@@ -8,45 +8,25 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import DatePicker from 'react-native-date-picker';
 import moment from 'moment';
+import {useRevenueModel} from './revenue.hook';
 
 const Tab = [
   {key: 'total', name: 'Doanh thu tổng'},
   {key: 'secondary', name: 'Doanh thu cấp hai'},
 ];
 const CategoriesRevenue = [
-  {key: 'Doanh thu đơn', value: ''},
-  {key: 'Tổng MV của cấp 2', value: ''},
-  {key: 'Doanh thu cấp 2', value: ''},
-  {key: 'Tổng doanh thu', value: ''},
+  {key: 'Doanh thu đơn', value: 'totalFailureOrder'},
+  {key: 'Tổng MV của cấp 2', value: 'totalMV'},
+  {key: 'Doanh thu cấp 2', value: 'level2Revenue'},
+  {key: 'Tổng doanh thu', value: 'totalRevenue'},
 ];
-const SecondaryData = [
-  {id: 1, name: 'nguyen van 1', revenue: '1.000.000d', mv: '401'},
-  {id: 2, name: 'nguyen van 2', revenue: '1.000.000d', mv: '402'},
-  {id: 3, name: 'nguyen van 3', revenue: '1.000.000d', mv: '403'},
-  {id: 4, name: 'nguyen van 4', revenue: '1.000.000d', mv: '404'},
-  {id: 5, name: 'nguyen van 5', revenue: '1.000.000d', mv: '405'},
-];
-let sort = true;
 
 const _Revenue: React.FC<RevenueProps> = () => {
   const [index, setIndex] = React.useState(0);
   const [date, setDate] = React.useState(new Date());
   const [openCalendar, setOpenCalendar] = React.useState(false);
-  const [dataSecodary, setDataSecodary] = React.useState(SecondaryData);
-
-  const sortData = () => {
-    let dataSort;
-    if (sort) {
-      dataSort = dataSecodary.sort((a, b) => Number(b.mv) - Number(a.mv));
-      sort = false;
-    } else {
-      dataSort = dataSecodary.sort((a, b) => Number(a.mv) - Number(b.mv));
-      sort = true;
-    }
-    console.log(dataSort);
-    setDataSecodary(dataSort);
-  };
-  console.log(dataSecodary);
+  const {dataSecodary, sortData, totalRevenue} = useRevenueModel();
+  console.log('totalRevenue', totalRevenue);
   return (
     <View style={styles.container}>
       <Tabbar list={Tab} currentIdx={index} onChangeTab={setIndex} />
@@ -56,6 +36,7 @@ const _Revenue: React.FC<RevenueProps> = () => {
             setOpenCalendar(true);
           }}
           date={date}
+          data={totalRevenue}
         />
       )}
       {index === 1 && (
@@ -93,6 +74,7 @@ const _Revenue: React.FC<RevenueProps> = () => {
         modal
         open={openCalendar}
         date={date}
+        maximumDate={new Date()}
         mode={'date'}
         onConfirm={value => {
           setOpenCalendar(false);
@@ -110,6 +92,7 @@ export const Revenue = React.memo(_Revenue);
 interface TotalRevenueProps {
   openCalendar: () => void;
   date: Date;
+  data?: any;
 }
 
 const TotalRevenue = React.memo((props: TotalRevenueProps) => {
@@ -137,7 +120,7 @@ const TotalRevenue = React.memo((props: TotalRevenueProps) => {
               <TextView
                 style={styles.valueCategories}
                 color={Colors.PRIMARY_ORAGE}>
-                1.000.000đ
+                {props.data?.[v.value] ?? 0}
               </TextView>
             </View>
           );
@@ -154,7 +137,7 @@ interface SecondaryRevenueProps {
 }
 const SecondaryRevenue = React.memo((props: SecondaryRevenueProps) => {
   console.log(props.data);
-  const renderItem = React.useCallback(({item}) => {
+  const renderItem = React.useCallback(({item}: any) => {
     return (
       <View style={[styles.row, styles.spaceBetween, styles.infoSecondary]}>
         <TextView style={[styles.textSecondary, styles.flex40]}>
@@ -167,6 +150,7 @@ const SecondaryRevenue = React.memo((props: SecondaryRevenueProps) => {
       </View>
     );
   }, []);
+
   return (
     <>
       <View style={styles.body}>
@@ -216,7 +200,7 @@ const SecondaryRevenue = React.memo((props: SecondaryRevenueProps) => {
           </TouchableOpacity>
         </View>
         <FlatList
-          keyExtractor={(item, index) => String(item.id || index)}
+          keyExtractor={item => item.id}
           data={props.data}
           renderItem={renderItem}
         />

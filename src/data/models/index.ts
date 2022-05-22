@@ -6,3 +6,4 @@ export * from './file';
 export * from './item';
 export * from './inventory';
 export * from './order';
+export * from './revenue';
