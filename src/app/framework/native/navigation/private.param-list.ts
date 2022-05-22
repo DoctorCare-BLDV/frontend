@@ -45,4 +45,5 @@ export type PrivateParamList = {
   ConfirmationModal: ConfirmationModalProps;
   EditProfile: undefined;
   ChangePassword: undefined;
+  Revenue: undefined;
 };

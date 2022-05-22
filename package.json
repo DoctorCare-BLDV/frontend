@@ -41,6 +41,7 @@
     "react-clone-referenced-element": "^1.1.1",
     "react-native": "0.68.1",
     "react-native-config": "^1.4.5",
+    "react-native-date-picker": "^4.2.1",
     "react-native-elements": "^3.4.2",
     "react-native-fast-image": "^8.5.11",
     "react-native-flash-message": "^0.2.1",

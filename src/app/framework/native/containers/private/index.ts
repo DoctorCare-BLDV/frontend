@@ -5,3 +5,4 @@ export * from './cart';
 export * from './confirmation-modal';
 export * from './user-information';
 export * from './notifications';
+export * from './revenue';
