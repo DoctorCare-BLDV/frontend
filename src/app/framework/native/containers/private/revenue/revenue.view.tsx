@@ -2,7 +2,6 @@ import React from 'react';
 import {TouchableOpacity, View} from 'react-native';
 
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-
 import moment from 'moment';
 import DatePicker from 'react-native-date-picker';
 
@@ -12,8 +11,7 @@ import {Colors} from '@app/resources';
 import {styles} from './revenue.style';
 import {useRevenueModel} from './revenue.hook';
 import {RevenueProps} from './revenue.type';
-import {TotalRevenue} from './components';
-import {SecondaryRevenue} from './components/tab/secondary';
+import {SecondaryRevenue, TotalRevenue} from './components';
 
 const Tab = [
   {key: 'total', name: 'Doanh thu tổng'},
@@ -22,9 +20,9 @@ const Tab = [
 
 const _Revenue: React.FC<RevenueProps> = () => {
   const [index, setIndex] = React.useState(0);
-  const [date, setDate] = React.useState(new Date());
   const [openCalendar, setOpenCalendar] = React.useState(false);
-  const {dataSecodary, sortData, totalRevenue} = useRevenueModel();
+  const {dataSecodary, sortData, totalRevenue, date, setDate} =
+    useRevenueModel();
   return (
     <View style={styles.container}>
       <Tabbar list={Tab} currentIdx={index} onChangeTab={setIndex} />
@@ -48,18 +46,18 @@ const _Revenue: React.FC<RevenueProps> = () => {
       )}
       <View style={[styles.row, styles.footer]}>
         <View style={[styles.infoFooter, styles.row, styles.spaceBetween]}>
-          <View style={styles.row}>
-            <TouchableOpacity onPress={() => setOpenCalendar(true)}>
-              <FontAwesome
-                name="calendar"
-                color={Colors.PRIMARY_ORAGE}
-                size={16}
-              />
-            </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.row}
+            onPress={() => setOpenCalendar(true)}>
+            <FontAwesome
+              name="calendar"
+              color={Colors.PRIMARY_ORAGE}
+              size={16}
+            />
             <TextView style={styles.textFooter} color={Colors.PRIMARY_ORAGE}>
               Tháng {moment(date).format('M')}
             </TextView>
-          </View>
+          </TouchableOpacity>
           <TextView style={styles.textFooter} color={Colors.PRIMARY_ORAGE}>
             36.600.000đ
           </TextView>

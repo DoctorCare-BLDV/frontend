@@ -5,7 +5,7 @@ import {TotalRevenueRequest, TotalRevenueType} from '@data/models';
 export class RevenueApiService {
   constructor(private readonly provider: AxiosInstance) {}
 
-  async getTotalRevenie(
+  async getTotalRevenue(
     body: TotalRevenueRequest,
   ): Promise<{totalRevenue?: TotalRevenueType; errMessage?: string}> {
     try {

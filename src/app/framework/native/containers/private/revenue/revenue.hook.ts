@@ -1,6 +1,8 @@
+import {useCallback, useEffect, useRef, useState} from 'react';
+import moment from 'moment';
 import {RevenueService} from '@app/framework/native/infrastructure';
 import {TotalRevenueType} from '@data/models';
-import {useEffect, useState} from 'react';
+import {showMessage} from 'react-native-flash-message';
 
 const SecondaryData = [
   {id: 1, name: 'nguyen van 1', revenue: '1.000.000d', mv: '401'},
@@ -9,38 +11,55 @@ const SecondaryData = [
   {id: 4, name: 'nguyen van 4', revenue: '1.000.000d', mv: '404'},
   {id: 5, name: 'nguyen van 5', revenue: '1.000.000d', mv: '405'},
 ];
-let sort = true;
 export function useRevenueModel() {
   const [dataSecodary, setDataSecodary] = useState(SecondaryData);
   const [totalRevenue, setTotalRevenue] = useState<
     TotalRevenueType | undefined
   >();
+  const [date, setDate] = useState(new Date());
+  const sort = useRef(true);
+
+  const getTotalRevenue = useCallback(async () => {
+    const body = {
+      fromDate: moment(date).format('YYYY-MM-DDT00:00:00'),
+      toDate: moment(date).format('YYYY-MM-DDT24:00:00'),
+    };
+    const response = await RevenueService.getTotalRevenue(body);
+    if (!!response?.errMessage) {
+      return showMessage({
+        message: response?.errMessage || '',
+        type: 'danger',
+      });
+    }
+    if (!response?.totalRevenue) {
+      return showMessage({
+        message: 'Đã có lỗi xảy ra, vui lòng thử lại sau',
+        type: 'danger',
+      });
+    }
+    setTotalRevenue(response?.totalRevenue);
+  }, [date]);
 
   useEffect(() => {
     getTotalRevenue();
-  }, []);
-  async function getTotalRevenue() {
-    const getDataTotal = await RevenueService.getTotalRevenie({
-      fromDate: '2022-05-21T08:57:29.161Z',
-      toDate: '2022-05-21T08:57:29.161Z',
-    });
-    setTotalRevenue(getDataTotal?.totalRevenue);
-  }
-  const sortData = () => {
-    console.log(sort);
+  }, [getTotalRevenue]);
+
+  const sortData = useCallback(() => {
     let dataSort;
-    if (sort) {
+    if (sort.current) {
       dataSort = dataSecodary.sort((a, b) => Number(b.mv) - Number(a.mv));
-      sort = false;
+      sort.current = false;
     } else {
       dataSort = dataSecodary.sort((a, b) => Number(a.mv) - Number(b.mv));
-      sort = true;
+      sort.current = true;
     }
     setDataSecodary([...dataSort]);
-  };
+  }, [dataSecodary]);
   return {
     sortData,
     dataSecodary,
     totalRevenue,
+    date,
+    setDate,
   };
 }
