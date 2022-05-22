@@ -7,7 +7,6 @@ import {Colors} from '@app/resources';
 import {SecondaryRevenueProps} from '../../revenue.type';
 
 export const SecondaryRevenue = React.memo((props: SecondaryRevenueProps) => {
-  console.log(props.data);
   const renderItem = React.useCallback(({item}: any) => {
     return (
       <View style={[styles.row, styles.spaceBetween, styles.infoSecondary]}>

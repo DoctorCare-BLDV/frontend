@@ -13,7 +13,6 @@ export class RevenueApiService {
         '/public/revenue/totalRevenue',
         body,
       );
-      console.log(response);
       return {totalRevenue: response.data.content};
     } catch (error: any) {
       return {
