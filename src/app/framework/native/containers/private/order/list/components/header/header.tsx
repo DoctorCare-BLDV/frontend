@@ -1,7 +1,10 @@
-import React from 'react';
+import React, {useCallback, useContext, useEffect, useState} from 'react';
 import {View, StyleSheet} from 'react-native';
+
 import {IconButton, SearchBar} from '@app/framework/native/components';
 import {Colors} from '@app/resources';
+
+import {OrderListContext} from '../../order-list.context';
 
 export interface HeaderProps {}
 
@@ -10,15 +13,35 @@ const MESSAGES = {
 };
 
 export const Header: React.FC<HeaderProps> = () => {
+  const {showFilter, setSearch, index, onSearchByKeyword} =
+    useContext(OrderListContext);
+
+  const [text, setText] = useState('');
+
+  const onChangeText = useCallback(
+    (value: string) => {
+      setText(value);
+      setSearch(value);
+    },
+    [setSearch],
+  );
+
+  /* eslint-disable */
+  useEffect(() => {
+    onChangeText('');
+  }, [index]);
+  /* eslint-enable */
   return (
     <View style={styles.container}>
       <SearchBar
-        pointerEvents="none"
-        editable={false}
+        value={text}
+        // onBlur={onSearchByKeyword}
+        onSubmitEditing={onSearchByKeyword}
+        onChangeText={onChangeText}
         containerStyle={styles.inputContainer}
         placeholder={MESSAGES.SEARCH_BAR_PLACEHOLDER}
       />
-      <IconButton name="filter" style={styles.icon} />
+      <IconButton onPress={showFilter} name="filter" style={styles.icon} />
     </View>
   );
 };
