@@ -5,3 +5,4 @@ export * from './axios-product.service';
 export * from './axios-item.service';
 export * from './axios-order.services';
 export * from './axios-revenue.service';
+export * from './cart-local.service';

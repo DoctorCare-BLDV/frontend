@@ -6,6 +6,7 @@ export const convertProductModelToProductData: (
 ) => ProductData = product => {
   return {
     ...product,
+    name: product.productName,
     id: product.productId,
     image: product?.files?.[0],
   };

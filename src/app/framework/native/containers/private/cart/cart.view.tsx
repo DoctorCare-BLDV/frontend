@@ -6,10 +6,14 @@ import {useNavigation} from '@react-navigation/native';
 import {CartFooter, ProductSectionList, TextView} from '@native/components';
 import {useTheme} from '@app/shared/hooks/useTheme';
 // localImport
-import {useCartModel} from './cart.hook';
 import {CartProps} from './cart.type';
 import {styles} from './cart.style';
 import {ConfirmationModalNavigationProps} from '../confirmation-modal/types';
+import {useCart} from '@app/shared/contexts';
+import {CartSection, ProductData} from '@data/models';
+import {vndCurrencyFormat} from '@app/resources';
+import {useRef} from 'react';
+import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 
 const MESSAGES = {
   DELETE_ALL: 'Xoá tất cả',
@@ -20,14 +24,69 @@ const MESSAGES = {
   PRICE: '100.000.000đ',
   TOTAL_PROFIT: 'Tổng lợi nhuận',
   TOTAL_PROFIT_VALUE: '400.000đ',
+  REMOVE_PRODUCT_CONFIRM_DESCRIPTION:
+    'Bạn có chắc muốn xoá sản phẩm này ra khỏi giỏ hàng?',
+  CART_EMPTY: 'Chưa có sản phẩm nào!',
+  DELETE_STORE_CONFIRM_DESCRIPTION: 'Bạn có chắc muốn xoá toàn bộ sản phẩm từ ',
 };
 
-const _Cart: React.FC<CartProps> = () => {
-  const {} = useCartModel();
+const _Cart: React.FC<CartProps> = ({}) => {
+  const isQuantityModalOpen = useRef(false);
+
+  const {
+    productList,
+    setCartProduct,
+    removeAllProductFromInventory,
+    clearCart,
+  } = useCart();
   const theme = useTheme();
   const confirmationModalNavigation =
     useNavigation<ConfirmationModalNavigationProps>();
   const orderConfirmationNavigation = useNavigation<any>();
+
+  const totalPrice = useMemo(() => {
+    return (productList || []).reduce((prev, current) => {
+      return (
+        prev + ((current.quantity || 0) * (current.originalPrice || 0) || 0)
+      );
+    }, 0);
+  }, [productList]);
+
+  const totalProfit = useMemo(() => {
+    return (productList || []).reduce((prev, current) => {
+      return (
+        prev +
+        ((current.quantity || 0) *
+          ((current.sellPrice || 0) - (current.originalPrice || 0)) || 0)
+      );
+    }, 0);
+  }, [productList]);
+
+  const sections: CartSection = useMemo(() => {
+    const cartSections: CartSection = [];
+
+    (productList || []).forEach((product: ProductData) => {
+      if (!product.inventory) {
+        return;
+      }
+      const tempProduct = {...product};
+      const inventoryTitle = tempProduct?.inventory?.itemName;
+      const sectionIndex = cartSections.findIndex(
+        section => section?.heading?.title === inventoryTitle,
+      );
+
+      if (sectionIndex === -1) {
+        cartSections.push({
+          heading: {title: inventoryTitle, id: tempProduct?.inventory?.itemId},
+          data: [tempProduct],
+        });
+      } else {
+        cartSections[sectionIndex].data.push(tempProduct);
+      }
+    });
+
+    return cartSections;
+  }, [productList]);
 
   const containerStyle = useMemo(() => {
     return [
@@ -57,16 +116,98 @@ const _Cart: React.FC<CartProps> = () => {
     ];
   }, [theme]);
 
+  const emptyIconStyle = useMemo(() => {
+    return [
+      styles.emptyIcon,
+      {
+        color: theme.colorScheme.inactive,
+      },
+    ];
+  }, [theme]);
+
+  const emptyTitleStyle = useMemo(() => {
+    return [
+      styles.emptyTitle,
+      {
+        color: theme.colorScheme.inactive,
+      },
+    ];
+  }, [theme]);
+
+  const handleQuantityModalShow = useCallback(() => {
+    isQuantityModalOpen.current = true;
+  }, []);
+
+  const handleQuantityModalHide = useCallback(() => {
+    isQuantityModalOpen.current = false;
+  }, []);
+
+  const updateCartProduct = useCallback(
+    (product, quantity) => {
+      setCartProduct({
+        ...product,
+        quantity,
+      });
+    },
+    [setCartProduct],
+  );
+
+  const handleProductChangeQuantity = useCallback(
+    (quantity, product) => {
+      let intervalId: any = 0;
+
+      if (quantity <= 0) {
+        intervalId = setInterval(() => {
+          if (!isQuantityModalOpen.current) {
+            confirmationModalNavigation.navigate('ConfirmationModal', {
+              content: MESSAGES.REMOVE_PRODUCT_CONFIRM_DESCRIPTION,
+              onConfirm: () => updateCartProduct(product, quantity),
+            });
+            clearInterval(intervalId);
+          }
+        }, 50);
+
+        return;
+      }
+
+      updateCartProduct(product, quantity);
+
+      return () => {
+        clearInterval(intervalId);
+      };
+    },
+    [confirmationModalNavigation, updateCartProduct],
+  );
+
+  const handleDeleteStore = useCallback(
+    (inventoryId, title) => {
+      confirmationModalNavigation.navigate('ConfirmationModal', {
+        content: MESSAGES.DELETE_STORE_CONFIRM_DESCRIPTION + title,
+        onConfirm: () => removeAllProductFromInventory(inventoryId),
+      });
+    },
+    [removeAllProductFromInventory, confirmationModalNavigation],
+  );
+
   const handlePressDeleteAll = useCallback(() => {
     confirmationModalNavigation.navigate('ConfirmationModal', {
-      title: MESSAGES.DELETE_ALL_CONFIRM_TITLE,
       content: MESSAGES.DELETE_ALL_CONFIRM_DESCRIPTION,
+      onConfirm: clearCart,
     });
-  }, [confirmationModalNavigation]);
+  }, [confirmationModalNavigation, clearCart]);
 
   const goToOrderConfirmation = useCallback(() => {
     orderConfirmationNavigation.navigate('OrderConfirmation');
   }, [orderConfirmationNavigation]);
+
+  const ListEmpty = useMemo(() => {
+    return (
+      <View style={styles.emptyContainer}>
+        <FontAwesome5Icon name="shopping-bag" style={emptyIconStyle} />
+        <TextView style={emptyTitleStyle}>{MESSAGES.CART_EMPTY}</TextView>
+      </View>
+    );
+  }, [emptyIconStyle, emptyTitleStyle]);
 
   return (
     <View style={containerStyle}>
@@ -75,78 +216,30 @@ const _Cart: React.FC<CartProps> = () => {
           {MESSAGES.TOTAL_PROFIT}
         </TextView>
         <TextView style={totalProfitTextStyle}>
-          {MESSAGES.TOTAL_PROFIT_VALUE}
+          {vndCurrencyFormat(totalProfit)}
         </TextView>
       </View>
-      <ProductSectionList sections={SECTIONS} />
-      <CartFooter
-        label={MESSAGES.DELETE_ALL}
-        value={MESSAGES.PRICE}
-        iconLeftName="trash-alt"
-        btnTitle={MESSAGES.CONFIRM}
-        safeLayout
-        onLabelPress={handlePressDeleteAll}
-        onBtnPress={goToOrderConfirmation}
+      <ProductSectionList
+        sections={sections}
+        onProductChangeQuantity={handleProductChangeQuantity}
+        onDeleteStore={handleDeleteStore}
+        onModalHide={handleQuantityModalHide}
+        onModalShow={handleQuantityModalShow}
+        ListEmptyComponent={ListEmpty}
       />
+      {!!productList?.length && (
+        <CartFooter
+          label={MESSAGES.DELETE_ALL}
+          value={vndCurrencyFormat(totalPrice)}
+          iconLeftName="trash-alt"
+          btnTitle={MESSAGES.CONFIRM}
+          safeLayout
+          onLabelPress={handlePressDeleteAll}
+          onBtnPress={goToOrderConfirmation}
+        />
+      )}
     </View>
   );
 };
 
 export const Cart = React.memo(_Cart);
-
-const SECTIONS = [
-  {
-    title: 'Kho Thanh Xuân',
-    data: [
-      {
-        id: 1,
-        name: 'Viên Uống Hỗ Trợ Cải Thiện Giấc Ngủ Hush & Hush Mind Your Mind, 30 viên',
-        originalPrice: 100000,
-        totalPrice: '500.000đ',
-        point: 100,
-        quantity: 3,
-        image: {
-          url: 'https://s3-alpha-sig.figma.com/img/d8fc/8e23/c89c6e8f17afe38d20ac39a308a24b4d?Expires=1653264000&Signature=dEMlXR0FTabXEsDAd4nQpLrTPhrC9C0bzBwbSHsDJVrXkO81X4IAGWL743l86F8m0r1FASc6QnpsKlCmjxQdYIXCZ9T1cLs6ixa4fImd~~QVE2s6DI6ZuCKsZUrPcK76Bptm~B745ongH8iG1wAtGu1ICRuTXlg2dxNNAWyX49CzbakrRdSBQiJLSPQDpmrY6U2uG-DkkLIzIAWz6xdGIQf0~Yu87sKv0PR-MzR1UIPFAoiF5bbn0Q~UCXTdKZbRKRbe4wNQrig0a6it~VtYRGDxjlcUzJH7dMrkpAwPaFKRGMwViY4GZgfuoB6ofNCBP~O~~Q0pew2xdqRNhkreWQ__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA',
-        },
-      },
-      {
-        id: 2,
-        name: 'Viên Uống Hỗ Trợ Cải Thiện Giấc Ngủ Hush & Hush Mind Your Mind, 30 viên',
-        originalPrice: 100000,
-        totalPrice: '500.000đ',
-        point: 100,
-        quantity: 3,
-        image: {
-          url: 'https://s3-alpha-sig.figma.com/img/f4ff/7bf9/2bf28b416d5413f9f5a86a8b24c7b1cb?Expires=1653264000&Signature=eaiinLRiHoTzS6jolVZydormu5Ctu8cQ7iAEH6E3tEyrqsD~CEbBj5gXmFou0bqgWSbhmxdZBCoU2t~QrsA3Co4A9E5Xx9-BOmntcwRo2gk6ka3Wo142bE2TrDVgl3F-WJhDVjgGKu4Pz9iFdQj0gmyE-xCen7IautCgf5wuUecwRz1VYv~33LhN7ADA8NqzNP6Eb6hn3dOSVyb49AqrD9E-eiOQb2VRcYa3dbe1~xMlD527cJtjNZLB-aal9~3NB6u3mfhYBW97CZtB2oLk5e~X8KLXkNhcLXWU54LNA9Sv7IkbIAkz5v6HuXS5SjRgjdPN38FbWrcwvDev3B~42g__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA',
-        },
-      },
-    ],
-  },
-  {
-    title: 'Kho Long Biên',
-    data: [
-      {
-        id: 3,
-        name: 'Viên Uống Hỗ Trợ Cải Thiện Giấc Ngủ Hush & Hush Mind Your Mind, 30 viên',
-        originalPrice: 100000,
-        totalPrice: '500.000đ',
-        point: 100,
-        quantity: 3,
-        image: {
-          url: 'https://s3-alpha-sig.figma.com/img/d8fc/8e23/c89c6e8f17afe38d20ac39a308a24b4d?Expires=1653264000&Signature=dEMlXR0FTabXEsDAd4nQpLrTPhrC9C0bzBwbSHsDJVrXkO81X4IAGWL743l86F8m0r1FASc6QnpsKlCmjxQdYIXCZ9T1cLs6ixa4fImd~~QVE2s6DI6ZuCKsZUrPcK76Bptm~B745ongH8iG1wAtGu1ICRuTXlg2dxNNAWyX49CzbakrRdSBQiJLSPQDpmrY6U2uG-DkkLIzIAWz6xdGIQf0~Yu87sKv0PR-MzR1UIPFAoiF5bbn0Q~UCXTdKZbRKRbe4wNQrig0a6it~VtYRGDxjlcUzJH7dMrkpAwPaFKRGMwViY4GZgfuoB6ofNCBP~O~~Q0pew2xdqRNhkreWQ__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA',
-        },
-      },
-      {
-        id: 4,
-        name: 'Viên Uống Hỗ Trợ Cải Thiện Giấc Ngủ Hush & Hush Mind Your Mind, 30 viên',
-        originalPrice: 100000,
-        totalPrice: '500.000đ',
-        point: 100,
-        quantity: 3,
-        image: {
-          url: 'https://s3-alpha-sig.figma.com/img/f4ff/7bf9/2bf28b416d5413f9f5a86a8b24c7b1cb?Expires=1653264000&Signature=eaiinLRiHoTzS6jolVZydormu5Ctu8cQ7iAEH6E3tEyrqsD~CEbBj5gXmFou0bqgWSbhmxdZBCoU2t~QrsA3Co4A9E5Xx9-BOmntcwRo2gk6ka3Wo142bE2TrDVgl3F-WJhDVjgGKu4Pz9iFdQj0gmyE-xCen7IautCgf5wuUecwRz1VYv~33LhN7ADA8NqzNP6Eb6hn3dOSVyb49AqrD9E-eiOQb2VRcYa3dbe1~xMlD527cJtjNZLB-aal9~3NB6u3mfhYBW97CZtB2oLk5e~X8KLXkNhcLXWU54LNA9Sv7IkbIAkz5v6HuXS5SjRgjdPN38FbWrcwvDev3B~42g__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA',
-        },
-      },
-    ],
-  },
-];

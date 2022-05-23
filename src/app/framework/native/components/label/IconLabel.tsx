@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   StyleSheet,
-  Text,
   TextProps,
   View,
   ImageSourcePropType,
@@ -10,6 +9,7 @@ import {
   ViewStyle,
   TextStyle,
 } from 'react-native';
+import {TextView} from './TextView';
 
 export interface IconLabelProps extends TextProps {
   prefix?: React.ReactNode;
@@ -53,7 +53,7 @@ const _IconLabel: React.FC<IconLabelProps> = props => {
   return (
     <View style={[_styles.container, containerStyle]}>
       {renderPrefix()}
-      <Text style={[_styles.label, labelStyle]}>{text}</Text>
+      <TextView style={[_styles.label, labelStyle]}>{text}</TextView>
       {renderSuffix()}
     </View>
   );

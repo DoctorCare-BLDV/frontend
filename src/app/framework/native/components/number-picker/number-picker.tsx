@@ -23,6 +23,8 @@ export interface NumberPickerProps {
   valueContainerStyle?: StyleProp<ViewStyle>;
   valueStyle?: StyleProp<TextStyle>;
   onChange?: (number: number) => void;
+  onModalHide?: () => void;
+  onModalShow?: () => void;
 }
 
 const MESSAGES = {
@@ -37,6 +39,8 @@ export const NumberPicker: React.FC<NumberPickerProps> = ({
   valueStyle,
   min = 0,
   max = Infinity,
+  onModalHide = () => {},
+  onModalShow = () => {},
   onChange = () => {},
 }) => {
   const [isShowQuantityModal, setShowQuantityModal] = useState(false);
@@ -119,11 +123,13 @@ export const NumberPicker: React.FC<NumberPickerProps> = ({
         visible={isShowQuantityModal}
         title={MESSAGES.QUANTITY}
         text={String(value || '')}
-        onCancel={hideModal}
-        onConfirm={handleConfirm}
         confirmTitle={MESSAGES.CONFIRM}
         style={styles.input}
         keyboardType={Platform.OS === 'ios' ? 'number-pad' : 'numeric'}
+        onModalHide={onModalHide}
+        onModalShow={onModalShow}
+        onCancel={hideModal}
+        onConfirm={handleConfirm}
       />
     </>
   );

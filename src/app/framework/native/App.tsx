@@ -12,6 +12,7 @@ import React from 'react';
 import {LogBox, StyleSheet} from 'react-native';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {
+  CartContextProvider,
   FloatingReactionContextProvider,
   UserContextProvider,
 } from '@app/shared/contexts';
@@ -37,11 +38,13 @@ const App = () => {
       <FloatingReactionContextProvider>
         <QueryClientProvider client={queryClient}>
           <UserContextProvider>
-            <RootNavigator />
-            <FlashMessage />
+            <CartContextProvider>
+              <RootNavigator />
+              <FlashMessage />
 
-            {/* Last UI Component */}
-            <FloatingReactionList />
+              {/* Last UI Component */}
+              <FloatingReactionList />
+            </CartContextProvider>
           </UserContextProvider>
         </QueryClientProvider>
       </FloatingReactionContextProvider>

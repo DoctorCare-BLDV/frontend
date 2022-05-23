@@ -1,22 +1,41 @@
 import React, {useCallback, useMemo} from 'react';
-import {StyleSheet, SectionList, SectionListProps, View} from 'react-native';
+import {
+  StyleSheet,
+  SectionList,
+  SectionListProps,
+  View,
+  TouchableOpacity,
+} from 'react-native';
 
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 
 import {Layout} from '@app/resources';
 import {useTheme} from '@app/shared/hooks/useTheme';
+import {ProductData} from '@data/models';
 
 import {TextView} from '../../label';
 import {ProductSectionData, ProductSectionItem} from './product-section-item';
 
+const MESSAGES = {
+  DELETE: 'Xoá kho hàng',
+};
+
 export interface ProductSectionListProps
   extends SectionListProps<ProductSectionData> {
   readonly?: boolean;
+  onProductChangeQuantity?: (quantity: number, product: ProductData) => void;
+  onModalHide?: () => void;
+  onModalShow?: () => void;
+  onDeleteStore?: (inventoryId: number, title?: string) => void;
 }
 
 export const ProductSectionList = ({
   sections,
   readonly,
+  onProductChangeQuantity = () => {},
+  onModalHide,
+  onModalShow,
+  onDeleteStore,
   ...props
 }: ProductSectionListProps) => {
   const theme = useTheme();
@@ -54,24 +73,51 @@ export const ProductSectionList = ({
     ];
   }, [theme]);
 
+  const listContentContainerStyle = useMemo(() => {
+    return [props.contentContainerStyle, styles.listContentContainerStyle];
+  }, [props.contentContainerStyle]);
+
   const keyExtractor = useCallback((item, index) => {
     return String(item.id || index);
   }, []);
 
   const renderSectionHeader = useCallback(
-    ({section: {title}}) => {
+    ({section}) => {
+      const inventoryId = section?.heading?.id;
+
       return (
         <View style={headerContainerStyle}>
-          <FontAwesome5Icon name="warehouse" style={headerIconStyle} />
-          <TextView style={headerTitleStyle}>{title}</TextView>
+          <View style={styles.headerContentContainer}>
+            <FontAwesome5Icon name="warehouse" style={headerIconStyle} />
+            <TextView style={headerTitleStyle}>
+              {section?.heading?.title}
+            </TextView>
+          </View>
+          {!readonly && !!inventoryId && (
+            <TouchableOpacity
+              onPress={() =>
+                onDeleteStore &&
+                onDeleteStore(inventoryId, section?.heading?.title)
+              }>
+              <TextView>{MESSAGES.DELETE}</TextView>
+            </TouchableOpacity>
+          )}
         </View>
       );
     },
-    [headerTitleStyle, headerIconStyle, headerContainerStyle],
+    [
+      headerTitleStyle,
+      headerIconStyle,
+      headerContainerStyle,
+      readonly,
+      onDeleteStore,
+    ],
   );
 
   const renderProduct = useCallback(
     ({item: product}: {item: ProductSectionData}) => {
+      const totalPrice = (product.originalPrice || 0) * (product.quantity || 0);
+
       return (
         <ProductSectionItem
           name={product.name}
@@ -79,13 +125,18 @@ export const ProductSectionList = ({
           point={product.point}
           image={product.image}
           quantity={product.quantity}
-          totalPrice={product.totalPrice}
+          totalPrice={totalPrice}
           readonly={product.readonly || readonly}
           containerStyle={productStyle}
+          onChangeQuantity={quantity =>
+            onProductChangeQuantity(quantity, product)
+          }
+          onModalHide={onModalHide}
+          onModalShow={onModalShow}
         />
       );
     },
-    [productStyle, readonly],
+    [productStyle, readonly, onProductChangeQuantity, onModalHide, onModalShow],
   );
 
   return (
@@ -95,6 +146,7 @@ export const ProductSectionList = ({
       renderItem={renderProduct}
       keyExtractor={keyExtractor}
       keyboardShouldPersistTaps="handled"
+      contentContainerStyle={listContentContainerStyle}
       {...props}
     />
   );
@@ -102,12 +154,20 @@ export const ProductSectionList = ({
 
 const styles = StyleSheet.create({
   container: {},
+  listContentContainerStyle: {
+    flexGrow: 1,
+  },
   headerContainer: {
     flexDirection: 'row',
     alignItems: 'flex-end',
     paddingHorizontal: Layout.spacingHorizontal,
     paddingVertical: Layout.spacingVertical,
     borderBottomWidth: 1,
+    justifyContent: 'space-between',
+  },
+  headerContentContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   headerIcon: {
     fontSize: 16,

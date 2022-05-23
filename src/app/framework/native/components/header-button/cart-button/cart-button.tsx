@@ -4,7 +4,7 @@ import {StyleSheet, StyleProp, ViewStyle, TextStyle} from 'react-native';
 import {useIsFocused, useNavigation} from '@react-navigation/native';
 
 import {CarNavigationProps} from '@app/framework/native/containers/private/cart/cart.type';
-import {useFloatingReaction} from '@app/shared/contexts';
+import {useCart, useFloatingReaction} from '@app/shared/contexts';
 
 import {IconButton} from '../../icon-button';
 
@@ -19,12 +19,19 @@ export const CartButton: React.FC<CartButtonProps> = ({
 }) => {
   const cartRef = useRef();
   const {setFloatingReactionTarget} = useFloatingReaction();
+  const {productList} = useCart();
   const isFocused = useIsFocused();
   const cartNavigation = useNavigation<CarNavigationProps>();
 
   const iconBaseStyle = useMemo(() => {
     return [styles.icon, iconStyle];
   }, [iconStyle]);
+
+  const totalProduct = useMemo(() => {
+    return (productList || [])?.reduce((prev, current) => {
+      return prev + (current.quantity || 0);
+    }, 0);
+  }, [productList]);
 
   useEffect(() => {
     if (cartRef.current && isFocused) {
@@ -48,6 +55,7 @@ export const CartButton: React.FC<CartButtonProps> = ({
     <IconButton
       ref={cartRef}
       name="shopping-cart"
+      badge={totalProduct}
       style={iconBaseStyle}
       containerStyle={containerStyle}
       onPress={goToCart}

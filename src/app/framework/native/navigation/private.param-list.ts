@@ -1,3 +1,4 @@
+import {ProductData} from '@data/models';
 import {
   SectionListProps,
   ListRenderItem,
@@ -33,9 +34,13 @@ export interface ProductSearchProps {
   searchValue?: string;
 }
 
+export interface ProductDetailProps {
+  product: ProductData;
+}
+
 export type PrivateParamList = {
   BottomTab: undefined;
-  ProductDetail: undefined;
+  ProductDetail: ProductDetailProps;
   Cart: undefined;
   OrderConfirmation: undefined;
   ProductSearch: ProductSearchProps;

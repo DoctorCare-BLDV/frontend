@@ -1,4 +1,4 @@
-import React, {useCallback, useMemo, useRef, useState} from 'react';
+import React, {useCallback, useMemo, useRef} from 'react';
 import {ScrollView, View} from 'react-native';
 // import from library
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
@@ -11,10 +11,11 @@ import {
   TextView,
 } from '@native/components';
 import {useTheme} from '@app/shared/hooks/useTheme';
-import {useFloatingReaction} from '@app/shared/contexts';
+import {useCart, useFloatingReaction} from '@app/shared/contexts';
 // localImport
 import {ProductDetailProps} from './product-detail.type';
 import {styles} from './product-detail.style';
+import {pointFormat, vndCurrencyFormat} from '@app/resources';
 
 const MESSAGES = {
   TITLE:
@@ -28,16 +29,24 @@ const MESSAGES = {
   `,
 };
 
-const _ProductDetail: React.FC<ProductDetailProps> = ({}) => {
+const _ProductDetail: React.FC<ProductDetailProps> = ({route}) => {
   const theme = useTheme();
   const imageRef = useRef();
   const {addFloatingReactionSource} = useFloatingReaction();
+  const {setCartProduct, getCartProduct} = useCart();
+
+  const {id, name, files, point, originalPrice, sellPrice, description} =
+    useMemo(() => {
+      return route.params.product || {};
+    }, [route.params.product]);
+
+  const quantity = getCartProduct(id)?.quantity || 0;
+
+  const finalSellPrice = (sellPrice || 0) * quantity;
 
   const {bottom} = useSafeAreaInsets();
 
-  const [quantity, setQuantity] = useState(0);
-
-  const addToCart = useCallback(() => {
+  const animateCart = useCallback(() => {
     if (imageRef.current) {
       const ELEMENT_WIDTH = 100;
       const ELEMENT_HEIGHT = 100;
@@ -45,7 +54,7 @@ const _ProductDetail: React.FC<ProductDetailProps> = ({}) => {
       const element = (
         <Image
           source={{
-            uri: 'https://s3-alpha-sig.figma.com/img/61de/cd62/9c6ee9d606a6b57f222b15bff93aa82a?Expires=1652659200&Signature=GDhlO460K~DnILd2V-WyOqnrZVPf60hBVK2I-nlBqu~6iS~dAIy-qo3s15DsZugehaw7uqcP23~SQsJS4rYnoEqw50q~xDiAWqFxJbefQWXwJMMwOrGXVpQ5crLLwaJljgCZAvh5wY9mpbhbzxQbPVUR-8vs~r5HUW18WrqpAWNiwSGuRh-oYToAVRVeNQJhtG-yh~Sc~NGEWXqaMHsBukGunXxnXhp32-FraMDLRj1BEDgMsnnGc3ZbQ5~Ki-fQ1q3Mu6jpFvQgUH6-ZaHyYk2ogtI9dSND1s48-Th2a4k~8VBfVYIb6QGwMJL51aMceeEmvHLiW8CHC73IZ28O5w__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA',
+            uri: files?.[0]?.url,
           }}
           style={elementStyle}
         />
@@ -64,7 +73,19 @@ const _ProductDetail: React.FC<ProductDetailProps> = ({}) => {
         });
       });
     }
-  }, [addFloatingReactionSource]);
+  }, [addFloatingReactionSource, files]);
+
+  const addToCart = useCallback(() => {
+    animateCart();
+    setCartProduct(route.params.product, 1);
+  }, [animateCart, setCartProduct, route.params.product]);
+
+  const handleChangeQuantity = useCallback(
+    (updatedQuantity: number) => {
+      setCartProduct({...route.params.product, quantity: updatedQuantity});
+    },
+    [setCartProduct, route.params.product],
+  );
 
   const containerStyle = useMemo(() => {
     return [
@@ -104,32 +125,37 @@ const _ProductDetail: React.FC<ProductDetailProps> = ({}) => {
           <Image
             ref={imageRef}
             source={{
-              uri: 'https://s3-alpha-sig.figma.com/img/61de/cd62/9c6ee9d606a6b57f222b15bff93aa82a?Expires=1652659200&Signature=GDhlO460K~DnILd2V-WyOqnrZVPf60hBVK2I-nlBqu~6iS~dAIy-qo3s15DsZugehaw7uqcP23~SQsJS4rYnoEqw50q~xDiAWqFxJbefQWXwJMMwOrGXVpQ5crLLwaJljgCZAvh5wY9mpbhbzxQbPVUR-8vs~r5HUW18WrqpAWNiwSGuRh-oYToAVRVeNQJhtG-yh~Sc~NGEWXqaMHsBukGunXxnXhp32-FraMDLRj1BEDgMsnnGc3ZbQ5~Ki-fQ1q3Mu6jpFvQgUH6-ZaHyYk2ogtI9dSND1s48-Th2a4k~8VBfVYIb6QGwMJL51aMceeEmvHLiW8CHC73IZ28O5w__&Key-Pair-Id=APKAINTVSUGEWH5XD5UA',
+              uri: files?.[0]?.url,
             }}
             style={styles.image}
           />
         </View>
 
         <View style={styles.overview}>
-          <TextView style={styles.title}>{MESSAGES.TITLE}</TextView>
+          <TextView style={styles.title}>{name}</TextView>
 
           <View style={styles.priceWrapper}>
             <View style={styles.priceContainer}>
-              <TextView style={priceStyle}>{MESSAGES.PRICE}</TextView>
+              <TextView style={priceStyle}>
+                {vndCurrencyFormat(originalPrice)}
+              </TextView>
 
               <View style={styles.quantityContainer}>
-                <NumberPicker value={quantity} onChange={setQuantity} />
+                <NumberPicker
+                  value={quantity}
+                  onChange={handleChangeQuantity}
+                />
               </View>
             </View>
 
             <View style={styles.tagPriceContainer}>
               <Tag
-                label={MESSAGES.MV}
+                label={pointFormat(point)}
                 containerStyle={styles.tagContainer}
                 labelStyle={styles.tagLabel}
               />
               <Tag
-                label={MESSAGES.PRICE_2}
+                label={finalSellPrice ? vndCurrencyFormat(finalSellPrice) : ''}
                 containerStyle={styles.tagContainer}
                 labelStyle={styles.tagLabel}
               />
@@ -141,9 +167,7 @@ const _ProductDetail: React.FC<ProductDetailProps> = ({}) => {
               {MESSAGES.PRODUCT_DESC_TITLE}
             </TextView>
 
-            <TextView style={styles.blockContentText}>
-              {MESSAGES.PRODUCT_DESC}
-            </TextView>
+            <TextView style={styles.blockContentText}>{description}</TextView>
           </View>
         </View>
       </ScrollView>

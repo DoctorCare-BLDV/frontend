@@ -73,7 +73,10 @@ export const IconButton: React.FC<IconButtonProps> = React.forwardRef(
         <View
           style={[
             styles.badgeContainer,
-            {backgroundColor: theme.colorScheme.primary},
+            {
+              backgroundColor: theme.colorScheme.primary,
+              borderColor: theme.colorScheme.onPrimary,
+            },
           ]}>
           <TextView
             style={[styles.badge, {color: theme.colorScheme.onPrimary}]}>
@@ -106,9 +109,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     top: -6,
     right: -6,
-    minWidth: 12,
-    height: 12,
+    minWidth: 15,
+    height: 15,
     borderRadius: 12,
+    borderWidth: 0.5,
     paddingHorizontal: 2,
   },
   badge: {
