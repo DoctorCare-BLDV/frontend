@@ -12,10 +12,12 @@ import {
 } from '@native/components';
 import {useTheme} from '@app/shared/hooks/useTheme';
 import {useCart, useFloatingReaction} from '@app/shared/contexts';
+import {pointFormat, vndCurrencyFormat} from '@app/resources';
+import {useNavigation} from '@react-navigation/native';
 // localImport
 import {ProductDetailProps} from './product-detail.type';
 import {styles} from './product-detail.style';
-import {pointFormat, vndCurrencyFormat} from '@app/resources';
+import {CarNavigationProps} from '../../cart/cart.type';
 
 const MESSAGES = {
   TITLE:
@@ -34,6 +36,7 @@ const _ProductDetail: React.FC<ProductDetailProps> = ({route}) => {
   const imageRef = useRef();
   const {addFloatingReactionSource} = useFloatingReaction();
   const {setCartProduct, getCartProduct} = useCart();
+  const cartNavigation = useNavigation<CarNavigationProps>();
 
   const {id, name, files, point, originalPrice, sellPrice, description} =
     useMemo(() => {
@@ -82,10 +85,17 @@ const _ProductDetail: React.FC<ProductDetailProps> = ({route}) => {
 
   const handleChangeQuantity = useCallback(
     (updatedQuantity: number) => {
+      if (updatedQuantity > quantity) {
+        animateCart();
+      }
       setCartProduct({...route.params.product, quantity: updatedQuantity});
     },
-    [setCartProduct, route.params.product],
+    [setCartProduct, route.params.product, quantity, animateCart],
   );
+
+  const goToCart = useCallback(() => {
+    cartNavigation.navigate('Cart');
+  }, [cartNavigation]);
 
   const containerStyle = useMemo(() => {
     return [
@@ -171,7 +181,7 @@ const _ProductDetail: React.FC<ProductDetailProps> = ({route}) => {
           </View>
         </View>
       </ScrollView>
-      <CartFooter onLabelPress={addToCart} />
+      <CartFooter onLabelPress={addToCart} onBtnPress={goToCart} />
     </>
   );
 };

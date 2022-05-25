@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   labelContainer: {
-    height: 35,
+    minHeight: 35,
     justifyContent: 'center',
   },
   label: {
@@ -75,14 +75,14 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     borderRadius: 8,
-    paddingHorizontal: 8,
-    paddingVertical: 5,
     flex: 1,
     overflow: 'hidden',
     justifyContent: 'center',
   },
   input: {
+    paddingTop: 8,
+    paddingBottom: 8,
+    paddingHorizontal: 8,
     width: '100%',
-    paddingHorizontal: 0,
   },
 });

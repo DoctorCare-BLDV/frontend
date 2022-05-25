@@ -27,7 +27,8 @@ const MESSAGES = {
   REMOVE_PRODUCT_CONFIRM_DESCRIPTION:
     'Bạn có chắc muốn xoá sản phẩm này ra khỏi giỏ hàng?',
   CART_EMPTY: 'Chưa có sản phẩm nào!',
-  DELETE_STORE_CONFIRM_DESCRIPTION: 'Bạn có chắc muốn xoá toàn bộ sản phẩm từ ',
+  DELETE_STORE_CONFIRM_DESCRIPTION:
+    'Bạn có chắc muốn xoá toàn bộ sản phẩm trong giỏ hàng thuộc ',
 };
 
 const _Cart: React.FC<CartProps> = ({}) => {
@@ -182,7 +183,7 @@ const _Cart: React.FC<CartProps> = ({}) => {
   const handleDeleteStore = useCallback(
     (inventoryId, title) => {
       confirmationModalNavigation.navigate('ConfirmationModal', {
-        content: MESSAGES.DELETE_STORE_CONFIRM_DESCRIPTION + title,
+        content: MESSAGES.DELETE_STORE_CONFIRM_DESCRIPTION + title + '?',
         onConfirm: () => removeAllProductFromInventory(inventoryId),
       });
     },

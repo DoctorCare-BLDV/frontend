@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import React, {useCallback, useEffect, useState} from 'react';
 
 import {CartContext} from './cart.context';
@@ -9,6 +10,7 @@ export const CartContextProvider: React.FC = ({children}) => {
   const {user} = useUser();
   const [productList, setProductList] = useState<CartLocalProduct[]>([]);
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const initCartLocal = useCallback(async () => {
     if (!user?.userInfoId) {
       return;
@@ -26,9 +28,9 @@ export const CartContextProvider: React.FC = ({children}) => {
     }
   }, [user]);
 
-  useEffect(() => {
-    initCartLocal();
-  }, [initCartLocal]);
+  // useEffect(() => {
+  //   initCartLocal();
+  // }, [initCartLocal]);
 
   const setCartProduct = useCallback(
     (product: ProductData, quantity?: number) => {
@@ -60,11 +62,12 @@ export const CartContextProvider: React.FC = ({children}) => {
       tempProductList = tempProductList.filter(p => !!p.quantity);
 
       setProductList(tempProductList);
-      CartLocalService.saveCart({
-        userId: user?.userInfoId || 0,
-        productList: tempProductList,
-      });
+      // CartLocalService.saveCart({
+      //   userId: user?.userInfoId || 0,
+      //   productList: tempProductList,
+      // });
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [productList, user],
   );
 
@@ -78,11 +81,12 @@ export const CartContextProvider: React.FC = ({children}) => {
 
       setProductList(tempProductList);
 
-      CartLocalService.saveCart({
-        userId: user?.userInfoId || 0,
-        productList: tempProductList,
-      });
+      // CartLocalService.saveCart({
+      //   userId: user?.userInfoId || 0,
+      //   productList: tempProductList,
+      // });
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [productList, user],
   );
 
@@ -106,7 +110,7 @@ export const CartContextProvider: React.FC = ({children}) => {
 
   const clearCart = useCallback(() => {
     setProductList([]);
-    CartLocalService.clearCart();
+    // CartLocalService.clearCart();
   }, []);
 
   return (
