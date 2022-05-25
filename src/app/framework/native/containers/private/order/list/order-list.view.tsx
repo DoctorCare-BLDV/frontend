@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useCallback, useContext} from 'react';
 import {RefreshControl, View} from 'react-native';
 // import from library
 import {SwipeListView, SwipeRow} from 'react-native-swipe-list-view';
@@ -25,7 +25,7 @@ const Tab = [
 ];
 
 const _OrderList: React.FC<OrderListProps> = props => {
-  const {} = props;
+  const {navigation} = props;
   const {
     index,
     setIndex,
@@ -53,6 +53,15 @@ const _OrderList: React.FC<OrderListProps> = props => {
     );
   }, [data]);
 
+  const navigateToDetail = useCallback(
+    (id: number) => {
+      navigation.navigate('OrderDetail', {
+        id,
+      });
+    },
+    [navigation],
+  );
+
   return (
     <View style={styles.container}>
       <FullScreenLoadingIndicator visible={fullScreenLoading} />
@@ -78,7 +87,10 @@ const _OrderList: React.FC<OrderListProps> = props => {
               data={rowData}
               rowMap={rowMap}
             />
-            <Order item={rowData.item} />
+            <Order
+              onPress={() => navigateToDetail(rowData.item.orderId)}
+              item={rowData.item}
+            />
           </SwipeRow>
         )}
       />

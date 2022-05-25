@@ -4,6 +4,7 @@ export interface IOrder {
   createAt: number;
   createBy: number;
   file: {url: string};
+  listOrderProduct?: IOrderProduct[];
   orderAddress: string;
   orderDescription: string;
   orderDistrict: string;
@@ -24,6 +25,17 @@ export interface IOrder {
   totalPrice: number;
   totalProduct: number;
   key: number;
+}
+
+export interface IOrderProduct {
+  benefit: number;
+  count: number;
+  listFileAttach: {url: string}[];
+  orderProductId: number;
+  productId: number;
+  totalPoint: number;
+  totalPrice: number;
+  unitPoint: number;
 }
 
 export enum ORDER_STATUS {

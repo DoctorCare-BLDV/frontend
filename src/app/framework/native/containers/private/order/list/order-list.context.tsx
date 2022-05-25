@@ -62,33 +62,39 @@ export const OrderListProvider = memo(
     const currentPage = useRef(0);
     const lastPage = useRef(1);
 
-    const fetchData = useCallback(async () => {
-      if (loading || currentPage.current >= lastPage.current) return;
-      setLoading(true);
-      const status = index === 0 ? '1, 2, 3' : '4, 5';
-      const {
-        order,
-        lastPage: _lastPage,
-        errorMessage,
-      } = await OrderService.fetchOrder({
-        pageIndex: currentPage.current + 1,
-        keyword: search.current,
-        status:
-          filter.current.length > 0
-            ? filter.current.map(i => i.id).join(', ')
-            : status,
-      });
-      setLoading(false);
-      if (!!errorMessage) {
-        return showMessage({
-          message: errorMessage,
-          type: 'danger',
+    const fetchData = useCallback(
+      async (isLoadMore?: boolean) => {
+        if (loading || currentPage.current >= lastPage.current) return;
+        setLoading(true);
+        const status = index === 0 ? '1, 2, 3' : '4, 5';
+        const {
+          order,
+          lastPage: _lastPage,
+          errorMessage,
+        } = await OrderService.fetchOrder({
+          pageIndex: currentPage.current + 1,
+          keyword: search.current,
+          status:
+            filter.current.length > 0
+              ? filter.current.map(i => i.id).join(', ')
+              : status,
         });
-      }
-      currentPage.current = currentPage.current + 1;
-      lastPage.current = _lastPage || currentPage.current + 1;
-      setData(order.map(i => ({...i, key: i.orderId})));
-    }, [filter, index, loading]);
+        setLoading(false);
+        if (!!errorMessage) {
+          return showMessage({
+            message: errorMessage,
+            type: 'danger',
+          });
+        }
+        currentPage.current = currentPage.current + 1;
+        lastPage.current = _lastPage || currentPage.current + 1;
+        if (isLoadMore) {
+          setData(pre => pre.concat(order.map(i => ({...i, key: i.orderId}))));
+        }
+        setData(order.map(i => ({...i, key: i.orderId})));
+      },
+      [filter, index, loading],
+    );
 
     const setSearch = useCallback((value: string) => {
       search.current = value;
@@ -96,7 +102,7 @@ export const OrderListProvider = memo(
 
     const loadMore = useCallback(() => {
       if (loading) return;
-      fetchData();
+      fetchData(true);
     }, [fetchData, loading]);
 
     const refreshData = useCallback(() => {

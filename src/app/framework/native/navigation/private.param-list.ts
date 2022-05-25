@@ -51,4 +51,5 @@ export type PrivateParamList = {
   EditProfile: undefined;
   ChangePassword: undefined;
   Revenue: undefined;
+  OrderDetail: {id: number};
 };
