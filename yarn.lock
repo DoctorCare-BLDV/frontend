@@ -6390,6 +6390,11 @@ react-native-config@^1.4.5:
   resolved "https://registry.yarnpkg.com/react-native-config/-/react-native-config-1.4.5.tgz#6fe5895410b75e44fe4f4bf00caaf894a0981f3a"
   integrity sha512-5oiAsoW88SOYDg/0cleJ2vJDqv98FJUbFQYEnH4sdMtEn3AAT3lb7BkTGW8HO/t3Vk9VOruwxUUnO4tzuxzCsw==
 
+react-native-date-picker@^4.2.1:
+  version "4.2.2"
+  resolved "https://registry.yarnpkg.com/react-native-date-picker/-/react-native-date-picker-4.2.2.tgz#07fb8a9021fb48ef9a20b043d33c14e858220883"
+  integrity sha512-x0jxWbJXKDXivRDwsUx58tKOxe719XoVqqq6UzMSYSsTiPL2i13r7PyDxop3f3et/62qbcMgeswl+/CLdX6+Eg==
+
 react-native-elements@^3.4.2:
   version "3.4.2"
   resolved "https://registry.yarnpkg.com/react-native-elements/-/react-native-elements-3.4.2.tgz#66602be9c5e0e0a2a831913adec80ff6518d1ee2"

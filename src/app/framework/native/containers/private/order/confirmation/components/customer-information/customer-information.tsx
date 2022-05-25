@@ -29,7 +29,10 @@ export const CustomerInformation: React.FC<
         containerStyle={styles.formInputContainer}
       />
       <FormInput
-        labelContainerStyle={styles.formInputLabelContainer}
+        labelContainerStyle={[
+          styles.formInputLabelContainer,
+          styles.formInputAddressLabelContainer,
+        ]}
         label={MESSAGES.ADDRESS}
         containerStyle={styles.formInputContainer}
         multiline
@@ -49,6 +52,9 @@ const styles = StyleSheet.create({
   },
   formInputLabelContainer: {
     width: 120,
+  },
+  formInputAddressLabelContainer: {
+    alignSelf: 'flex-start',
   },
   address: {
     height: 70,

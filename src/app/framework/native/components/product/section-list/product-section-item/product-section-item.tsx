@@ -2,17 +2,18 @@ import React, {useMemo} from 'react';
 import {View, StyleSheet, StyleProp, ViewStyle} from 'react-native';
 
 import {useTheme} from '@app/shared/hooks/useTheme';
-import {Layout, vndCurrencyFormat} from '@app/resources';
+import {HIT_SLOP, Layout, pointFormat, vndCurrencyFormat} from '@app/resources';
 import {ProductData} from '@data/models';
 
 import {TextView} from '../../../label';
 import {Tag} from '../../../tag';
 import {Image} from '../../../image';
 import {NumberPicker} from '../../../number-picker';
+import {IconButton, IconButtonType} from '../../../icon-button';
 
 export type ProductSectionData = ProductData & {
   quantity?: number;
-  totalPrice?: string;
+  totalPrice?: number;
   readonly?: boolean;
 };
 
@@ -20,6 +21,8 @@ export interface ProductSectionItemProps
   extends Omit<ProductSectionData, 'id'> {
   containerStyle?: StyleProp<ViewStyle>;
   onChangeQuantity?: (quantity: number) => void;
+  onModalHide?: () => void;
+  onModalShow?: () => void;
 }
 
 export const ProductSectionItem: React.FC<ProductSectionItemProps> = ({
@@ -31,6 +34,8 @@ export const ProductSectionItem: React.FC<ProductSectionItemProps> = ({
   quantity,
   readonly,
   containerStyle,
+  onModalHide,
+  onModalShow,
   onChangeQuantity,
 }) => {
   const theme = useTheme();
@@ -71,7 +76,18 @@ export const ProductSectionItem: React.FC<ProductSectionItemProps> = ({
       <Image source={{uri: image?.url}} style={styles.image} />
 
       <View style={styles.mainInfoContainer}>
-        <TextView style={styles.title}>{name}</TextView>
+        <View style={styles.titleContainer}>
+          <TextView style={styles.title}>{name}</TextView>
+          {!readonly && (
+            <IconButton
+              type={IconButtonType.CANCEL}
+              hitSlop={HIT_SLOP}
+              name="times"
+              style={styles.closeIcon}
+              onPress={() => onChangeQuantity && onChangeQuantity(0)}
+            />
+          )}
+        </View>
 
         <View style={styles.priceWrapper}>
           <View style={styles.priceContainer}>
@@ -79,7 +95,7 @@ export const ProductSectionItem: React.FC<ProductSectionItemProps> = ({
               {vndCurrencyFormat(originalPrice)}
             </TextView>
             <Tag
-              label={String(point)}
+              label={pointFormat(point)}
               containerStyle={styles.coinPriceContainer}
             />
           </View>
@@ -88,7 +104,9 @@ export const ProductSectionItem: React.FC<ProductSectionItemProps> = ({
             {readonly ? (
               <View style={styles.readonlyQuantityContainer}>
                 <TextView style={readonlyQuantityStyle}>x{quantity}</TextView>
-                <TextView style={totalPriceStyle}>{totalPrice}</TextView>
+                <TextView style={totalPriceStyle}>
+                  {vndCurrencyFormat(totalPrice)}
+                </TextView>
               </View>
             ) : (
               <NumberPicker
@@ -96,6 +114,8 @@ export const ProductSectionItem: React.FC<ProductSectionItemProps> = ({
                 valueStyle={styles.quantity}
                 containerStyle={styles.quantityPickerContainer}
                 onChange={onChangeQuantity}
+                onModalHide={onModalHide}
+                onModalShow={onModalShow}
               />
             )}
           </View>
@@ -118,8 +138,16 @@ const styles = StyleSheet.create({
   mainInfoContainer: {
     flex: 1,
   },
+  titleContainer: {
+    flexDirection: 'row',
+  },
   title: {
-    // flex: 1,
+    flex: 1,
+    marginTop: 5,
+    marginBottom: 10,
+  },
+  closeIcon: {
+    fontSize: 16,
   },
   priceWrapper: {
     flexDirection: 'row',
@@ -134,8 +162,7 @@ const styles = StyleSheet.create({
     minWidth: 100,
   },
   price: {
-    fontSize: 16,
-    fontWeight: '600',
+    fontSize: 15,
     marginRight: 8,
   },
 

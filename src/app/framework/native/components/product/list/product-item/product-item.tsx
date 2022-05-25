@@ -4,31 +4,35 @@ import {useNavigation} from '@react-navigation/native';
 
 import {ImageStyle} from 'react-native-fast-image';
 
-import {Colors, Layout, vndCurrencyFormat} from '@app/resources';
+import {Colors, Layout, pointFormat, vndCurrencyFormat} from '@app/resources';
 import {useTheme} from '@app/shared/hooks/useTheme';
-import {useFloatingReaction} from '@app/shared/contexts';
+import {useCart, useFloatingReaction} from '@app/shared/contexts';
+import {ProductData} from '@data/models';
+import {ProductDetailNavigationProps} from '@app/framework/native/containers';
 
 import {Image} from '../../../image';
 import {TextView} from '../../../label';
 import {IconButton} from '../../../icon-button';
 import {Tag} from '../../../tag';
-import {ProductData} from '@data/models';
 
-export interface ProductItemProps extends Omit<ProductData, 'id'> {
+export interface ProductItemProps {
+  product: ProductData;
   imageStyle?: StyleProp<ImageStyle>;
 }
 
 export const ProductItem: React.FC<ProductItemProps> = ({
-  name,
-  image,
-  point,
-  originalPrice,
+  product,
   imageStyle = {},
 }) => {
   const theme = useTheme();
-  const productDetailNavigation = useNavigation<any>();
+  const {setCartProduct} = useCart();
+  const productDetailNavigation = useNavigation<ProductDetailNavigationProps>();
   const {addFloatingReactionSource} = useFloatingReaction();
   const imageRef = useRef();
+
+  const {name, originalPrice, point, image} = useMemo(() => {
+    return product;
+  }, [product]);
 
   const wrapperStyle = useMemo(() => {
     return [
@@ -48,10 +52,12 @@ export const ProductItem: React.FC<ProductItemProps> = ({
   }, [theme]);
 
   const handlePressProduct = useCallback(() => {
-    productDetailNavigation.navigate('ProductDetail', {});
-  }, [productDetailNavigation]);
+    productDetailNavigation.navigate('ProductDetail', {
+      product,
+    });
+  }, [productDetailNavigation, product]);
 
-  const addToCart = useCallback(() => {
+  const animateCart = useCallback(() => {
     if (imageRef.current) {
       const ELEMENT_WIDTH = 100;
       const ELEMENT_HEIGHT = 100;
@@ -73,6 +79,11 @@ export const ProductItem: React.FC<ProductItemProps> = ({
     }
   }, [image, addFloatingReactionSource]);
 
+  const addToCart = useCallback(() => {
+    animateCart();
+    setCartProduct(product, 1);
+  }, [animateCart, product, setCartProduct]);
+
   return (
     <View style={wrapperStyle}>
       <TouchableOpacity
@@ -93,7 +104,7 @@ export const ProductItem: React.FC<ProductItemProps> = ({
                 {vndCurrencyFormat(originalPrice)}
               </TextView>
               <Tag
-                label={String(point || '')}
+                label={pointFormat(point)}
                 containerStyle={styles.coinPriceContainer}
               />
             </View>

@@ -205,13 +205,7 @@ export const ProductList: React.FC<ProductListProps> = ({
               Layout.spacingHorizontal / 2,
           },
         ]}>
-        <ProductItem
-          name={product.productName}
-          originalPrice={product.originalPrice}
-          point={product.point}
-          image={product.files?.[0]}
-          imageStyle={styles.productImage}
-        />
+        <ProductItem product={product} imageStyle={styles.productImage} />
       </View>
     );
   };

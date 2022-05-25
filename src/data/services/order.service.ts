@@ -1,4 +1,9 @@
-import {IOrder} from '@data/models';
+import {
+  AddOrderApiRequest,
+  AddOrderAPIResponse,
+  ApiRequestor,
+  IOrder,
+} from '@data/models';
 import {AxiosInstance} from 'axios';
 export class OrderAPIService {
   constructor(private readonly provider: AxiosInstance) {}
@@ -48,5 +53,17 @@ export class OrderAPIService {
         'Đã có lỗi xảy ra, vui lòng thử lại sau'
       );
     }
+  }
+
+  addOrder(body: AddOrderApiRequest): ApiRequestor<AddOrderAPIResponse> {
+    const controller = new AbortController();
+
+    return {
+      cancel: () => controller.abort(),
+      request: () =>
+        this.provider.post('/public/order/add', body, {
+          signal: controller.signal,
+        }),
+    };
   }
 }

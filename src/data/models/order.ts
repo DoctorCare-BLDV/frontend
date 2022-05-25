@@ -1,3 +1,5 @@
+import {AxiosResponse} from 'axios';
+
 export interface IOrder {
   createAt: number;
   createBy: number;
@@ -32,3 +34,35 @@ export enum ORDER_STATUS {
   COMPLETED = 4,
   FAILURE = 5,
 }
+
+export type AddOrderApiRequest = {
+  inventoryList: [
+    {
+      inventoryId: number;
+      orderProductList: [
+        {
+          count: number;
+          inventoryId: number;
+          profitPrice: number;
+          point: number;
+          productId: number;
+          sellPrice: number;
+        },
+      ];
+    },
+  ];
+  orderAddress: string;
+  orderDescription: string;
+  orderDistrict: string;
+  orderPhone: string;
+  orderProvince: string;
+  orderReceived: string;
+  orderWard: string;
+  orderUserName: string;
+};
+
+export type AddOrderAPIResponse = AxiosResponse<{
+  content: any;
+  message: string;
+  status: number;
+}>;

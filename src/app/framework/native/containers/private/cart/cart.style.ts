@@ -16,4 +16,17 @@ export const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
   },
+  emptyContainer: {
+    width: '100%',
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  emptyIcon: {
+    fontSize: 64,
+    marginBottom: Layout.spacingHorizontal,
+  },
+  emptyTitle: {
+    fontSize: 18,
+  },
 });

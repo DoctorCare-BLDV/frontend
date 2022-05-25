@@ -34,6 +34,7 @@ export interface InputModalProps extends TextInputProps {
   onConfirm?: (text: string) => void;
   onCancel?: () => void;
   onModalHide?: () => void;
+  onModalShow?: () => void;
 }
 
 const MESSAGES = {
@@ -93,6 +94,7 @@ const _InputModal = ({
   onConfirm = () => {},
   onCancel = () => {},
   onModalHide = () => {},
+  onModalShow = () => {},
   ...props
 }: InputModalProps) => {
   const refInput = useRef<any>();
@@ -162,6 +164,11 @@ const _InputModal = ({
     onConfirm(text);
   }, [text, onConfirm]);
 
+  const handleModalHide = useCallback(() => {
+    setText(textProp);
+    onModalHide();
+  }, [onModalHide, textProp]);
+
   return (
     <ReactNativeModal
       isVisible={visible}
@@ -171,7 +178,8 @@ const _InputModal = ({
       useNativeDriver
       useNativeDriverForBackdrop
       hideModalContentWhileAnimating
-      onModalHide={onModalHide}>
+      onModalHide={handleModalHide}
+      onModalShow={onModalShow}>
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'position' : undefined}
         keyboardVerticalOffset={100}>

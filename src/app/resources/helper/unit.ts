@@ -14,3 +14,11 @@ export const vndCurrencyFormat = (
 ) => {
   return numberFormat(target, n, x) + 'đ';
 };
+
+export const pointFormat = (
+  target: number = 0,
+  n: number = 0,
+  x: number = 0,
+) => {
+  return numberFormat(target, n, x) + ' MV';
+};
