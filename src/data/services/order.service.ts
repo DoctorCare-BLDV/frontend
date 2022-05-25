@@ -15,7 +15,7 @@ export class OrderAPIService {
   }): Promise<{order: IOrder[]; lastPage?: number; errorMessage?: string}> {
     try {
       let params: any = {
-        pageIndex: body.pageIndex,
+        pageIndex: body.pageIndex - 1,
         pageSize: 20,
         filterValues: {},
       };
@@ -65,5 +65,25 @@ export class OrderAPIService {
           signal: controller.signal,
         }),
     };
+  }
+
+  async fetchOrderDetail(
+    orderId: number,
+  ): Promise<{order?: IOrder; errorMessage: string}> {
+    try {
+      const {data} = await this.provider.post(
+        '/public/order/getDetailById/' + orderId,
+      );
+      return {
+        order: data?.content,
+        errorMessage: '',
+      };
+    } catch (error: any) {
+      return {
+        errorMessage:
+          error?.response?.data?.message ||
+          'Đã có lỗi xảy ra, vui lòng thử lại sau',
+      };
+    }
   }
 }

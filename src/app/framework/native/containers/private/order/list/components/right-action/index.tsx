@@ -27,7 +27,6 @@ export const RightActions = React.memo(
       if (!data.item.key) return;
       if (rowMap[data.item.key]) rowMap[data.item.key].closeRow();
     }, [data, rowMap]);
-    console.log('----props', props);
 
     const onPress = useCallback(() => {
       onAction();

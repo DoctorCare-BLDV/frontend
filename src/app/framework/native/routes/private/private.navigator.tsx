@@ -19,6 +19,7 @@ import {
   Notifications,
   EditProfile,
   ChangePassword,
+  OrderDetail,
 } from '@native/containers';
 
 const Stack = createNativeStackNavigator<PrivateParamList>();
@@ -122,6 +123,11 @@ export function PrivateNavigator() {
             title: 'Thông báo',
           }}
           component={Notifications}
+        />
+        <Stack.Screen
+          name="OrderDetail"
+          options={{headerShown: false}}
+          component={OrderDetail}
         />
         <Stack.Screen
           name="EditProfile"
