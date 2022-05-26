@@ -9,13 +9,10 @@ export type RevenueNavigationProps = StackNavigationProp<
   'Revenue'
 >;
 export interface TotalRevenueProps {
-  openCalendar: () => void;
-  date: Date;
   data?: any;
 }
 
 export interface SecondaryRevenueProps {
-  openCalendar: () => void;
   data: Array<any>;
   sortData: () => void;
 }

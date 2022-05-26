@@ -1,35 +1,19 @@
-import React from 'react';
-import {StyleSheet, TouchableOpacity, View} from 'react-native';
-import moment from 'moment';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {TextView} from '@app/framework/native/components';
-import {Colors} from '@app/resources';
+import {Colors, vndCurrencyFormat} from '@app/resources';
+import React from 'react';
+import {StyleSheet, View} from 'react-native';
 import {TotalRevenueProps} from '../../revenue.type';
 const CategoriesRevenue = [
-  {key: 'Doanh thu đơn', value: 'totalFailureOrder'},
+  {key: 'Doanh thu đơn', value: 'selfRevenue'},
   {key: 'Tổng MV của cấp 2', value: 'totalMV'},
   {key: 'Doanh thu cấp 2', value: 'level2Revenue'},
   {key: 'Tổng doanh thu', value: 'totalRevenue'},
 ];
 
 export const TotalRevenue = React.memo((props: TotalRevenueProps) => {
-  const date =
-    moment(props.date).format('DD/MM/YYYY') === moment().format('DD/MM/YYYY')
-      ? 'hôm nay'
-      : moment(props.date).format('DD/MM/YYYY');
   return (
     <>
       <View style={[styles.body, styles.padding]}>
-        <View style={[styles.row, styles.spaceBetween]}>
-          <TextView style={styles.titleRevenue}>{`Doanh thu ${date}`}</TextView>
-          <TouchableOpacity onPress={() => props.openCalendar()}>
-            <FontAwesome
-              name="calendar"
-              color={Colors.PRIMARY_ORAGE}
-              size={24}
-            />
-          </TouchableOpacity>
-        </View>
         {CategoriesRevenue.map(v => {
           return (
             <View key={v.key} style={[styles.row, styles.infoCategories]}>
@@ -37,7 +21,7 @@ export const TotalRevenue = React.memo((props: TotalRevenueProps) => {
               <TextView
                 style={styles.valueCategories}
                 color={Colors.PRIMARY_ORAGE}>
-                {props.data?.[v.value] ?? 0}
+                {vndCurrencyFormat(props.data?.[v.value] ?? 0)}
               </TextView>
             </View>
           );
@@ -51,7 +35,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   padding: {
-    paddingVertical: 16,
+    // paddingVertical: 16,
     paddingHorizontal: 12,
   },
   row: {

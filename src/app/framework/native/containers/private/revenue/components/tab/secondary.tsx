@@ -1,25 +1,32 @@
 import React from 'react';
 import {FlatList, StyleSheet, TouchableOpacity, View} from 'react-native';
+import {Divider} from 'react-native-elements';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {TextView} from '@app/framework/native/components';
-import {Colors} from '@app/resources';
+import {Colors, vndCurrencyFormat} from '@app/resources';
 import {SecondaryRevenueProps} from '../../revenue.type';
 
 export const SecondaryRevenue = React.memo((props: SecondaryRevenueProps) => {
-  const renderItem = React.useCallback(({item}: any) => {
-    return (
-      <View style={[styles.row, styles.spaceBetween, styles.infoSecondary]}>
-        <TextView style={[styles.textSecondary, styles.flex40]}>
-          {item.name}
-        </TextView>
-        <TextView style={[styles.textSecondary, styles.flex30]}>
-          {item.revenue}
-        </TextView>
-        <TextView style={styles.flex30}>{item.mv}</TextView>
-      </View>
-    );
-  }, []);
+  const renderItem = React.useCallback(
+    ({item, index}: any) => {
+      return (
+        <>
+          <View style={[styles.row, styles.spaceBetween, styles.infoSecondary]}>
+            <TextView style={[styles.textSecondary, styles.flex40]}>
+              {item.name}
+            </TextView>
+            <TextView style={[styles.textSecondary, styles.flex30]}>
+              {item.revenue}
+            </TextView>
+            <TextView style={styles.flex30}>{item.mv}</TextView>
+          </View>
+          {props.data.length - 1 !== index && <Divider />}
+        </>
+      );
+    },
+    [props.data],
+  );
 
   return (
     <>
@@ -39,16 +46,18 @@ export const SecondaryRevenue = React.memo((props: SecondaryRevenueProps) => {
             />
             <View style={styles.infoMV}>
               <TextView style={styles.textTotal}>Tổng MV: 4400</TextView>
-              <TextView style={styles.textTotal}>Tổng lợi nhuận: 4400</TextView>
+              <TextView style={styles.textTotal}>
+                Tổng lợi nhuận: {vndCurrencyFormat(4400)}
+              </TextView>
             </View>
           </View>
-          <TouchableOpacity onPress={() => props.openCalendar()}>
+          {/* <TouchableOpacity onPress={() => props.openCalendar()}>
             <FontAwesome
               name="calendar"
               color={Colors.PRIMARY_ORAGE}
               size={24}
             />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
         <View style={[styles.row, styles.table, styles.spaceBetween]}>
           <TextView style={[styles.textTable, styles.flex40]}>
