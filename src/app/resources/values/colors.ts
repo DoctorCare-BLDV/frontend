@@ -2,6 +2,7 @@ export const Colors = {
   BLUE: '#005CA1',
   RED: '#ED3237',
   GRAY: '#7F7F7F',
+  GRAY_50: '#7F7F7F50',
   PURPLE: 'rgb(132,37,114)',
   WHITE: '#FFFFFF',
   BLACK: '#000000',
@@ -21,7 +22,9 @@ export const Colors = {
   YELLOW: '#ffc300',
 
   SUCCESS: '#369F4D',
+  SUCCESS_70: 'rgba(54, 159, 77, 0.7);',
   DANGER: '#CC0000',
   WARNING: '#FBCA03',
+  WARNING_50: '#FBCA0350',
   INFO: '#0099CC',
 };

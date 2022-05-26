@@ -10,20 +10,26 @@ interface InputWithTitleProps {
   onChangeText: (val: string) => void;
   type: 'input' | 'select';
   inputProps?: TextInputProps;
+  requried?: boolean;
+  disabled?: boolean;
 }
 
 export const InputWithTitle: React.FC<InputWithTitleProps> = React.memo(
   props => {
-    const {title, onChangeText, type, inputProps} = props;
+    const {title, onChangeText, type, inputProps, requried, disabled} = props;
 
     const renderContent = useCallback(() => {
       if (type === 'input')
         return (
           <TextField
-            containerStyle={styles.inputWrapper}
+            containerStyle={[
+              styles.inputWrapper,
+              disabled ? styles.disabledInput : {},
+            ]}
             inputProps={{
               ...inputProps,
               style: styles.input,
+              editable: !disabled,
               placeholder: 'Vui lòng nhập...',
               placeholderTextColor: Colors.GRAY,
               onChangeText: onChangeText,
@@ -32,17 +38,17 @@ export const InputWithTitle: React.FC<InputWithTitleProps> = React.memo(
         );
       return (
         <View style={styles.selectWrapper}>
-          <TextView style={styles.selectValue}>{'asmdklasd'}</TextView>
+          <TextView style={styles.selectValue}>{''}</TextView>
           <FontAwesome5Icon name="chevron-right" />
         </View>
       );
-    }, [inputProps, onChangeText, type]);
+    }, [inputProps, onChangeText, type, disabled]);
 
     return (
       <View style={styles.container}>
         <TextView style={styles.title}>
           {title}
-          <TextView style={styles.required}>{' *'}</TextView>
+          {requried && <TextView style={styles.required}>{' *'}</TextView>}
         </TextView>
         {renderContent()}
       </View>
@@ -62,8 +68,11 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '500',
   },
+  disabledInput: {
+    backgroundColor: Colors.MEDIUM_GRAY,
+  },
   inputWrapper: {
-    backgroundColor: Colors.SILVER_BACKGROUND,
+    backgroundColor: Colors.LIGHT_GRAY_4,
     borderRadius: 15,
     height: 40,
     justifyContent: 'center',
@@ -72,7 +81,7 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   selectWrapper: {
-    backgroundColor: Colors.SILVER_BACKGROUND,
+    backgroundColor: Colors.LIGHT_GRAY_4,
     borderRadius: 15,
     height: 40,
     alignItems: 'center',

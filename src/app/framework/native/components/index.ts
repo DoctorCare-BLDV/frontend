@@ -20,3 +20,4 @@ export * from './confirmation-modal';
 export * from './form';
 export * from './action-sheet';
 export * from './address-picker';
+export * from './skeleton';

@@ -1,5 +1,5 @@
 import React, {useMemo} from 'react';
-import {View, StyleSheet, Image} from 'react-native';
+import {View, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import moment from 'moment';
 import {Colors, OrderStatusFilter} from '@app/resources';
 import {IOrder, ORDER_STATUS} from '@data/models';
@@ -9,10 +9,11 @@ import {IconButton} from '../icon-button';
 
 export interface OrderProps {
   item: IOrder;
+  onPress?: () => void;
 }
 
 export const Order: React.FC<OrderProps> = props => {
-  const {item} = props;
+  const {item, onPress} = props;
 
   const {status, editable} = useMemo(() => {
     const orderStatus = OrderStatusFilter.filter(i => i.id === item.status);
@@ -45,7 +46,10 @@ export const Order: React.FC<OrderProps> = props => {
   }, [item.status]);
 
   return (
-    <View style={StyleSheet.flatten([styles.container])}>
+    <TouchableOpacity
+      activeOpacity={1}
+      onPress={() => onPress?.()}
+      style={StyleSheet.flatten([styles.container])}>
       <View style={styles.imgWrapper}>
         <Image
           source={{
@@ -95,7 +99,7 @@ export const Order: React.FC<OrderProps> = props => {
           <IconButton name="edit" containerStyle={styles.editWrapper} />
         )}
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
