@@ -2,6 +2,9 @@ import React from 'react';
 import {View} from 'react-native';
 // import from library
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
+import {faTriangleExclamation} from '@fortawesome/free-solid-svg-icons';
+import {Icon} from '@fortawesome/fontawesome-svg-core';
 // import from alias
 import {
   FullScreenLoadingIndicator,
@@ -9,6 +12,7 @@ import {
   InputWithTitle,
   TextView,
 } from '@native/components';
+import {Colors} from '@app/resources';
 // localImport
 import {useEditProfileModel} from './edit-profile.hook';
 import {EditProfileProps} from './edit-profile.type';
@@ -30,6 +34,7 @@ const _EditProfile: React.FC<EditProfileProps> = props => {
       <FullScreenLoadingIndicator visible={loading} />
       <KeyboardAwareScrollView style={styles.container}>
         <InputWithTitle
+          requried
           inputProps={{
             defaultValue: user?.fullName || '',
           }}
@@ -40,6 +45,7 @@ const _EditProfile: React.FC<EditProfileProps> = props => {
           }}
         />
         <InputWithTitle
+          requried
           inputProps={{
             defaultValue: user?.email || '',
           }}
@@ -50,6 +56,7 @@ const _EditProfile: React.FC<EditProfileProps> = props => {
           }}
         />
         <InputWithTitle
+          requried
           inputProps={{
             defaultValue: user?.address || '',
           }}
@@ -60,6 +67,7 @@ const _EditProfile: React.FC<EditProfileProps> = props => {
           }}
         />
         <InputWithTitle
+          disabled
           inputProps={{
             defaultValue: user?.bankName || '',
           }}
@@ -70,6 +78,7 @@ const _EditProfile: React.FC<EditProfileProps> = props => {
           }}
         />
         <InputWithTitle
+          disabled
           inputProps={{
             defaultValue: user?.bankAccount || '',
           }}
@@ -79,6 +88,17 @@ const _EditProfile: React.FC<EditProfileProps> = props => {
             bankAccount.current = e;
           }}
         />
+        <View style={styles.alertWrapper}>
+          <FontAwesomeIcon
+            color={Colors.PRIMARY_ORAGE}
+            icon={faTriangleExclamation as Icon}
+          />
+          <TextView style={styles.alertText}>
+            {
+              'Bạn không thể tự đổi thông tin ngân hàng, vui lòng liên hệ với admin để được hỗ trợ.'
+            }
+          </TextView>
+        </View>
       </KeyboardAwareScrollView>
     </View>
   );
