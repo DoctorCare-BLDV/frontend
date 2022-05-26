@@ -41,12 +41,12 @@ export type AddOrderApiRequest = {
       inventoryId: number;
       orderProductList: [
         {
-          count: number;
           inventoryId: number;
-          profitPrice: number;
-          point: number;
           productId: number;
+          count: number;
+          profitPrice: number;
           sellPrice: number;
+          point: number;
         },
       ];
     },
@@ -58,7 +58,6 @@ export type AddOrderApiRequest = {
   orderProvince: string;
   orderReceived: string;
   orderWard: string;
-  orderUserName: string;
 };
 
 export type AddOrderAPIResponse = AxiosResponse<{

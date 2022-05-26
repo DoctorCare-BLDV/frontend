@@ -59,7 +59,9 @@ const _OrderConfirmation: React.FC<OrderConfirmationProps> = () => {
     };
   }, [bottom]);
 
-  const listHeaderComponent = CustomerInformation;
+  const listHeaderComponent = useMemo(() => {
+    return <CustomerInformation />;
+  }, []);
 
   return (
     <View style={containerStyle}>

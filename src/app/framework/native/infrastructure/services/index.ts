@@ -6,3 +6,4 @@ export * from './axios-item.service';
 export * from './axios-order.service';
 export * from './axios-revenue.service';
 export * from './cart-local.service';
+export * from './axios-address.service';

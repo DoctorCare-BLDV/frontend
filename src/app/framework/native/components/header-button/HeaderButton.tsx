@@ -22,6 +22,7 @@ export interface HeaderButtonProps {
   type?: HeaderButtonType;
   label?: string;
   disabled?: boolean;
+  children?: any;
 
   onPress?: () => void;
 }

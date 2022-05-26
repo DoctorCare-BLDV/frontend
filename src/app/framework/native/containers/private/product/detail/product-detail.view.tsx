@@ -45,7 +45,9 @@ const _ProductDetail: React.FC<ProductDetailProps> = ({route}) => {
 
   const quantity = getCartProduct(id)?.quantity || 0;
 
-  const finalSellPrice = (sellPrice || 0) * quantity;
+  const finalSellPrice = (sellPrice || 0) * (quantity || 1);
+
+  const finalPoint = pointFormat((point || 0) * (quantity || 1));
 
   const {bottom} = useSafeAreaInsets();
 
@@ -160,7 +162,7 @@ const _ProductDetail: React.FC<ProductDetailProps> = ({route}) => {
 
             <View style={styles.tagPriceContainer}>
               <Tag
-                label={pointFormat(point)}
+                label={finalPoint}
                 containerStyle={styles.tagContainer}
                 labelStyle={styles.tagLabel}
               />

@@ -4,3 +4,4 @@ export * from './product.service';
 export * from './item.service';
 export * from './order.service';
 export * from './revenue.service';
+export * from './address.service';

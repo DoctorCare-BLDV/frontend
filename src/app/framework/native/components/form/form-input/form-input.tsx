@@ -1,6 +1,13 @@
 import {useTheme} from '@app/shared/hooks/useTheme';
 import React, {useMemo} from 'react';
-import {View, StyleSheet, StyleProp, ViewStyle, TextStyle} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  StyleProp,
+  ViewStyle,
+  TextStyle,
+  TouchableOpacity,
+} from 'react-native';
 
 import {Input, InputProps} from '../../input';
 import {TextView} from '../../label';
@@ -11,6 +18,7 @@ export interface FormInputProps extends InputProps {
   labelStyle?: StyleProp<TextStyle>;
   inputContainerStyle?: StyleProp<ViewStyle>;
   containerStyle?: StyleProp<ViewStyle>;
+  onPressInput?: () => void;
 }
 
 export const FormInput: React.FC<FormInputProps> = ({
@@ -20,6 +28,7 @@ export const FormInput: React.FC<FormInputProps> = ({
   containerStyle,
   labelContainerStyle,
   inputContainerStyle,
+  onPressInput,
   ...props
 }) => {
   const theme = useTheme();
@@ -55,9 +64,11 @@ export const FormInput: React.FC<FormInputProps> = ({
       <View style={labelContainerBaseStyle}>
         <TextView style={labelBaseStyle}>{label}</TextView>
       </View>
-      <View style={inputContainerBaseStyle}>
-        <Input {...props} style={inputBaseStyle} />
-      </View>
+      <TouchableOpacity onPress={onPressInput} style={inputContainerBaseStyle}>
+        <View pointerEvents={onPressInput ? 'none' : 'auto'}>
+          <Input {...props} style={inputBaseStyle} />
+        </View>
+      </TouchableOpacity>
     </View>
   );
 };
