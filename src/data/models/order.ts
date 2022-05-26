@@ -34,6 +34,8 @@ export interface IOrderProduct {
   orderProductId: number;
   productId: number;
   totalPoint: number;
+  unitPrice: number;
+  productName: string;
   totalPrice: number;
   unitPoint: number;
 }

@@ -27,18 +27,16 @@ export const OrderProduct: React.FC<OrderProductProps> = ({orderDetail}) => {
             />
             <View style={styles.content}>
               <TextView style={styles.name} numberOfLines={2}>
-                {
-                  'Name Placeholder Name Placeholder Name Placeholder Name PlaceholderName PlaceholderName Placeholder Name Placeholder Name Placeholder Name Placeholder'
-                }
+                {i.productName}
               </TextView>
               <TextView style={styles.quantity}>x{i.count}</TextView>
               <View style={styles.priceWrapper}>
                 <View style={styles.priceContainer}>
                   <TextView style={styles.totalPrice}>
-                    {convertNumberToPrice(i.benefit)}
+                    {convertNumberToPrice(i.unitPrice)}
                   </TextView>
                   <Tag
-                    label={String(i.totalPoint)}
+                    label={String(i.unitPoint) + ' MV'}
                     containerStyle={styles.coinPriceContainer}
                   />
                   <TextView style={[styles.totalPrice, styles.boldText]}>
