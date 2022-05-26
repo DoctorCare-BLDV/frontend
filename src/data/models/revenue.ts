@@ -21,16 +21,7 @@ export type TotalRevenueRequest = {
 };
 export type GetAllRevenueLevel2Response = AxiosResponse<{
   content: {
-    content: [
-      {
-        fullName: string;
-        totalFailureOrder: number;
-        totalPoint: number;
-        totalPrice: number;
-        totalProduct: number;
-        userId: number;
-      },
-    ];
+    content: [MemberLevel2];
     hasNext: boolean;
     hasPrevious: boolean;
     pageIndex: number;
@@ -41,19 +32,20 @@ export type GetAllRevenueLevel2Response = AxiosResponse<{
   message: string;
   status: number;
 }>;
+export type MemberLevel2 = {
+  fullName: string;
+  totalFailureOrder: number;
+  totalPoint: number;
+  totalPrice: number;
+  totalProduct: number;
+  userId: number;
+};
 export type GetAllRevenueLevel2Request = {
-  filterValues?: {
-    additionalProp1?: string;
-    additionalProp2?: string;
-    additionalProp3?: string;
-  };
   fromDate?: string;
   pageIndex?: number;
   pageSize?: number;
   sortValues?: {
-    additionalProp1?: string;
-    additionalProp2?: string;
-    additionalProp3?: string;
+    MV?: string;
   };
   toDate?: string;
 };
