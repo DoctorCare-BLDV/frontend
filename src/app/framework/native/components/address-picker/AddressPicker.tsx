@@ -302,7 +302,7 @@ const _AddressPicker = ({
         districtName: dName,
       };
       const res = await getAddressList({data});
-      console.log(data, res, selectedProvince);
+      // console.log(data, res, selectedProvince);
       // setAddressList(res || []);
       switch (type) {
         case AddressType.PROVINCE:

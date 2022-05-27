@@ -38,14 +38,14 @@ const _ProductDetail: React.FC<ProductDetailProps> = ({route}) => {
   const {setCartProduct, getCartProduct} = useCart();
   const cartNavigation = useNavigation<CarNavigationProps>();
 
-  const {id, name, files, point, originalPrice, sellPrice, description} =
+  const {id, name, files, point, sellPrice, profitPrice, description} =
     useMemo(() => {
       return route.params.product || {};
     }, [route.params.product]);
 
   const quantity = getCartProduct(id)?.quantity || 0;
 
-  const finalSellPrice = (sellPrice || 0) * (quantity || 1);
+  const totalProfit = (profitPrice || 0) * (quantity || 1);
 
   const finalPoint = pointFormat((point || 0) * (quantity || 1));
 
@@ -149,7 +149,7 @@ const _ProductDetail: React.FC<ProductDetailProps> = ({route}) => {
           <View style={styles.priceWrapper}>
             <View style={styles.priceContainer}>
               <TextView style={priceStyle}>
-                {vndCurrencyFormat(originalPrice)}
+                {vndCurrencyFormat(sellPrice)}
               </TextView>
 
               <View style={styles.quantityContainer}>
@@ -167,7 +167,7 @@ const _ProductDetail: React.FC<ProductDetailProps> = ({route}) => {
                 labelStyle={styles.tagLabel}
               />
               <Tag
-                label={finalSellPrice ? vndCurrencyFormat(finalSellPrice) : ''}
+                label={totalProfit ? vndCurrencyFormat(totalProfit) : ''}
                 containerStyle={styles.tagContainer}
                 labelStyle={styles.tagLabel}
               />

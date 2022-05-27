@@ -30,3 +30,17 @@ export type GetAddressListAPIResponse = {
   data: Province[];
   status: number;
 };
+
+export type LocalProvince = IAddress[];
+
+export type LocalDistrict = {
+  provinceCode: number;
+  provinceName: string;
+  districts: IAddress[];
+};
+
+export type LocalWardList = {
+  districtCode: number;
+  districtName: string;
+  wards: IAddress[];
+};

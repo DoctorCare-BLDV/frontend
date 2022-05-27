@@ -124,14 +124,14 @@ export function useProductList(initProductList = []): {
 
       isRequesting.current = true;
       let isLoadMoreFail = false;
-      console.log(options, customOptions);
+
       try {
         options.onBeforeRequest();
         getProductListRequest.updateData(
           ProductService.getProductList(options.data),
         );
         const response = await getProductListRequest.request();
-        console.log(response);
+        // console.log(response);
         options.onRequestSuccess(response);
 
         isLoadMoreFail = response?.status !== HTTPS_SUCCESS_STATUS;

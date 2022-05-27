@@ -30,7 +30,7 @@ export const ProductItem: React.FC<ProductItemProps> = ({
   const {addFloatingReactionSource} = useFloatingReaction();
   const imageRef = useRef();
 
-  const {name, originalPrice, point, image} = useMemo(() => {
+  const {name, sellPrice, point, image} = useMemo(() => {
     return product;
   }, [product]);
 
@@ -101,7 +101,7 @@ export const ProductItem: React.FC<ProductItemProps> = ({
           <View style={blockStyle}>
             <View style={styles.priceContainer}>
               <TextView style={priceStyle}>
-                {vndCurrencyFormat(originalPrice)}
+                {vndCurrencyFormat(sellPrice)}
               </TextView>
               <Tag
                 label={pointFormat(point)}

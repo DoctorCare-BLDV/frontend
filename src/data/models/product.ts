@@ -20,6 +20,7 @@ export type ProductModel = {
   productName?: string;
   originalPrice?: number;
   sellPrice?: number;
+  profitPrice?: number;
   point?: number;
   description?: string;
   inventory?: InventoryModel;

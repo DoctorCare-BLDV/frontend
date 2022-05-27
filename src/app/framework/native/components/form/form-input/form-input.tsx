@@ -16,7 +16,7 @@ export interface FormInputProps extends InputProps {
   label?: string;
   labelContainerStyle?: StyleProp<ViewStyle>;
   labelStyle?: StyleProp<TextStyle>;
-  inputContainerStyle?: StyleProp<ViewStyle>;
+  inputWrapperStyle?: StyleProp<ViewStyle>;
   containerStyle?: StyleProp<ViewStyle>;
   onPressInput?: () => void;
 }
@@ -27,7 +27,7 @@ export const FormInput: React.FC<FormInputProps> = ({
   style,
   containerStyle,
   labelContainerStyle,
-  inputContainerStyle,
+  inputWrapperStyle,
   onPressInput,
   ...props
 }) => {
@@ -51,9 +51,8 @@ export const FormInput: React.FC<FormInputProps> = ({
       {
         backgroundColor: theme.colorScheme.background,
       },
-      inputContainerStyle,
     ];
-  }, [inputContainerStyle, theme]);
+  }, [theme]);
 
   const inputBaseStyle = useMemo(() => {
     return [styles.input, style];
@@ -64,11 +63,15 @@ export const FormInput: React.FC<FormInputProps> = ({
       <View style={labelContainerBaseStyle}>
         <TextView style={labelBaseStyle}>{label}</TextView>
       </View>
-      <TouchableOpacity onPress={onPressInput} style={inputContainerBaseStyle}>
-        <View pointerEvents={onPressInput ? 'none' : 'auto'}>
-          <Input {...props} style={inputBaseStyle} />
-        </View>
-      </TouchableOpacity>
+      <View style={[styles.inputWrapper, inputWrapperStyle]}>
+        <TouchableOpacity
+          onPress={onPressInput}
+          style={inputContainerBaseStyle}>
+          <View pointerEvents={onPressInput ? 'none' : 'auto'}>
+            <Input {...props} style={inputBaseStyle} />
+          </View>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -83,6 +86,9 @@ const styles = StyleSheet.create({
   },
   label: {
     marginRight: 10,
+  },
+  inputWrapper: {
+    flex: 1,
   },
   inputContainer: {
     borderRadius: 8,

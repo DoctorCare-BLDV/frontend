@@ -47,19 +47,13 @@ const _Cart: React.FC<CartProps> = ({}) => {
 
   const totalPrice = useMemo(() => {
     return (productList || []).reduce((prev, current) => {
-      return (
-        prev + ((current.quantity || 0) * (current.originalPrice || 0) || 0)
-      );
+      return prev + ((current.quantity || 0) * (current.sellPrice || 0) || 0);
     }, 0);
   }, [productList]);
 
   const totalProfit = useMemo(() => {
     return (productList || []).reduce((prev, current) => {
-      return (
-        prev +
-        ((current.quantity || 0) *
-          ((current.sellPrice || 0) - (current.originalPrice || 0)) || 0)
-      );
+      return prev + (current.quantity || 0) * (current.profitPrice || 0);
     }, 0);
   }, [productList]);
 

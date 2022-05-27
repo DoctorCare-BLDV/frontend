@@ -28,7 +28,7 @@ export interface ProductSectionItemProps
 export const ProductSectionItem: React.FC<ProductSectionItemProps> = ({
   name,
   image,
-  originalPrice,
+  sellPrice,
   point,
   totalPrice,
   quantity,
@@ -71,6 +71,10 @@ export const ProductSectionItem: React.FC<ProductSectionItemProps> = ({
     ];
   }, [theme]);
 
+  const totalPoint = useMemo(() => {
+    return (point || 0) * (quantity || 1);
+  }, [quantity, point]);
+
   return (
     <View style={containerBaseStyle}>
       <Image source={{uri: image?.url}} style={styles.image} />
@@ -92,10 +96,10 @@ export const ProductSectionItem: React.FC<ProductSectionItemProps> = ({
         <View style={styles.priceWrapper}>
           <View style={styles.priceContainer}>
             <TextView style={priceStyle}>
-              {vndCurrencyFormat(originalPrice)}
+              {vndCurrencyFormat(sellPrice)}
             </TextView>
             <Tag
-              label={pointFormat(point)}
+              label={pointFormat(totalPoint)}
               containerStyle={styles.coinPriceContainer}
             />
           </View>

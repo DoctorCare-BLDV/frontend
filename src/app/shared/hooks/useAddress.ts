@@ -1,7 +1,10 @@
-import {useCallback, useState} from 'react';
+import {useCallback, useEffect, useState} from 'react';
 
 import {GetListHookOptions} from '@app/framework/native/hooks';
-import {AddressService} from '@app/framework/native/infrastructure';
+import {
+  AddressLocalService,
+  AddressService,
+} from '@app/framework/native/infrastructure';
 import {
   ApiRequest,
   GetAddressListAPIResponse,
@@ -12,11 +15,13 @@ import {
 import {showFlashMessage} from '@app/utils';
 import {HTTPS_ERROR_MESSAGE, HTTPS_SUCCESS_STATUS} from '@app/resources';
 
+export type GetAddressListOptions = GetAddressListAPIRequest & {
+  provinceName?: string;
+  districtName?: string;
+};
+
 export interface GetAddressListHookOptions extends GetListHookOptions {
-  data: GetAddressListAPIRequest & {
-    provinceName?: string;
-    districtName?: string;
-  };
+  data: GetAddressListOptions;
 }
 
 export function useAddress() {
@@ -24,13 +29,52 @@ export function useAddress() {
     new ApiRequest<GetAddressListAPIResponse>(),
   );
 
-  const getAddressList = useCallback(
-    async (options: GetAddressListHookOptions) => {
+  const getLocalAddressList = useCallback(
+    async ({type, provinceName, districtName}: GetAddressListOptions) => {
+      const {provinceList, districtList, wardList} =
+        await AddressLocalService.getAddressList();
+      switch (type) {
+        case AddressType.PROVINCE:
+          return provinceList || [];
+        case AddressType.DISTRICT:
+          return (
+            (districtList || []).find(
+              district => district.provinceName === provinceName,
+            )?.districts || []
+          );
+        case AddressType.WARD:
+          return (
+            (wardList || []).find(ward => ward.districtName === districtName)
+              ?.wards || []
+          );
+        default:
+          return [];
+      }
+    },
+    [],
+  );
+
+  const getAddressList: (
+    options: GetAddressListHookOptions,
+    ignoreLocalData?: boolean,
+  ) => Promise<IAddress[]> = useCallback(
+    async (options: GetAddressListHookOptions, ignoreLocalData = false) => {
+      let addressList: IAddress[] = [];
+
+      if (!ignoreLocalData) {
+        addressList = (await getLocalAddressList(options.data)) as IAddress[];
+
+        if (addressList?.length) {
+          return addressList;
+        } else {
+          return await getAddressList(options, true);
+        }
+      }
+
       getAddressListRequest.updateData(AddressService.getAddress(options.data));
       if (options.onBeforeRequest) {
         options.onBeforeRequest();
       }
-      let addressList: IAddress[] = [];
 
       try {
         const response = await getAddressListRequest.request();
@@ -79,8 +123,20 @@ export function useAddress() {
         return addressList;
       }
     },
-    [getAddressListRequest],
+    [getAddressListRequest, getLocalAddressList],
   );
+
+  useEffect(() => {
+    getAddressList(
+      {
+        data: {type: AddressType.WARD},
+        onRequestSuccess: res => {
+          AddressLocalService.saveAddressList(res.data);
+        },
+      },
+      false,
+    );
+  }, [getAddressList]);
 
   return {
     getAddressList,

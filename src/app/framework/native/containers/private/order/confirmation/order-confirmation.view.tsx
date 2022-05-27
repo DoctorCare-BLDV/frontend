@@ -1,9 +1,8 @@
 import React, {useMemo} from 'react';
-import {View} from 'react-native';
+import {Alert, View} from 'react-native';
 // import from library
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
 // import from alias
-import {ProductSectionList} from '@native/components';
+import {FooterActionBar, ProductSectionList} from '@native/components';
 import {useTheme} from '@app/shared/hooks/useTheme';
 import {useCart} from '@app/shared/contexts';
 // localImport
@@ -11,12 +10,35 @@ import {OrderConfirmationProps} from './order-confirmation.type';
 import {styles} from './order-confirmation.style';
 import {CustomerInformation} from './components';
 import {CartSection, ProductData} from '@data/models';
+import {vndCurrencyFormat} from '@app/resources';
+import {useCallback} from 'react';
+import {useState} from 'react';
+
+const MESSAGES = {
+  TOTAL_PRICE_TITLE: 'Tổng thanh toán',
+  ORDER: 'Đặt hàng',
+  INVALID_DATA: 'Bạn vui lòng điền đẩy đủ thông tin trước khi đặt hàng',
+};
 
 const _OrderConfirmation: React.FC<OrderConfirmationProps> = () => {
   const theme = useTheme();
   const {productList} = useCart();
+  const [orderPostParam, setOrderPostParam] = useState({
+    name: '',
+    phone: '',
+    province: '',
+    district: '',
+    ward: '',
+    address: '',
+  });
 
-  const {bottom} = useSafeAreaInsets();
+  const totalPrice = useMemo(() => {
+    return (
+      productList?.reduce((prev, current) => {
+        return Number(prev || 0) + Number(current.sellPrice || 0);
+      }, 0) || 0
+    );
+  }, [productList]);
 
   const sections: CartSection = useMemo(() => {
     const cartSections: CartSection = [];
@@ -53,23 +75,38 @@ const _OrderConfirmation: React.FC<OrderConfirmationProps> = () => {
     ];
   }, [theme]);
 
-  const listContentContainerStyle = useMemo(() => {
-    return {
-      paddingBottom: bottom,
-    };
-  }, [bottom]);
+  const handleFormDataChange = useCallback(data => {
+    setOrderPostParam(data);
+  }, []);
+
+  const validateData = useMemo(() => {
+    return Object.values(orderPostParam).every(value => !!value);
+  }, [orderPostParam]);
+
+  const handleOrder = useCallback(() => {
+    if (!validateData) {
+      return Alert.alert(MESSAGES.INVALID_DATA);
+    }
+  }, [validateData]);
 
   const listHeaderComponent = useMemo(() => {
-    return <CustomerInformation />;
-  }, []);
+    return <CustomerInformation onFormDataChange={handleFormDataChange} />;
+  }, [handleFormDataChange]);
 
   return (
     <View style={containerStyle}>
       <ProductSectionList
         readonly
-        contentContainerStyle={listContentContainerStyle}
         sections={sections}
         ListHeaderComponent={listHeaderComponent}
+      />
+      <FooterActionBar
+        safeLayout
+        label={MESSAGES.TOTAL_PRICE_TITLE}
+        value={vndCurrencyFormat(totalPrice)}
+        valueStyle={styles.price}
+        btnTitle={MESSAGES.ORDER}
+        onBtnPress={handleOrder}
       />
     </View>
   );

@@ -1,11 +1,27 @@
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useMemo, useState} from 'react';
 import {View, StyleSheet} from 'react-native';
 
 import {AddressPicker, FormInput} from '@app/framework/native/components';
 import {Layout} from '@app/resources';
 import {AddressType} from '@data/models';
+import {useEffect} from 'react';
 
-export interface CustomerInformationProps {}
+export interface CustomerInformationProps {
+  name?: string;
+  phone?: string;
+  province?: string;
+  district?: string;
+  ward?: string;
+  address?: string;
+  onFormDataChange?: (data: {
+    name?: string;
+    phone?: string;
+    province?: string;
+    district?: string;
+    ward?: string;
+    address?: string;
+  }) => void;
+}
 
 const MESSAGES = {
   CUSTOMER_NAME: 'Tên khách hàng',
@@ -16,16 +32,62 @@ const MESSAGES = {
   ADDRESS: 'Địa chỉ chi tiết',
 };
 
-export const CustomerInformation: React.FC<
-  CustomerInformationProps
-> = props => {
-  const {} = props;
-  const [selectedProvince, setProvince] = useState();
-  const [selectedDistrict, setDistrict] = useState();
-  const [selectedWard, setWard] = useState();
+export const CustomerInformation: React.FC<CustomerInformationProps> = ({
+  name: nameProp,
+  phone: phoneProp,
+  province: provinceProp,
+  district: districtProp,
+  ward: wardProp,
+  address: addressProp,
+  onFormDataChange = () => {},
+}) => {
+  const [name, setName] = useState<string | undefined>();
+  const [phone, setPhone] = useState<string | undefined>();
+  const [selectedProvince, setProvince] = useState<string | undefined>();
+  const [selectedDistrict, setDistrict] = useState<string | undefined>();
+  const [selectedWard, setWard] = useState<string | undefined>();
+  const [address, setAddress] = useState<string | undefined>();
   const [addressPickerType, setAddressPickerType] = useState<
     AddressType | undefined
   >();
+
+  useEffect(() => {
+    setName(nameProp || '');
+  }, [nameProp]);
+  useEffect(() => {
+    setPhone(phoneProp || '');
+  }, [phoneProp]);
+  useEffect(() => {
+    setProvince(provinceProp || '');
+  }, [provinceProp]);
+  useEffect(() => {
+    setDistrict(districtProp || '');
+  }, [districtProp]);
+  useEffect(() => {
+    setWard(wardProp || '');
+  }, [wardProp]);
+  useEffect(() => {
+    setAddress(addressProp || '');
+  }, [addressProp]);
+
+  useEffect(() => {
+    onFormDataChange({
+      name,
+      phone,
+      province: selectedProvince,
+      district: selectedDistrict,
+      ward: selectedWard,
+      address,
+    });
+  }, [
+    onFormDataChange,
+    name,
+    phone,
+    selectedProvince,
+    selectedDistrict,
+    selectedWard,
+    address,
+  ]);
 
   const handlePressProvince = useCallback(() => {
     setAddressPickerType(AddressType.PROVINCE);
@@ -37,6 +99,18 @@ export const CustomerInformation: React.FC<
 
   const handlePressWard = useCallback(() => {
     setAddressPickerType(AddressType.WARD);
+  }, []);
+
+  const handleChangeName = useCallback(text => {
+    setName(text);
+  }, []);
+
+  const handleChangePhone = useCallback(text => {
+    setPhone(text);
+  }, []);
+
+  const handleChangeAddress = useCallback(text => {
+    setAddress(text);
   }, []);
 
   const handleConfirmAddress = useCallback(
@@ -53,13 +127,23 @@ export const CustomerInformation: React.FC<
     setAddressPickerType(undefined);
   }, []);
 
-  const districtStyle = {
-    opacity: selectedProvince ? 1 : 0.3,
-  };
+  const districtInputContainerStyle = useMemo(() => {
+    return [
+      styles.formInputAddressLabelContainer,
+      {
+        opacity: selectedProvince ? 1 : 0.3,
+      },
+    ];
+  }, [selectedProvince]);
 
-  const wardStyle = {
-    opacity: selectedProvince && selectedDistrict ? 1 : 0.3,
-  };
+  const wardInputContainerStyle = useMemo(() => {
+    return [
+      styles.formInputAddressLabelContainer,
+      {
+        opacity: selectedProvince && selectedDistrict ? 1 : 0.3,
+      },
+    ];
+  }, [selectedProvince, selectedDistrict]);
 
   return (
     <>
@@ -68,11 +152,13 @@ export const CustomerInformation: React.FC<
           labelContainerStyle={styles.formInputLabelContainer}
           label={MESSAGES.CUSTOMER_NAME}
           containerStyle={styles.formInputContainer}
+          onChangeText={handleChangeName}
         />
         <FormInput
           labelContainerStyle={styles.formInputLabelContainer}
           label={MESSAGES.PHONE_NUMBER}
           containerStyle={styles.formInputContainer}
+          onChangeText={handleChangePhone}
         />
         <FormInput
           labelContainerStyle={styles.formInputLabelContainer}
@@ -81,10 +167,9 @@ export const CustomerInformation: React.FC<
           containerStyle={styles.formInputContainer}
           onPressInput={handlePressProvince}
         />
-        <View
-          pointerEvents={selectedProvince ? 'auto' : 'none'}
-          style={districtStyle}>
+        <View pointerEvents={selectedProvince ? 'auto' : 'none'}>
           <FormInput
+            inputWrapperStyle={districtInputContainerStyle}
             labelContainerStyle={styles.formInputLabelContainer}
             label={MESSAGES.DISTRICT}
             value={selectedDistrict}
@@ -93,9 +178,11 @@ export const CustomerInformation: React.FC<
           />
         </View>
         <View
-          pointerEvents={selectedProvince ? 'auto' : 'none'}
-          style={wardStyle}>
+          pointerEvents={
+            selectedProvince && selectedDistrict ? 'auto' : 'none'
+          }>
           <FormInput
+            inputWrapperStyle={wardInputContainerStyle}
             labelContainerStyle={styles.formInputLabelContainer}
             label={MESSAGES.WARD}
             value={selectedWard}
@@ -113,6 +200,7 @@ export const CustomerInformation: React.FC<
           containerStyle={styles.formInputContainer}
           multiline
           style={styles.address}
+          onChangeText={handleChangeAddress}
         />
       </View>
       <AddressPicker

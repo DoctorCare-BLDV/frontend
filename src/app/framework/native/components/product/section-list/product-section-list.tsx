@@ -116,12 +116,12 @@ export const ProductSectionList = ({
 
   const renderProduct = useCallback(
     ({item: product}: {item: ProductSectionData}) => {
-      const totalPrice = (product.originalPrice || 0) * (product.quantity || 0);
+      const totalPrice = (product.sellPrice || 0) * (product.quantity || 0);
 
       return (
         <ProductSectionItem
           name={product.name}
-          originalPrice={product.originalPrice}
+          sellPrice={product.sellPrice}
           point={product.point}
           image={product.image}
           quantity={product.quantity}
