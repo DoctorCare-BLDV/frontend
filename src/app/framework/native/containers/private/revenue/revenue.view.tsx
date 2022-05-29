@@ -5,7 +5,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import moment from 'moment';
 
 import {Tabbar, TextView} from '@app/framework/native/components';
-import {Colors, vndCurrencyFormat} from '@app/resources';
+import {Colors, HIT_SLOP, vndCurrencyFormat} from '@app/resources';
 
 import {styles} from './revenue.style';
 import {useRevenueModel} from './revenue.hook';
@@ -27,7 +27,6 @@ const _Revenue: React.FC<RevenueProps> = () => {
   const [popupEndDate, setPopupEndDate] = React.useState(false);
   const [popupMonth, setPopupMonth] = React.useState(false);
   const {
-    dataSecodary,
     sortData,
     totalRevenue,
     onSelectDate,
@@ -42,6 +41,10 @@ const _Revenue: React.FC<RevenueProps> = () => {
     month,
     setMonth,
     revenueByMonth,
+    dataRevenueLevel2,
+    loadMore,
+    refreshData,
+    loading,
   } = useRevenueModel();
 
   return (
@@ -58,11 +61,19 @@ const _Revenue: React.FC<RevenueProps> = () => {
       />
       {index === 0 && <TotalRevenue data={totalRevenue} />}
       {index === 1 && (
-        <SecondaryRevenue data={dataSecodary} sortData={sortData} />
+        <SecondaryRevenue
+          data={dataRevenueLevel2}
+          loadMore={loadMore}
+          refreshData={refreshData}
+          sortData={sortData}
+          loading={loading}
+          totalRevenue={revenueByMonth}
+        />
       )}
       <View style={[styles.row, styles.footer]}>
         <View style={[styles.infoFooter, styles.row, styles.spaceBetween]}>
           <TouchableOpacity
+            hitSlop={HIT_SLOP}
             style={styles.row}
             onPress={() => setPopupMonth(true)}>
             <FontAwesome
@@ -71,7 +82,7 @@ const _Revenue: React.FC<RevenueProps> = () => {
               size={16}
             />
             <TextView style={styles.textFooter} color={Colors.PRIMARY_ORAGE}>
-              Tháng {moment(month).format('M')}
+              Tháng {moment(month).format('MM')}
             </TextView>
           </TouchableOpacity>
           <TextView style={styles.textFooter} color={Colors.PRIMARY_ORAGE}>
@@ -101,9 +112,7 @@ const _Revenue: React.FC<RevenueProps> = () => {
         open={popupMonth}
         date={month}
         onCancel={() => setPopupMonth(false)}
-        onChangeMonth={(event, newDate) => (
-          setMonth(newDate), setPopupMonth(false)
-        )}
+        onChangeMonth={value => setMonth(value)}
         type={'month'}
       />
     </View>

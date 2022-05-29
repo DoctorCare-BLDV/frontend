@@ -11,8 +11,3 @@ export type RevenueNavigationProps = StackNavigationProp<
 export interface TotalRevenueProps {
   data?: any;
 }
-
-export interface SecondaryRevenueProps {
-  data: Array<any>;
-  sortData: () => void;
-}

@@ -31,6 +31,7 @@ export const FilterDate = React.memo((props: FilterDateProps) => {
         {SelectDateData.map(v => {
           return (
             <TouchableOpacity
+              key={v.key.toString()}
               onPress={() => onSelectDate(v.key)}
               style={[
                 styles.selectDate,

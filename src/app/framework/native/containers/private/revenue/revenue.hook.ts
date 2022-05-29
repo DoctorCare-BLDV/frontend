@@ -33,7 +33,7 @@ export function useRevenueModel() {
   const [onSelect, setOnSelect] = useState(SelectDateData[0].key);
   const [startDate, setStartDate] = useState<Date>();
   const [endDate, setEndDate] = useState<Date>();
-  const [month, setMonth] = useState<Date>();
+  const [month, setMonth] = useState<string | Date>(moment().toDate());
   const currentPage = useRef(0);
   const lastPage = useRef(1);
   const [loading, setLoading] = useState<boolean>(false);
@@ -141,10 +141,12 @@ export function useRevenueModel() {
     }
     setRevenueByMonth(response?.revenueByMonth);
   }, [month]);
+
   /* eslint-disable */
   useEffect(() => {
     getRenevueByMonth();
   }, [month]);
+
   useEffect(() => {
     getTotalRevenue();
     getRenevueByMonth();
@@ -183,5 +185,6 @@ export function useRevenueModel() {
     dataRevenueLevel2,
     loadMore,
     refreshData,
+    loading,
   };
 }

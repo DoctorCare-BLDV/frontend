@@ -49,13 +49,11 @@ export class RevenueApiService {
     lastPage?: number;
     errMessage?: string;
   }> {
-    console.log(body);
     try {
       const {data} = await this.provider.post(
         '/public/revenue/getAllLevel2Revenue',
         body,
       );
-      console.log('data', data);
       return {
         revenueLevel2: data?.content?.content || [],
         lastPage: data?.content?.totalPages || 1,
