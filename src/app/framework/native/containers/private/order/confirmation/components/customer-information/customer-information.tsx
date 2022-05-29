@@ -159,6 +159,7 @@ export const CustomerInformation: React.FC<CustomerInformationProps> = ({
           label={MESSAGES.PHONE_NUMBER}
           containerStyle={styles.formInputContainer}
           onChangeText={handleChangePhone}
+          keyboardType="phone-pad"
         />
         <FormInput
           labelContainerStyle={styles.formInputLabelContainer}

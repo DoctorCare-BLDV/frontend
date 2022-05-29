@@ -1,14 +1,31 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 
 import {CartContext} from './cart.context';
-import {CartLocalService} from '@app/framework/native/infrastructure';
+import {
+  CartLocalService,
+  OrderService,
+} from '@app/framework/native/infrastructure';
 import {CartLocal, CartLocalProduct, ProductData} from '@data/models';
+import {
+  AddOrderApiRequest,
+  AddOrderAPIResponse,
+  ApiRequest,
+} from '@data/models';
+import {HTTPS_ERROR_MESSAGE, HTTPS_SUCCESS_STATUS} from '@app/resources';
+import {showFlashMessage} from '@app/utils';
+import {GetListHookOptions} from '@app/framework/native/hooks';
+
 import {useUser} from '../user';
+
+export interface AddOrderHookOptions extends GetListHookOptions {
+  data: AddOrderApiRequest;
+}
 
 export const CartContextProvider: React.FC = ({children}) => {
   const {user} = useUser();
   const [productList, setProductList] = useState<CartLocalProduct[]>([]);
+  const [addOrderRequest] = useState(new ApiRequest<AddOrderAPIResponse>());
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const initCartLocal = useCallback(async () => {
@@ -113,11 +130,54 @@ export const CartContextProvider: React.FC = ({children}) => {
     // CartLocalService.clearCart();
   }, []);
 
+  const addOrder = useCallback(
+    async (options: AddOrderHookOptions) => {
+      try {
+        options?.onBeforeRequest && options.onBeforeRequest();
+
+        addOrderRequest.updateData(OrderService.addOrder(options.data));
+        const response = await addOrderRequest.request();
+        console.log(response);
+
+        options?.onRequestSuccess && options.onRequestSuccess(response);
+
+        showFlashMessage({
+          type:
+            response?.status === HTTPS_SUCCESS_STATUS ? 'success' : 'danger',
+          message:
+            response?.status === HTTPS_SUCCESS_STATUS
+              ? response?.data?.message
+              : response?.data?.message || HTTPS_ERROR_MESSAGE,
+        });
+      } catch (error: any) {
+        console.log('err_get_item_list', error);
+
+        options?.onRequestError && options.onRequestError(error);
+
+        showFlashMessage({
+          type: 'danger',
+          message: error?.message || HTTPS_ERROR_MESSAGE,
+        });
+      } finally {
+        options?.onEndRequest && options.onEndRequest();
+      }
+    },
+    [addOrderRequest],
+  );
+
+  const cartTotalPrice = useMemo(() => {
+    return (productList || []).reduce((prev, current) => {
+      return prev + ((current.quantity || 0) * (current.sellPrice || 0) || 0);
+    }, 0);
+  }, [productList]);
+
   return (
     <CartContext.Provider
       value={{
         productList,
+        cartTotalPrice,
         clearCart,
+        addOrder,
         getCartProduct,
         setCartProduct,
         removeProductFromCart,

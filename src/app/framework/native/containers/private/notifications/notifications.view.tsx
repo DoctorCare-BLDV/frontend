@@ -1,4 +1,4 @@
-import React, {useCallback, useMemo} from 'react';
+import React, {useCallback, useEffect, useMemo} from 'react';
 import {FlatList} from 'react-native';
 // import from library
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
@@ -9,8 +9,12 @@ import {NotificationItem, NotificationItemProps} from './notification-item';
 
 const _Notifications: React.FC<NotificationsProps> = props => {
   const {} = props;
-  const {} = useNotificationsModel();
+  const {getNotificationList} = useNotificationsModel();
   const {bottom} = useSafeAreaInsets();
+
+  useEffect(() => {
+    getNotificationList();
+  }, [getNotificationList]);
 
   const listContentContainerStyle = useMemo(() => {
     return {

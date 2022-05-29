@@ -8,3 +8,4 @@ export * from './axios-revenue.service';
 export * from './cart-local.service';
 export * from './axios-address.service';
 export * from './address-local.service';
+export * from './axios-notification.service';

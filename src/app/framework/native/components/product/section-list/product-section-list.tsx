@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
     paddingHorizontal: Layout.spacingHorizontal,
     paddingVertical: Layout.spacingVertical,
-    borderBottomWidth: 1,
+    borderTopWidth: 1,
     justifyContent: 'space-between',
   },
   headerContentContainer: {
@@ -177,6 +177,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   product: {
-    borderBottomWidth: 1,
+    borderTopWidth: 1,
   },
 });

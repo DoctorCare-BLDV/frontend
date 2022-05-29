@@ -39,17 +39,12 @@ const _Cart: React.FC<CartProps> = ({}) => {
     setCartProduct,
     removeAllProductFromInventory,
     clearCart,
+    cartTotalPrice,
   } = useCart();
   const theme = useTheme();
   const confirmationModalNavigation =
     useNavigation<ConfirmationModalNavigationProps>();
   const orderConfirmationNavigation = useNavigation<any>();
-
-  const totalPrice = useMemo(() => {
-    return (productList || []).reduce((prev, current) => {
-      return prev + ((current.quantity || 0) * (current.sellPrice || 0) || 0);
-    }, 0);
-  }, [productList]);
 
   const totalProfit = useMemo(() => {
     return (productList || []).reduce((prev, current) => {
@@ -225,7 +220,7 @@ const _Cart: React.FC<CartProps> = ({}) => {
       {!!productList?.length && (
         <CartFooter
           label={MESSAGES.DELETE_ALL}
-          value={vndCurrencyFormat(totalPrice)}
+          value={vndCurrencyFormat(cartTotalPrice)}
           iconLeftName="trash-alt"
           btnTitle={MESSAGES.CONFIRM}
           safeLayout

@@ -11,5 +11,5 @@ export type CartLocal = {
 
 export type CartSection = {
   heading?: {title?: string; id?: number};
-  data: ProductData[];
+  data: CartLocalProduct[];
 }[];

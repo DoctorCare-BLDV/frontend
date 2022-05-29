@@ -9,3 +9,4 @@ export * from './order';
 export * from './revenue';
 export * from './cart';
 export * from './address';
+export * from './notification';

@@ -21,7 +21,7 @@ export const styles = StyleSheet.create({
     padding: Layout.spacingHorizontal,
   },
   title: {
-    fontSize: 16,
+    fontSize: 20,
   },
   tagPriceContainer: {
     flexDirection: 'row',
@@ -34,7 +34,7 @@ export const styles = StyleSheet.create({
     fontSize: 11,
   },
   priceWrapper: {
-    paddingVertical: Layout.spacingHorizontal,
+    paddingVertical: 10,
   },
   priceContainer: {
     flexDirection: 'row',

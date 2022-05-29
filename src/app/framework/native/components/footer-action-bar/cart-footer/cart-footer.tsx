@@ -1,6 +1,9 @@
 import React, {useEffect, useRef} from 'react';
-import {useFloatingReaction} from '@app/shared/contexts';
+
+import {useCart, useFloatingReaction} from '@app/shared/contexts';
 import {useIsFocused} from '@react-navigation/native';
+import {vndCurrencyFormat} from '@app/resources';
+
 import {
   FooterActionBar,
   FooterActionBarProps,
@@ -18,6 +21,7 @@ const MESSAGES = {
 export const CartFooter: React.FC<CartFooterProps> = props => {
   const isFocused = useIsFocused();
   const labelBlockRef = useRef();
+  const {cartTotalPrice} = useCart();
   const {setFloatingReactionTarget} = useFloatingReaction();
 
   useEffect(() => {
@@ -40,9 +44,8 @@ export const CartFooter: React.FC<CartFooterProps> = props => {
       iconLeftName="cart-plus"
       label={MESSAGES.LABEL}
       btnTitle={MESSAGES.BTN_TITLE}
-      value={MESSAGES.VALUE}
+      value={vndCurrencyFormat(cartTotalPrice)}
       safeLayout
-      onLabelPress={() => {}}
       labelBlockRef={labelBlockRef}
       {...props}
     />

@@ -50,23 +50,17 @@ export enum ORDER_STATUS {
 }
 
 export type AddOrderApiRequest = {
-  inventoryList: [
-    {
+  inventoryList: {
+    inventoryId: number;
+    orderProductList: {
       inventoryId: number;
-      orderProductList: [
-        {
-          inventoryId: number;
-          productId: number;
-          count: number;
-          profitPrice: number;
-          sellPrice: number;
-          point: number;
-        },
-      ];
-    },
-  ];
+      productId: number;
+      count: number;
+      sellPrice: number;
+      point: number;
+    }[];
+  }[];
   orderAddress: string;
-  orderDescription: string;
   orderDistrict: string;
   orderPhone: string;
   orderProvince: string;
