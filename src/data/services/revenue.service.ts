@@ -1,6 +1,11 @@
 import {AxiosInstance} from 'axios';
 
-import {TotalRevenueRequest, TotalRevenueType} from '@data/models';
+import {
+  GetAllRevenueLevel2Request,
+  MemberLevel2,
+  TotalRevenueRequest,
+  TotalRevenueType,
+} from '@data/models';
 
 export class RevenueApiService {
   constructor(private readonly provider: AxiosInstance) {}
@@ -14,6 +19,45 @@ export class RevenueApiService {
         body,
       );
       return {totalRevenue: response.data.content};
+    } catch (error: any) {
+      return {
+        errMessage:
+          error?.response?.data?.message ||
+          'Đã có lỗi xảy ra, vui lòng thử lại sau',
+      };
+    }
+  }
+  async getRevenueByMonth(body: {
+    time?: string;
+  }): Promise<{revenueByMonth?: TotalRevenueType; errMessage?: string}> {
+    try {
+      const response = await this.provider.post(
+        '/public/revenue/getRevenueByMonth',
+        body,
+      );
+      return {revenueByMonth: response.data.content};
+    } catch (error: any) {
+      return {
+        errMessage:
+          error?.response?.data?.message ||
+          'Đã có lỗi xảy ra, vui lòng thử lại sau',
+      };
+    }
+  }
+  async getRevenueLevel2(body: GetAllRevenueLevel2Request): Promise<{
+    revenueLevel2?: Array<MemberLevel2>;
+    lastPage?: number;
+    errMessage?: string;
+  }> {
+    try {
+      const {data} = await this.provider.post(
+        '/public/revenue/getAllLevel2Revenue',
+        body,
+      );
+      return {
+        revenueLevel2: data?.content?.content || [],
+        lastPage: data?.content?.totalPages || 1,
+      };
     } catch (error: any) {
       return {
         errMessage:

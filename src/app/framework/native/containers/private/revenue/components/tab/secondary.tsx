@@ -1,25 +1,64 @@
 import React from 'react';
-import {FlatList, StyleSheet, TouchableOpacity, View} from 'react-native';
+import {
+  FlatList,
+  RefreshControl,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import {Divider} from 'react-native-elements';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import {TextView} from '@app/framework/native/components';
-import {Colors} from '@app/resources';
-import {SecondaryRevenueProps} from '../../revenue.type';
+import {faInbox} from '@fortawesome/free-solid-svg-icons';
+import {Icon} from '@fortawesome/fontawesome-svg-core';
+import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
+import {AppDimensions, Colors, Layout, vndCurrencyFormat} from '@app/resources';
+import {MemberLevel2, TotalRevenueType} from '@data/models';
+
+export interface SecondaryRevenueProps {
+  data: Array<MemberLevel2> | undefined;
+  sortData: () => void;
+  loadMore: () => void;
+  refreshData: () => void;
+  loading: boolean;
+  totalRevenue: TotalRevenueType | undefined;
+}
 
 export const SecondaryRevenue = React.memo((props: SecondaryRevenueProps) => {
-  const renderItem = React.useCallback(({item}: any) => {
+  const {data, sortData, loadMore, loading, refreshData, totalRevenue} = props;
+  const renderItem = React.useCallback(
+    (item, index) => {
+      return (
+        <>
+          <View style={[styles.row, styles.spaceBetween, styles.infoSecondary]}>
+            <TextView style={[styles.textSecondary, styles.flex40]}>
+              {item.fullName}
+            </TextView>
+            <TextView style={[styles.textSecondary, styles.flex30]}>
+              {item.totalPrice}
+            </TextView>
+            <TextView style={styles.flex30}>{item.totalProduct}</TextView>
+          </View>
+          {data && data?.length - 1 !== index && <Divider />}
+        </>
+      );
+    },
+    [data],
+  );
+  const renderEmpty = React.useCallback(() => {
+    if (data && !!data.length) return undefined;
     return (
-      <View style={[styles.row, styles.spaceBetween, styles.infoSecondary]}>
-        <TextView style={[styles.textSecondary, styles.flex40]}>
-          {item.name}
-        </TextView>
-        <TextView style={[styles.textSecondary, styles.flex30]}>
-          {item.revenue}
-        </TextView>
-        <TextView style={styles.flex30}>{item.mv}</TextView>
+      <View style={styles.emptyWrapper}>
+        <FontAwesomeIcon
+          icon={faInbox as Icon}
+          style={styles.emptyIcon}
+          size={80}
+        />
+        <TextView style={styles.emptyText}>{'Không có dữ liệu'}</TextView>
       </View>
     );
-  }, []);
+  }, [data]);
 
   return (
     <>
@@ -38,17 +77,14 @@ export const SecondaryRevenue = React.memo((props: SecondaryRevenueProps) => {
               size={20}
             />
             <View style={styles.infoMV}>
-              <TextView style={styles.textTotal}>Tổng MV: 4400</TextView>
-              <TextView style={styles.textTotal}>Tổng lợi nhuận: 4400</TextView>
+              <TextView style={styles.textTotal}>
+                Tổng MV: {totalRevenue?.totalMV}
+              </TextView>
+              <TextView style={styles.textTotal}>
+                Tổng lợi nhuận: {vndCurrencyFormat(totalRevenue?.level2Revenue)}
+              </TextView>
             </View>
           </View>
-          <TouchableOpacity onPress={() => props.openCalendar()}>
-            <FontAwesome
-              name="calendar"
-              color={Colors.PRIMARY_ORAGE}
-              size={24}
-            />
-          </TouchableOpacity>
         </View>
         <View style={[styles.row, styles.table, styles.spaceBetween]}>
           <TextView style={[styles.textTable, styles.flex40]}>
@@ -58,7 +94,7 @@ export const SecondaryRevenue = React.memo((props: SecondaryRevenueProps) => {
             Doanh thu
           </TextView>
           <TouchableOpacity
-            onPress={() => props.sortData()}
+            onPress={() => sortData()}
             style={[styles.row, styles.flex30, styles.justifyEnd]}>
             <TextView style={[styles.textTable]}>MV</TextView>
             <FontAwesome
@@ -70,9 +106,14 @@ export const SecondaryRevenue = React.memo((props: SecondaryRevenueProps) => {
           </TouchableOpacity>
         </View>
         <FlatList
-          keyExtractor={item => item.id}
-          data={props.data}
-          renderItem={renderItem}
+          refreshControl={
+            <RefreshControl refreshing={loading} onRefresh={refreshData} />
+          }
+          ListEmptyComponent={renderEmpty()}
+          onEndReached={loadMore}
+          keyExtractor={(item, index) => index.toString()}
+          data={data}
+          renderItem={({item, index}) => renderItem(item, index)}
         />
       </View>
     </>
@@ -132,5 +173,19 @@ const styles = StyleSheet.create({
   },
   justifyEnd: {
     justifyContent: 'flex-end',
+  },
+  emptyWrapper: {
+    alignSelf: 'center',
+    alignItems: 'center',
+    marginTop: AppDimensions.height * 0.2,
+  },
+  emptyText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: Colors.DIM_BLACK,
+    marginTop: Layout.hitSlop.top,
+  },
+  emptyIcon: {
+    color: Colors.DIM_BLACK,
   },
 });

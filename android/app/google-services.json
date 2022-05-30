@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "597399170266",
+    "project_id": "doctor-care-14a2c",
+    "storage_bucket": "doctor-care-14a2c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:597399170266:android:236dd4eb9e39e344a789e3",
+        "android_client_info": {
+          "package_name": "com.bluedatviet.doctorcare.staging"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "597399170266-qubnn0q7m6cg21plmv90nhhqfo8ga2r1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD-tBQNsFtsWKMUP6JPDgvWwpWnRUAzBMQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "597399170266-qubnn0q7m6cg21plmv90nhhqfo8ga2r1.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "597399170266-s5cj09778j645ah1ekr7bteen8hl4mf3.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "vn.bluedatviet.doctorcare.staging"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
