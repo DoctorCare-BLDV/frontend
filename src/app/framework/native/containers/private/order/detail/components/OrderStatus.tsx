@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
   },
   text: {
     color: Colors.GRAY,
-    fonWeight: '500',
+    fontWeight: '500',
     fontSize: 14,
   },
   whiteText: {
