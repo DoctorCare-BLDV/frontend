@@ -80,11 +80,6 @@ const _ProductDetail: React.FC<ProductDetailProps> = ({route}) => {
     }
   }, [addFloatingReactionSource, files]);
 
-  const addToCart = useCallback(() => {
-    animateCart();
-    setCartProduct(route.params.product, 1);
-  }, [animateCart, setCartProduct, route.params.product]);
-
   const handleChangeQuantity = useCallback(
     (updatedQuantity: number) => {
       if (updatedQuantity > quantity) {
@@ -183,7 +178,7 @@ const _ProductDetail: React.FC<ProductDetailProps> = ({route}) => {
           </View>
         </View>
       </ScrollView>
-      <CartFooter onLabelPress={addToCart} onBtnPress={goToCart} />
+      <CartFooter onBtnPress={goToCart} />
     </>
   );
 };

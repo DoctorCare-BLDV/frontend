@@ -27,6 +27,10 @@ export const CartContextProvider: React.FC = ({children}) => {
   const [productList, setProductList] = useState<CartLocalProduct[]>([]);
   const [addOrderRequest] = useState(new ApiRequest<AddOrderAPIResponse>());
 
+  const totalProduct = useMemo(() => {
+    return productList.length;
+  }, [productList.length]);
+
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const initCartLocal = useCallback(async () => {
     if (!user?.userInfoId) {
@@ -174,8 +178,9 @@ export const CartContextProvider: React.FC = ({children}) => {
   return (
     <CartContext.Provider
       value={{
-        productList,
         cartTotalPrice,
+        productList,
+        totalProduct,
         clearCart,
         addOrder,
         getCartProduct,

@@ -1,117 +1,166 @@
 import React, {useCallback, useEffect, useMemo} from 'react';
-import {FlatList} from 'react-native';
+import {
+  ActivityIndicator,
+  FlatList,
+  RefreshControl,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 // import from library
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 // localImport
-import {useNotificationsModel} from './notifications.hook';
 import {NotificationsProps} from './notifications.type';
-import {NotificationItem, NotificationItemProps} from './notification-item';
+import {NotificationItem} from './notification-item';
+import {NotificationModel} from '@data/models';
+import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import {TextView} from '@app/framework/native/components';
+import {Colors, Layout} from '@app/resources';
+import {useTheme} from '@app/shared/hooks';
+import {useNotificationListModel} from './notifications.hook';
 
-const _Notifications: React.FC<NotificationsProps> = props => {
-  const {} = props;
-  const {getNotificationList} = useNotificationsModel();
-  const {bottom} = useSafeAreaInsets();
+const MESSAGES = {
+  NO_RESULT: 'Chưa có thông báo!',
+};
+
+const styles = StyleSheet.create({
+  emptyWrapper: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  emptyIcon: {
+    fontSize: 70,
+    color: Colors.DIM_BLACK,
+  },
+  emptyTitle: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginTop: Layout.spacingVertical,
+    color: Colors.DIM_BLACK,
+  },
+  loadingContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingVertical: 30,
+  },
+  checkAllIcon: {
+    fontSize: 25,
+  },
+  listContentContainer: {
+    flexGrow: 1,
+  },
+});
+
+const _Notifications: React.FC<NotificationsProps> = ({navigation}) => {
+  const {
+    notificationList,
+    isLoading,
+    isLoadMore,
+    isRefreshing,
+    handleLoadMore,
+    handleRefresh,
+  } = useNotificationListModel();
+
+  const renderReadAll = useCallback(props => {
+    return (
+      <TouchableOpacity>
+        <MaterialCommunityIcons
+          name="check-all"
+          style={[styles.checkAllIcon, {color: props.tintColor}]}
+        />
+      </TouchableOpacity>
+    );
+  }, []);
 
   useEffect(() => {
-    getNotificationList();
-  }, [getNotificationList]);
+    navigation.setOptions({
+      headerRight: renderReadAll,
+    });
+  }, [navigation, renderReadAll]);
+
+  const {bottom} = useSafeAreaInsets();
+  const theme = useTheme();
+
+  const emptyTitleStyle = useMemo(() => {
+    return [
+      styles.emptyTitle,
+      {
+        color: theme.textColorScheme.secondary,
+      },
+    ];
+  }, [theme]);
 
   const listContentContainerStyle = useMemo(() => {
-    return {
-      paddingBottom: bottom,
-    };
+    return [
+      styles.listContentContainer,
+      {
+        paddingBottom: bottom,
+      },
+    ];
   }, [bottom]);
+
+  const renderListEmpty = useCallback(() => {
+    if (isLoading) {
+      return null;
+    }
+
+    return (
+      <View style={styles.emptyWrapper}>
+        <FontAwesome5Icon name="bell-slash" style={styles.emptyIcon} />
+        <TextView style={emptyTitleStyle}>{MESSAGES.NO_RESULT}</TextView>
+      </View>
+    );
+  }, [isLoading, emptyTitleStyle]);
+
+  const renderLoadMore = useCallback(() => {
+    if (!isLoadMore) {
+      return null;
+    }
+
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="small" />
+      </View>
+    );
+  }, [isLoadMore]);
+
+  const renderNotification = ({
+    item: notification,
+  }: {
+    item: NotificationModel;
+  }) => {
+    return (
+      <NotificationItem
+        title={notification.content}
+        isUnread={!notification.isRead}
+        // image={notification.image}
+      />
+    );
+  };
 
   const keyExtractor = useCallback(
     (item, index) => String(item.id || index),
     [],
   );
 
-  const renderNotification = ({
-    item: notification,
-  }: {
-    item: NotificationItemProps;
-  }) => {
-    return (
-      <NotificationItem title={notification.title} image={notification.image} />
-    );
-  };
-
   return (
-    <>
-      <FlatList
-        data={NOTIFICATIONS}
-        contentContainerStyle={listContentContainerStyle}
-        renderItem={renderNotification}
-        keyExtractor={keyExtractor}
-      />
-    </>
+    <FlatList
+      data={notificationList}
+      contentContainerStyle={listContentContainerStyle}
+      renderItem={renderNotification}
+      keyExtractor={keyExtractor}
+      ListEmptyComponent={renderListEmpty}
+      ListFooterComponent={renderLoadMore}
+      scrollEventThrottle={16}
+      onEndReachedThreshold={0.4}
+      onEndReached={handleLoadMore}
+      refreshControl={
+        <RefreshControl refreshing={isRefreshing} onRefresh={handleRefresh} />
+      }
+    />
   );
 };
 
 export const Notifications = React.memo(_Notifications);
-
-const NOTIFICATIONS = [
-  {
-    id: 1,
-    image:
-      'https://gamek.mediacdn.vn/133514250583805952/2020/8/6/rtd1-1596712458074488543564.jpg',
-    title:
-      'Đơn hàng của khách hàng Nguyễn Văn Anh đã được lên thành công, vui lòng chờ xác nhận.',
-  },
-  {
-    id: 2,
-    image:
-      'https://gamek.mediacdn.vn/133514250583805952/2020/7/11/narutossagemode-15944657133061535033027.png',
-    title:
-      'Đơn hàng của khách hàng Nguyễn Thị Ngọc Ánh đã được xác nhận và đóng gói.',
-  },
-  {
-    id: 3,
-    image:
-      'https://gamingnews.cyou/img/1647517581_The-new-chapter-of-One-Piece-shows-the-awakening-of.jpg',
-    title: 'Đơn hàng của khách hàng Nguyễn Thị An đang được vận chuyển.',
-  },
-  {
-    id: 4,
-    image:
-      'https://i.pinimg.com/474x/8d/1f/b1/8d1fb16c29e57201145e585be2a30710.jpg',
-    title: 'Đơn hàng của khách hàng Nguyễn Văn Ngọc đã giao thất bại.',
-  },
-  {
-    id: 5,
-    image:
-      'https://gamingnews.cyou/img/1647517581_The-new-chapter-of-One-Piece-shows-the-awakening-of.jpg',
-    title: 'Đơn hàng của khách hàng Nguyễn Thị An đang được vận chuyển.',
-  },
-  {
-    id: 6,
-    image:
-      'https://i.pinimg.com/474x/8d/1f/b1/8d1fb16c29e57201145e585be2a30710.jpg',
-    title: 'Đơn hàng của khách hàng Nguyễn Văn Ngọc đã giao thất bại.',
-  },
-  {
-    id: 7,
-    image:
-      'https://gamingnews.cyou/img/1647517581_The-new-chapter-of-One-Piece-shows-the-awakening-of.jpg',
-    title: 'Đơn hàng của khách hàng Nguyễn Thị An đang được vận chuyển.',
-  },
-  {
-    id: 8,
-    image:
-      'https://i.pinimg.com/474x/8d/1f/b1/8d1fb16c29e57201145e585be2a30710.jpg',
-    title: 'Đơn hàng của khách hàng Nguyễn Văn Ngọc đã giao thất bại.',
-  },
-  {
-    id: 9,
-    image:
-      'https://gamingnews.cyou/img/1647517581_The-new-chapter-of-One-Piece-shows-the-awakening-of.jpg',
-    title: 'Đơn hàng của khách hàng Nguyễn Thị An đang được vận chuyển.',
-  },
-  {
-    id: 10,
-    image:
-      'https://i.pinimg.com/474x/8d/1f/b1/8d1fb16c29e57201145e585be2a30710.jpg',
-    title: 'Đơn hàng của khách hàng Nguyễn Văn Ngọc đã giao thất bại.',
-  },
-];

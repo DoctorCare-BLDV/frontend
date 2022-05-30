@@ -1,12 +1,11 @@
-import React, {useCallback, useMemo} from 'react';
+import React, {useMemo} from 'react';
 import {View, StyleSheet, StyleProp, ViewStyle} from 'react-native';
 
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {useNavigation} from '@react-navigation/native';
 
 import {
   CartButton,
-  IconButton,
+  NotificationsButton,
   SearchBar,
 } from '@app/framework/native/components';
 import {useTheme} from '@app/shared/hooks/useTheme';
@@ -27,7 +26,6 @@ export const Header: React.FC<HeaderProps> = ({
 }) => {
   const theme = useTheme();
   const {top} = useSafeAreaInsets();
-  const notificationsNavigation = useNavigation<any>();
 
   const wrapperBaseStyle = useMemo(() => {
     return [
@@ -49,10 +47,6 @@ export const Header: React.FC<HeaderProps> = ({
     ];
   }, [top]);
 
-  const goToNotifications = useCallback(() => {
-    notificationsNavigation.navigate('Notifications');
-  }, [notificationsNavigation]);
-
   return (
     <View style={wrapperBaseStyle}>
       <View style={containerStyle}>
@@ -64,12 +58,7 @@ export const Header: React.FC<HeaderProps> = ({
           onPress={onPressSearchBar}
         />
         <View style={styles.iconContainer}>
-          <IconButton
-            name="bell"
-            badge={10}
-            style={styles.icon}
-            onPress={goToNotifications}
-          />
+          <NotificationsButton />
         </View>
         <View style={styles.iconContainer}>
           <CartButton />

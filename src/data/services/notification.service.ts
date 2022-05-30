@@ -17,7 +17,7 @@ export class NotificationApiService {
     return {
       cancel: () => controller.abort(),
       request: () =>
-        this.provider.post('/public/notify/getAll/', body, {
+        this.provider.post('/public/notify/getAll', body, {
           signal: controller.signal,
         }),
     };

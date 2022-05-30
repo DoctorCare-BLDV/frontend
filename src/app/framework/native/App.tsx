@@ -14,6 +14,7 @@ import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {
   CartContextProvider,
   FloatingReactionContextProvider,
+  NotificationsContextProvider,
   UserContextProvider,
 } from '@app/shared/contexts';
 import {configureApiProvider} from './infrastructure';
@@ -39,11 +40,13 @@ const App = () => {
         <QueryClientProvider client={queryClient}>
           <UserContextProvider>
             <CartContextProvider>
-              <RootNavigator />
-              <FlashMessage />
+              <NotificationsContextProvider>
+                <RootNavigator />
+                <FlashMessage />
 
-              {/* Last UI Component */}
-              <FloatingReactionList />
+                {/* Last UI Component */}
+                <FloatingReactionList />
+              </NotificationsContextProvider>
             </CartContextProvider>
           </UserContextProvider>
         </QueryClientProvider>

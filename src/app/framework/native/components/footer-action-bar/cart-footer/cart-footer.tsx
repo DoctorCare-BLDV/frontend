@@ -1,4 +1,5 @@
-import React, {useEffect, useRef} from 'react';
+import React, {useCallback, useEffect, useRef} from 'react';
+import {StyleSheet, View} from 'react-native';
 
 import {useCart, useFloatingReaction} from '@app/shared/contexts';
 import {useIsFocused} from '@react-navigation/native';
@@ -9,14 +10,21 @@ import {
   FooterActionBarProps,
   FooterActionBarType,
 } from '../footer-action-bar';
+import {CartButton} from '../../header-button';
 
 export interface CartFooterProps extends FooterActionBarProps {}
 
 const MESSAGES = {
   LABEL: 'Thêm vào giỏ',
   BTN_TITLE: 'Mua hàng',
-  VALUE: '40.000.000đ',
 };
+
+const styles = StyleSheet.create({
+  label: {
+    fontSize: 16,
+    marginLeft: 10,
+  },
+});
 
 export const CartFooter: React.FC<CartFooterProps> = props => {
   const isFocused = useIsFocused();
@@ -38,13 +46,22 @@ export const CartFooter: React.FC<CartFooterProps> = props => {
     }
   }, [isFocused, setFloatingReactionTarget]);
 
+  const renderCart = useCallback(() => {
+    return (
+      <View pointerEvents="none">
+        <CartButton />
+      </View>
+    );
+  }, []);
+
   return (
     <FooterActionBar
       type={FooterActionBarType.PRIMARY}
       iconLeftName="cart-plus"
-      label={MESSAGES.LABEL}
+      renderIconLeft={renderCart}
       btnTitle={MESSAGES.BTN_TITLE}
-      value={vndCurrencyFormat(cartTotalPrice)}
+      label={vndCurrencyFormat(cartTotalPrice)}
+      labelStyle={styles.label}
       safeLayout
       labelBlockRef={labelBlockRef}
       {...props}

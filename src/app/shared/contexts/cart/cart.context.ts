@@ -4,6 +4,8 @@ import {AddOrderHookOptions} from './cart.context-provider';
 
 export type CartContextState = Omit<CartLocal, 'userId'> & {
   cartTotalPrice: number;
+  totalProduct: number;
+  productList: CartLocalProduct[];
   setCartProduct: (product: CartLocalProduct, quantity?: number) => void;
   removeProductFromCart: (productId: number) => void;
   getCartProduct: (productId: number) => CartLocalProduct | undefined;
@@ -14,6 +16,7 @@ export type CartContextState = Omit<CartLocal, 'userId'> & {
 
 export const INITIAL_VALUE: CartContextState = {
   cartTotalPrice: 0,
+  totalProduct: 0,
   productList: [],
   setCartProduct: () => {},
   removeProductFromCart: () => {},

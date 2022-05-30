@@ -37,6 +37,8 @@ export interface FooterActionBarProps {
   containerStyle?: StyleProp<ViewStyle>;
   onLabelPress?: () => void;
   onBtnPress?: () => void;
+
+  renderIconLeft?: (iconStyle: StyleProp<TextStyle>) => React.ReactElement;
 }
 
 export const FooterActionBar: React.FC<FooterActionBarProps> = ({
@@ -57,6 +59,7 @@ export const FooterActionBar: React.FC<FooterActionBarProps> = ({
   containerStyle,
   onLabelPress,
   onBtnPress,
+  renderIconLeft,
 }) => {
   const theme = useTheme();
 
@@ -136,13 +139,16 @@ export const FooterActionBar: React.FC<FooterActionBarProps> = ({
         style={labelContainerBaseStyle}
         disabled={!onLabelPress}
         onPress={onLabelPress}>
-        {!!iconLeftName && (
-          <FontAwesome5Icon solid name={iconLeftName} style={iconStyle} />
-        )}
+        {renderIconLeft
+          ? renderIconLeft(iconStyle)
+          : !!iconLeftName && (
+              <FontAwesome5Icon solid name={iconLeftName} style={iconStyle} />
+            )}
         {!!label && <TextView style={labelBaseStyle}>{label}</TextView>}
       </TouchableOpacity>
     );
   }, [
+    renderIconLeft,
     labelBlockRef,
     iconLeftName,
     label,

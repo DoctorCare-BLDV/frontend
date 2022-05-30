@@ -3,6 +3,7 @@ import {CartContext} from './cart.context';
 export function useCart() {
   const {
     cartTotalPrice,
+    totalProduct,
     productList,
     setCartProduct,
     getCartProduct,
@@ -13,6 +14,7 @@ export function useCart() {
   } = React.useContext(CartContext);
   return {
     cartTotalPrice,
+    totalProduct,
     productList,
     setCartProduct,
     getCartProduct,

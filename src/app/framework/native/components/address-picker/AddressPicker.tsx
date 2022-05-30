@@ -138,6 +138,8 @@ const _AddressPicker = ({
   onConfirm = () => {},
   onModalHide = () => {},
 }: AddressPickerProps) => {
+  const listRef = useRef<any>();
+
   const theme = useTheme();
   const {getAddressList} = useAddress();
   const {bottom} = useSafeAreaInsets();
@@ -186,6 +188,16 @@ const _AddressPicker = ({
   useEffect(() => {
     hasWardList.current = !!wardList.length;
   }, [wardList]);
+
+  const selectedAddressName = useMemo(() => {
+    return type === AddressType.PROVINCE
+      ? provinceName
+      : type === AddressType.DISTRICT
+      ? districtName
+      : type === AddressType.WARD
+      ? wardName
+      : -1;
+  }, [type, provinceName, districtName, wardName]);
 
   const containerBaseStyle = useMemo(() => {
     return [
@@ -269,6 +281,33 @@ const _AddressPicker = ({
     );
   }, [selectedProvince, selectedDistrict, selectedWard]);
 
+  const autoScrollToSelected = useCallback(
+    (list: IAddress[]) => {
+      if (listRef.current) {
+        let selectedIndex = list.findIndex(
+          address => address.name === selectedAddressName,
+        );
+
+        selectedIndex = selectedIndex <= 5 ? 0 : selectedIndex - 3;
+
+        if (
+          selectedIndex <= 0 ||
+          selectedIndex >= list.length ||
+          !list.length
+        ) {
+          return;
+        }
+
+        setTimeout(() => {
+          if (listRef.current) {
+            listRef.current.scrollToIndex({index: selectedIndex});
+          }
+        }, selectedIndex * 22);
+      }
+    },
+    [selectedAddressName],
+  );
+
   const handleGetAddressList = useCallback(
     async (
       aType = type,
@@ -278,19 +317,23 @@ const _AddressPicker = ({
       if (!aType) {
         return;
       }
+
       switch (aType) {
         case AddressType.PROVINCE:
           if (provinceList.length) {
+            autoScrollToSelected(provinceList);
             return;
           }
           break;
         case AddressType.DISTRICT:
           if (districtList.length) {
+            autoScrollToSelected(districtList);
             return;
           }
           break;
         case AddressType.WARD:
           if (wardList.length) {
+            autoScrollToSelected(wardList);
             return;
           }
           break;
@@ -315,6 +358,9 @@ const _AddressPicker = ({
           setWardList(res || []);
           break;
       }
+
+      autoScrollToSelected(res);
+
       setLoading(false);
     },
     [
@@ -325,6 +371,7 @@ const _AddressPicker = ({
       provinceList,
       districtList,
       wardList,
+      autoScrollToSelected,
     ],
   );
 
@@ -504,11 +551,14 @@ const _AddressPicker = ({
         </View>
 
         <FlatList
+          ref={listRef}
           data={data}
           renderItem={renderAddress}
           contentContainerStyle={contentContainerBaseStyle}
           keyExtractor={(_, index) => String(index)}
           ListEmptyComponent={EmptyComponent}
+          onScrollToIndexFailed={() => {}}
+          initialNumToRender={30}
         />
         <FullScreenLoadingIndicator visible={isLoading} useModal={false} />
       </View>
