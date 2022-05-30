@@ -30,6 +30,7 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		7699B88040F8A987B510C191 /* libPods-DoctorCare-DoctorCareTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-DoctorCare-DoctorCareTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		E8CB96AD2843ACA600CA8288 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E8CB96AC2843ACA500CA8288 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -83,6 +84,7 @@
 		9BF8C38C68C765E574FC7459 /* Pods-DoctorCare-DoctorCareTests.staging-release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DoctorCare-DoctorCareTests.staging-release.xcconfig"; path = "Target Support Files/Pods-DoctorCare-DoctorCareTests/Pods-DoctorCare-DoctorCareTests.staging-release.xcconfig"; sourceTree = "<group>"; };
 		B6A447E2280AC94B0061A857 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		CB4F742A8DF779E0D6B5D507 /* Pods-DoctorCare-DoctorCareTests.staging-debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DoctorCare-DoctorCareTests.staging-debug.xcconfig"; path = "Target Support Files/Pods-DoctorCare-DoctorCareTests/Pods-DoctorCare-DoctorCareTests.staging-debug.xcconfig"; sourceTree = "<group>"; };
+		E8CB96AC2843ACA500CA8288 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		F71B563D66B9EEFD11A2C529 /* Pods-DoctorCare-DoctorCareTests.production-release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DoctorCare-DoctorCareTests.production-release.xcconfig"; path = "Target Support Files/Pods-DoctorCare-DoctorCareTests/Pods-DoctorCare-DoctorCareTests.production-release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -151,6 +153,7 @@
 		13B07FAE1A68108700A75B9A /* DoctorCare */ = {
 			isa = PBXGroup;
 			children = (
+				E8CB96AC2843ACA500CA8288 /* GoogleService-Info.plist */,
 				B6A447ED280AD34E0061A857 /* Configurations */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
@@ -274,6 +277,8 @@
 			dependencies = (
 			);
 			name = DoctorCare;
+			packageProductDependencies = (
+			);
 			productName = DoctorCare;
 			productReference = 13B07F961A680F5B00A75B9A /* DoctorCare.app */;
 			productType = "com.apple.product-type.application";
@@ -304,6 +309,8 @@
 				Base,
 			);
 			mainGroup = 83CBB9F61A601CBA00E9B192;
+			packageReferences = (
+			);
 			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -337,6 +344,7 @@
 				0693A13D28131678009D9B98 /* Ionicons.ttf in Resources */,
 				0693A13E28131678009D9B98 /* FontAwesome5_Solid.ttf in Resources */,
 				0693A13F28131678009D9B98 /* FontAwesome5_Regular.ttf in Resources */,
+				E8CB96AD2843ACA600CA8288 /* GoogleService-Info.plist in Resources */,
 				0693A14028131678009D9B98 /* FontAwesome.ttf in Resources */,
 				0693A14128131678009D9B98 /* Zocial.ttf in Resources */,
 				0693A14228131678009D9B98 /* EvilIcons.ttf in Resources */,
