@@ -51,4 +51,37 @@ export const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '600',
   },
+  iconCalendar: {
+    marginRight: 10,
+  },
+  startDate: {
+    borderWidth: 1,
+    borderColor: Colors.LIGHT_GRAY,
+    borderRadius: 2,
+    padding: 8,
+    width: '45%',
+    paddingHorizontal: 20,
+  },
+  alignItem: {
+    alignItems: 'center',
+  },
+  selectDate: {
+    backgroundColor: Colors.LIGHT_GRAY_4,
+    padding: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 8,
+    marginTop: 10,
+    width: '30%',
+  },
+  date: {
+    paddingHorizontal: 12,
+  },
+  viewSelectDate: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginTop: 10,
+    paddingHorizontal: 12,
+  },
 });
