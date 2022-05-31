@@ -51,28 +51,51 @@ const styles = StyleSheet.create({
   listContentContainer: {
     flexGrow: 1,
   },
+  checkAllLoading: {
+    position: 'absolute',
+  },
 });
 
 const _Notifications: React.FC<NotificationsProps> = ({navigation}) => {
   const {
     notificationList,
+    isLoadingMarkReadAll,
     isLoading,
     isLoadMore,
     isRefreshing,
     handleLoadMore,
     handleRefresh,
+    readDetailNotification,
+    setNotificationList,
+    markReadAllNotification,
   } = useNotificationListModel();
 
-  const renderReadAll = useCallback(props => {
-    return (
-      <TouchableOpacity>
-        <MaterialCommunityIcons
-          name="check-all"
-          style={[styles.checkAllIcon, {color: props.tintColor}]}
-        />
-      </TouchableOpacity>
-    );
-  }, []);
+  const renderReadAll = useCallback(
+    props => {
+      const iconStyle = {
+        color: props.tintColor,
+        opacity: isLoadingMarkReadAll ? 0 : 1,
+      };
+      return (
+        <TouchableOpacity
+          disabled={isLoadingMarkReadAll}
+          onPress={() => markReadAllNotification()}>
+          <MaterialCommunityIcons
+            name="check-all"
+            style={[styles.checkAllIcon, iconStyle]}
+          />
+          {isLoadingMarkReadAll && (
+            <ActivityIndicator
+              size={'small'}
+              color={props.tintColor}
+              style={styles.checkAllLoading}
+            />
+          )}
+        </TouchableOpacity>
+      );
+    },
+    [markReadAllNotification, isLoadingMarkReadAll],
+  );
 
   useEffect(() => {
     navigation.setOptions({
@@ -100,6 +123,29 @@ const _Notifications: React.FC<NotificationsProps> = ({navigation}) => {
       },
     ];
   }, [bottom]);
+
+  const handlePressNotification = useCallback(
+    notifyId => {
+      const data = {
+        notifyId,
+      };
+      readDetailNotification({
+        data,
+        onRequestSuccess: () => {
+          setNotificationList(previousList => {
+            return previousList.map(notification => {
+              if (notification.orderNotifyId === notifyId) {
+                notification.isRead = true;
+              }
+
+              return notification;
+            });
+          });
+        },
+      });
+    },
+    [readDetailNotification, setNotificationList],
+  );
 
   const renderListEmpty = useCallback(() => {
     if (isLoading) {
@@ -135,7 +181,9 @@ const _Notifications: React.FC<NotificationsProps> = ({navigation}) => {
       <NotificationItem
         title={notification.content}
         isUnread={!notification.isRead}
-        // image={notification.image}
+        type={notification.forwardTo}
+        status={notification.newStatus}
+        onPress={() => handlePressNotification(notification.orderNotifyId)}
       />
     );
   };

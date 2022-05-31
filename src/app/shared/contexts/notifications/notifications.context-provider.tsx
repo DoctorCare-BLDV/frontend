@@ -1,5 +1,7 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 
+import axios from 'axios';
+
 import {GetListHookOptions} from '@app/framework/native/hooks';
 import {NotificationService} from '@app/framework/native/infrastructure';
 import {HTTPS_ERROR_MESSAGE, HTTPS_SUCCESS_STATUS} from '@app/resources';
@@ -9,9 +11,13 @@ import {
   GetAllNotificationAPIRequest,
   GetAllNotificationAPIResponse,
   NotificationModel,
+  ReadAllNotificationAPIResponse,
+  ReadDetailNotificationAPIRequest,
+  ReadDetailNotificationAPIResponse,
 } from '@data/models';
 
 import {NotificationsContext} from './notifications.context';
+import {useUser} from '../user';
 
 const MIN_PAGE_INDEX = 0;
 const PAGE_SIZE = 3;
@@ -21,11 +27,24 @@ export interface GetNotificationListHookOptions extends GetListHookOptions {
   dataFormatter?: (items: NotificationModel[]) => any;
 }
 
+export interface ReadDetailNotificationHookOptions extends GetListHookOptions {
+  data: ReadDetailNotificationAPIRequest;
+}
+
+export interface MarkReadAllNotificationHookOptions
+  extends GetListHookOptions {}
+
 export type Notification = {};
 
 export const NotificationsContextProvider: React.FC = ({children}) => {
   const [getNotificationListRequest] = useState(
     new ApiRequest<GetAllNotificationAPIResponse>(),
+  );
+  const [readDetailNotificationRequest] = useState(
+    new ApiRequest<ReadDetailNotificationAPIResponse>(),
+  );
+  const [readAllNotificationRequest] = useState(
+    new ApiRequest<ReadAllNotificationAPIResponse>(),
   );
 
   const canLoadMore = useRef(true);
@@ -33,6 +52,7 @@ export const NotificationsContextProvider: React.FC = ({children}) => {
   const pageIndex = useRef(MIN_PAGE_INDEX);
   const pageSize = useRef(PAGE_SIZE);
   const [totalUnread, setTotalUnread] = useState(0);
+  const {user} = useUser();
   const currentOptions = useRef<GetNotificationListHookOptions>({});
 
   const [notificationList, setNotificationList] = useState<NotificationModel[]>(
@@ -108,7 +128,7 @@ export const NotificationsContextProvider: React.FC = ({children}) => {
       try {
         options.onBeforeRequest();
         getNotificationListRequest.updateData(
-          NotificationService.getAllNotifications(options.data),
+          NotificationService.getAll(options.data),
         );
         const response = await getNotificationListRequest.request();
         console.log(response);
@@ -138,10 +158,12 @@ export const NotificationsContextProvider: React.FC = ({children}) => {
         options.onRequestError(error);
 
         console.log('err_get_list_post', error);
-        showFlashMessage({
-          type: 'danger',
-          message: error?.message || HTTPS_ERROR_MESSAGE,
-        });
+        if (!axios.isCancel(error)) {
+          showFlashMessage({
+            type: 'danger',
+            message: error?.response?.data?.message || HTTPS_ERROR_MESSAGE,
+          });
+        }
       } finally {
         isRequesting.current = false;
 
@@ -158,21 +180,111 @@ export const NotificationsContextProvider: React.FC = ({children}) => {
     [getNotificationListRequest, formatOptions, executeSuccessRequest],
   );
 
+  const readDetailNotification = useCallback(
+    async (options: ReadDetailNotificationHookOptions) => {
+      readDetailNotificationRequest.updateData(
+        NotificationService.readDetail(options.data),
+      );
+
+      try {
+        const response = await readDetailNotificationRequest.request();
+        console.log(response);
+        if (response?.status === HTTPS_SUCCESS_STATUS) {
+          options.onRequestSuccess && options.onRequestSuccess(response);
+          setTotalUnread(response?.data?.content?.totalUnRead || 0);
+        } else {
+          showFlashMessage({
+            type: 'danger',
+            message: response?.data?.message || HTTPS_ERROR_MESSAGE,
+          });
+        }
+      } catch (error: any) {
+        options.onRequestError && options.onRequestError(error);
+        console.log('error_read_detail_notification', error);
+        if (!axios.isCancel(error)) {
+          showFlashMessage({
+            type: 'danger',
+            message: error?.response?.data?.message || HTTPS_ERROR_MESSAGE,
+          });
+        }
+      } finally {
+        options.onEndRequest && options.onEndRequest();
+      }
+    },
+    [readDetailNotificationRequest],
+  );
+
+  const markReadAllNotification = useCallback(
+    async (options?: MarkReadAllNotificationHookOptions) => {
+      readAllNotificationRequest.updateData(NotificationService.readAll());
+
+      try {
+        const response = await readAllNotificationRequest.request();
+        console.log(response);
+        if (response?.status === HTTPS_SUCCESS_STATUS) {
+          options?.onRequestSuccess && options.onRequestSuccess(response);
+          setNotificationList(previousList => {
+            return previousList.map(notification => {
+              notification.isRead = true;
+              return notification;
+            });
+          });
+          setTotalUnread(0);
+        } else {
+          showFlashMessage({
+            type: 'danger',
+            message: response?.data?.message || HTTPS_ERROR_MESSAGE,
+          });
+        }
+      } catch (error: any) {
+        options?.onRequestError && options.onRequestError(error);
+        console.log('error_read_detail_notification', error);
+        if (!axios.isCancel(error)) {
+          showFlashMessage({
+            type: 'danger',
+            message: error?.response?.data?.message || HTTPS_ERROR_MESSAGE,
+          });
+        }
+      } finally {
+        options?.onEndRequest && options.onEndRequest();
+      }
+    },
+    [readAllNotificationRequest],
+  );
+
+  useEffect(() => {
+    if (user) {
+      getNotificationList({isRefreshing: true});
+    }
+    return () => {
+      getNotificationListRequest.cancel();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
+
   useEffect(() => {
     return () => {
       getNotificationListRequest.cancel();
+      readDetailNotificationRequest.cancel();
       isRequesting.current = false;
       pageIndex.current = MIN_PAGE_INDEX;
       pageSize.current = PAGE_SIZE;
     };
-  }, [getNotificationListRequest]);
+  }, [
+    getNotificationListRequest,
+    readDetailNotificationRequest,
+    getNotificationList,
+  ]);
 
   return (
     <NotificationsContext.Provider
       value={{
         notificationList,
-        getNotificationList,
         totalUnread,
+        setNotificationList,
+        getNotificationList,
+        markReadAllNotification,
+        readDetailNotification,
       }}>
       {children}
     </NotificationsContext.Provider>

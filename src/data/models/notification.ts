@@ -2,6 +2,7 @@ import {AxiosResponse} from 'axios';
 
 export enum NotificationType {
   ORDER = 'ORDER',
+  REVENUE = 'REVENUE',
 }
 
 export type GetAllNotificationAPIRequest = {
@@ -37,3 +38,21 @@ export type NotificationModel = {
   isRead: boolean | null;
   forwardTo: NotificationType;
 };
+
+export type ReadDetailNotificationAPIRequest = {
+  notifyId: number;
+};
+
+export type ReadDetailNotificationAPIResponse = AxiosResponse<{
+  content: {
+    totalUnRead: number;
+  };
+  message: string;
+  status: number;
+}>;
+
+export type ReadAllNotificationAPIResponse = AxiosResponse<{
+  content: any;
+  message: string;
+  status: number;
+}>;

@@ -1,5 +1,7 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 
+import axios from 'axios';
+
 import {showFlashMessage} from '@app/utils';
 import {
   convertProductModelListToProductDataList,
@@ -160,10 +162,12 @@ export function useProductList(initProductList = []): {
         options.onRequestError(error);
 
         console.log('err_get_list_post', error);
-        showFlashMessage({
-          type: 'danger',
-          message: error?.message || HTTPS_ERROR_MESSAGE,
-        });
+        if (!axios.isCancel(error)) {
+          showFlashMessage({
+            type: 'danger',
+            message: error?.response?.data?.message || HTTPS_ERROR_MESSAGE,
+          });
+        }
       } finally {
         isRequesting.current = false;
 

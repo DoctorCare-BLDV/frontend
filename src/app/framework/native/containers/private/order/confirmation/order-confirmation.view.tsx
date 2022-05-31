@@ -16,10 +16,14 @@ import {OrderConfirmationProps} from './order-confirmation.type';
 import {styles} from './order-confirmation.style';
 import {CustomerInformation} from './components';
 
+const phoneUtil =
+  require('google-libphonenumber').PhoneNumberUtil.getInstance();
+
 const MESSAGES = {
   TOTAL_PRICE_TITLE: 'Tổng thanh toán',
   ORDER: 'Đặt hàng',
   INVALID_DATA: 'Bạn vui lòng điền đẩy đủ thông tin trước khi đặt hàng',
+  INVALID_PHONE: 'Số điện thoại không hợp lệ, vui lòng điền lại thông tin',
 };
 
 const _OrderConfirmation: React.FC<OrderConfirmationProps> = ({navigation}) => {
@@ -68,7 +72,7 @@ const _OrderConfirmation: React.FC<OrderConfirmationProps> = ({navigation}) => {
 
     return cartSections;
   }, [productList]);
-  console.log(sections);
+
   const containerStyle = useMemo(() => {
     return [
       styles.container,
@@ -82,13 +86,38 @@ const _OrderConfirmation: React.FC<OrderConfirmationProps> = ({navigation}) => {
     setOrderPostParam(data);
   }, []);
 
-  const validateData = useMemo(() => {
-    return Object.values(orderPostParam).every(value => !!value);
+  const validateData = useCallback(() => {
+    const listKeys = Object.keys(
+      orderPostParam,
+    ) as (keyof typeof orderPostParam)[];
+    return listKeys.every(key => {
+      if (key === 'phone') {
+        let isValidPhone = true;
+        try {
+          isValidPhone = phoneUtil.isValidNumberForRegion(
+            phoneUtil.parse(orderPostParam[key], 'VN'),
+            'VN',
+          );
+        } catch (error) {
+          console.log('error_validate_phone', error);
+          isValidPhone = false;
+        }
+
+        if (!isValidPhone) {
+          Alert.alert(MESSAGES.INVALID_PHONE);
+        }
+        return isValidPhone;
+      }
+      if (!orderPostParam[key]) {
+        Alert.alert(MESSAGES.INVALID_DATA);
+      }
+      return !!orderPostParam[key];
+    });
   }, [orderPostParam]);
 
   const handleOrder = useCallback(() => {
-    if (!validateData) {
-      return Alert.alert(MESSAGES.INVALID_DATA);
+    if (!validateData()) {
+      return;
     }
 
     const data: AddOrderApiRequest = {

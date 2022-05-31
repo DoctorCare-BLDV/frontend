@@ -1,5 +1,7 @@
 import React, {useCallback, useEffect, useState} from 'react';
 
+import axios from 'axios';
+
 import {
   ApiRequest,
   GetAllItemAPIRequest,
@@ -69,10 +71,12 @@ export function useItemList<T extends RowItemData>(
 
         options?.onRequestError && options.onRequestError(error);
 
-        showFlashMessage({
-          type: 'danger',
-          message: error?.message,
-        });
+        if (!axios.isCancel(error)) {
+          showFlashMessage({
+            type: 'danger',
+            message: error?.response?.data?.message || HTTPS_ERROR_MESSAGE,
+          });
+        }
       } finally {
         options?.onEndRequest && options.onEndRequest();
       }

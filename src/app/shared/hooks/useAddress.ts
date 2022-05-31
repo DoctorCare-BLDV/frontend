@@ -1,5 +1,7 @@
 import {useCallback, useEffect, useState} from 'react';
 
+import axios from 'axios';
+
 import {GetListHookOptions} from '@app/framework/native/hooks';
 import {
   AddressLocalService,
@@ -112,10 +114,12 @@ export function useAddress() {
         }
 
         console.log('err_get_address_list', error);
-        showFlashMessage({
-          type: 'danger',
-          message: error?.message || HTTPS_ERROR_MESSAGE,
-        });
+        if (!axios.isCancel(error)) {
+          showFlashMessage({
+            type: 'danger',
+            message: error?.response?.data?.message || HTTPS_ERROR_MESSAGE,
+          });
+        }
       } finally {
         if (options.onEndRequest) {
           options.onEndRequest();

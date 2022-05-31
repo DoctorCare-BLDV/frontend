@@ -1,6 +1,8 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import React, {useCallback, useEffect, useMemo, useState} from 'react';
 
+import axios from 'axios';
+
 import {CartContext} from './cart.context';
 import {
   CartLocalService,
@@ -154,14 +156,16 @@ export const CartContextProvider: React.FC = ({children}) => {
               : response?.data?.message || HTTPS_ERROR_MESSAGE,
         });
       } catch (error: any) {
-        console.log('err_get_item_list', error);
+        console.log('err_get_item_list', error, error);
 
         options?.onRequestError && options.onRequestError(error);
 
-        showFlashMessage({
-          type: 'danger',
-          message: error?.message || HTTPS_ERROR_MESSAGE,
-        });
+        if (!axios.isCancel(error)) {
+          showFlashMessage({
+            type: 'danger',
+            message: error?.response?.data?.message || HTTPS_ERROR_MESSAGE,
+          });
+        }
       } finally {
         options?.onEndRequest && options.onEndRequest();
       }

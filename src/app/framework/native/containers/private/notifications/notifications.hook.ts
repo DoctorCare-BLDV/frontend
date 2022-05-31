@@ -3,8 +3,15 @@ import {useCallback, useEffect, useState} from 'react';
 import {useNotifications} from '@app/shared/contexts';
 
 export function useNotificationListModel() {
-  const {notificationList, getNotificationList} = useNotifications();
+  const {
+    notificationList,
+    getNotificationList,
+    readDetailNotification,
+    setNotificationList,
+    markReadAllNotification: markReadAll,
+  } = useNotifications();
 
+  const [isLoadingMarkReadAll, setLoadingMarkReadAll] = useState(false);
   const [isLoading, setLoading] = useState(false);
   const [isLoadMore, setLoadMore] = useState(false);
   const [isRefreshing, setRefreshing] = useState(false);
@@ -40,9 +47,20 @@ export function useNotificationListModel() {
     });
   }, [getNotificationList, handleEndRequest]);
 
+  const markReadAllNotification = useCallback(() => {
+    markReadAll({
+      onBeforeRequest: () => setLoadingMarkReadAll(true),
+      onEndRequest: () => setLoadingMarkReadAll(false),
+    });
+  }, [markReadAll]);
+
   return {
     notificationList,
+    setNotificationList,
     getNotificationList,
+    readDetailNotification,
+    markReadAllNotification,
+    isLoadingMarkReadAll,
     isLoading,
     isLoadMore,
     isRefreshing,
