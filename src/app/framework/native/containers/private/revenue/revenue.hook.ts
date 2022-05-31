@@ -4,21 +4,12 @@ import {RevenueService} from '@app/framework/native/infrastructure';
 import {MemberLevel2, TotalRevenueType} from '@data/models';
 import {showMessage} from 'react-native-flash-message';
 
-const SecondaryData = [
-  {id: 1, name: 'nguyen van 1', revenue: '1.000.000d', mv: '401'},
-  {id: 2, name: 'nguyen van 2', revenue: '1.000.000d', mv: '402'},
-  {id: 3, name: 'nguyen van 3', revenue: '1.000.000d', mv: '403'},
-  {id: 4, name: 'nguyen van 4', revenue: '1.000.000d', mv: '404'},
-  {id: 5, name: 'nguyen van 5', revenue: '1.000.000d', mv: '405'},
-];
-
 const SelectDateData = [
   {key: 0, value: '7 ngày'},
   {key: 1, value: '30 ngày'},
   {key: 2, value: 'Chọn ngày'},
 ];
 export function useRevenueModel() {
-  const [dataSecodary] = useState(SecondaryData);
   const [totalRevenue, setTotalRevenue] = useState<
     TotalRevenueType | undefined
   >();
@@ -168,7 +159,6 @@ export function useRevenueModel() {
   };
   return {
     sortData,
-    dataSecodary,
     totalRevenue,
     onSelect,
     onSelectDate,

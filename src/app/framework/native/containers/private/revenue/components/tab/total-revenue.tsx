@@ -1,14 +1,17 @@
-import {TextView} from '@app/framework/native/components';
-import {Colors, vndCurrencyFormat} from '@app/resources';
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
-import {TotalRevenueProps} from '../../revenue.type';
+import {TextView} from '@app/framework/native/components';
+import {Colors, vndCurrencyFormat} from '@app/resources';
 const CategoriesRevenue = [
   {key: 'Doanh thu đơn', value: 'selfRevenue'},
   {key: 'Tổng MV của cấp 2', value: 'totalMV'},
   {key: 'Doanh thu cấp 2', value: 'level2Revenue'},
   {key: 'Tổng doanh thu', value: 'totalRevenue'},
 ];
+
+export interface TotalRevenueProps {
+  data?: any;
+}
 
 export const TotalRevenue = React.memo((props: TotalRevenueProps) => {
   return (
