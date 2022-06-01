@@ -66,7 +66,6 @@ const _Notifications: React.FC<NotificationsProps> = ({navigation}) => {
     handleLoadMore,
     handleRefresh,
     readDetailNotification,
-    setNotificationList,
     markReadAllNotification,
   } = useNotificationListModel();
 
@@ -125,26 +124,15 @@ const _Notifications: React.FC<NotificationsProps> = ({navigation}) => {
   }, [bottom]);
 
   const handlePressNotification = useCallback(
-    notifyId => {
+    notification => {
       const data = {
-        notifyId,
+        notifyId: notification.orderNotifyId,
       };
       readDetailNotification({
         data,
-        onRequestSuccess: () => {
-          setNotificationList(previousList => {
-            return previousList.map(notification => {
-              if (notification.orderNotifyId === notifyId) {
-                notification.isRead = true;
-              }
-
-              return notification;
-            });
-          });
-        },
       });
     },
-    [readDetailNotification, setNotificationList],
+    [readDetailNotification],
   );
 
   const renderListEmpty = useCallback(() => {
@@ -183,7 +171,7 @@ const _Notifications: React.FC<NotificationsProps> = ({navigation}) => {
         isUnread={!notification.isRead}
         type={notification.forwardTo}
         status={notification.newStatus}
-        onPress={() => handlePressNotification(notification.orderNotifyId)}
+        onPress={() => handlePressNotification(notification)}
       />
     );
   };

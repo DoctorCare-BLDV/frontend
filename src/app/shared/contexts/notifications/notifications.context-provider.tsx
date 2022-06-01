@@ -131,7 +131,7 @@ export const NotificationsContextProvider: React.FC = ({children}) => {
           NotificationService.getAll(options.data),
         );
         const response = await getNotificationListRequest.request();
-        console.log(response);
+
         options.onRequestSuccess(response);
 
         isLoadMoreFail = response?.status !== HTTPS_SUCCESS_STATUS;
@@ -191,7 +191,19 @@ export const NotificationsContextProvider: React.FC = ({children}) => {
         console.log(response);
         if (response?.status === HTTPS_SUCCESS_STATUS) {
           options.onRequestSuccess && options.onRequestSuccess(response);
-          setTotalUnread(response?.data?.content?.totalUnRead || 0);
+          setNotificationList(previousList => {
+            return previousList.map(notification => {
+              if (notification.orderNotifyId === options.data.notifyId) {
+                notification.isRead = true;
+              }
+              return notification;
+            });
+          });
+          setTotalUnread(previousTotalUnread => {
+            return isNaN(response?.data?.content?.totalUnRead)
+              ? previousTotalUnread - 1
+              : response?.data?.content?.totalUnRead;
+          });
         } else {
           showFlashMessage({
             type: 'danger',
@@ -220,9 +232,9 @@ export const NotificationsContextProvider: React.FC = ({children}) => {
 
       try {
         const response = await readAllNotificationRequest.request();
-        console.log(response);
+        options?.onRequestSuccess && options.onRequestSuccess(response);
+
         if (response?.status === HTTPS_SUCCESS_STATUS) {
-          options?.onRequestSuccess && options.onRequestSuccess(response);
           setNotificationList(previousList => {
             return previousList.map(notification => {
               notification.isRead = true;

@@ -31,9 +31,9 @@ export const NotificationItem: React.FC<NotificationItemProps> = ({
   onPress,
 }) => {
   const theme = useTheme();
-  const containerBaseStyle = useMemo(() => {
+  const wrapperBaseStyle = useMemo(() => {
     return [
-      styles.container,
+      styles.wrapper,
       {
         borderColor: theme.colorScheme.border,
       },
@@ -67,23 +67,24 @@ export const NotificationItem: React.FC<NotificationItemProps> = ({
   }, [type, status]);
 
   return (
-    <TouchableOpacity
-      activeOpacity={0.8}
-      onPress={onPress}
-      style={containerBaseStyle}>
-      {image ? <Image source={{uri: image}} style={styles.image} /> : icon}
-      <TextView style={styles.title}>{title}</TextView>
-      {isUnread && <View style={styles.badge} />}
-    </TouchableOpacity>
+    <View style={wrapperBaseStyle}>
+      <TouchableOpacity onPress={onPress} style={styles.container}>
+        {image ? <Image source={{uri: image}} style={styles.image} /> : icon}
+        <TextView style={styles.title}>{title}</TextView>
+        {isUnread && <View style={styles.badge} />}
+      </TouchableOpacity>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
+  wrapper: {
+    borderBottomWidth: 0.5,
+  },
   container: {
     flexDirection: 'row',
     paddingHorizontal: Layout.spacingHorizontal,
     paddingVertical: 20,
-    borderBottomWidth: 0.5,
   },
   image: {
     width: 70,
