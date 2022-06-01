@@ -1,9 +1,9 @@
 import React, {useMemo} from 'react';
-import {StyleSheet, TouchableOpacity} from 'react-native';
+import {StyleSheet, TouchableOpacity, View} from 'react-native';
 
 import {Image, TextView} from '@app/framework/native/components';
 import {Colors, Layout} from '@app/resources';
-import {hexToRgba} from '@app/utils';
+// import {hexToRgba} from '@app/utils';
 import {useTheme} from '@app/shared/hooks';
 
 import SVGFileCancel from '@app/resources/media/file-cancel.svg';
@@ -39,9 +39,10 @@ export const NotificationItem: React.FC<NotificationItemProps> = ({
       {
         borderColor: theme.colorScheme.border,
       },
-      !!isUnread && {
-        backgroundColor: hexToRgba(theme.colorScheme.primary, 0.1),
-      },
+      !!isUnread &&
+        {
+          // backgroundColor: hexToRgba(theme.colorScheme.primary, 0.1),
+        },
     ];
   }, [isUnread, theme]);
 
@@ -78,7 +79,7 @@ export const NotificationItem: React.FC<NotificationItemProps> = ({
       style={containerBaseStyle}>
       {image ? <Image source={{uri: image}} style={styles.image} /> : icon}
       <TextView style={styles.title}>{title}</TextView>
-      {/* {isUnread && <View style={styles.badge} />} */}
+      {isUnread && <View style={styles.badge} />}
     </TouchableOpacity>
   );
 };
@@ -87,7 +88,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     paddingHorizontal: Layout.spacingHorizontal,
-    paddingVertical: Layout.spacingVertical,
+    paddingVertical: 20,
     borderBottomWidth: 0.5,
   },
   image: {
@@ -109,7 +110,7 @@ const styles = StyleSheet.create({
     height: 8,
     backgroundColor: Colors.RED,
     borderRadius: 10,
-    right: 5,
-    top: 5,
+    right: 10,
+    top: 8,
   },
 });
