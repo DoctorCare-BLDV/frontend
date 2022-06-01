@@ -3,9 +3,7 @@ import {StyleSheet, TouchableOpacity, View} from 'react-native';
 
 import {Image, TextView} from '@app/framework/native/components';
 import {Colors, Layout} from '@app/resources';
-// import {hexToRgba} from '@app/utils';
 import {useTheme} from '@app/shared/hooks';
-
 import SVGFileCancel from '@app/resources/media/file-cancel.svg';
 import SVGFileSuccess from '@app/resources/media/file-success.svg';
 import SVGBullHorn from '@app/resources/media/bull-horn.svg';
@@ -39,12 +37,8 @@ export const NotificationItem: React.FC<NotificationItemProps> = ({
       {
         borderColor: theme.colorScheme.border,
       },
-      !!isUnread &&
-        {
-          // backgroundColor: hexToRgba(theme.colorScheme.primary, 0.1),
-        },
     ];
-  }, [isUnread, theme]);
+  }, [theme]);
 
   const icon = useMemo(() => {
     switch (type) {
