@@ -114,6 +114,7 @@ export const SecondaryRevenue = React.memo((props: SecondaryRevenueProps) => {
           keyExtractor={(item, index) => index.toString()}
           data={data}
           renderItem={({item, index}) => renderItem(item, index)}
+          onEndReachedThreshold={1}
         />
       </View>
     </>

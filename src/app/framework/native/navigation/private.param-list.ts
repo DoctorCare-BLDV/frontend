@@ -52,4 +52,6 @@ export type PrivateParamList = {
   ChangePassword: undefined;
   Revenue: undefined;
   OrderDetail: {id: number};
+  CustomersDetail: {id: number};
+  Customer: undefined;
 };
