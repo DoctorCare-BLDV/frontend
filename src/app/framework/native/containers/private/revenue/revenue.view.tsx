@@ -89,8 +89,20 @@ const _Revenue: React.FC<RevenueProps> = () => {
             {vndCurrencyFormat(revenueByMonth?.totalRevenue)}
           </TextView>
         </View>
-        <View style={styles.status}>
-          <TextView style={styles.textStatus}>Chưa thanh toán</TextView>
+        <View
+          style={[
+            styles.status,
+            {
+              backgroundColor: revenueByMonth?.paymentStatus
+                ? Colors.SUCCESS
+                : Colors.WARNING,
+            },
+          ]}>
+          <TextView style={styles.textStatus}>
+            {revenueByMonth?.paymentStatus
+              ? 'Đã thanh toán'
+              : `Chưa thanh toán`}
+          </TextView>
         </View>
       </View>
       <DatePickerComponent
