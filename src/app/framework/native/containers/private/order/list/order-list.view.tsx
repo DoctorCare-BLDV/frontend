@@ -30,7 +30,6 @@ const _OrderList: React.FC<OrderListProps> = props => {
     index,
     setIndex,
     data,
-    loading,
     fullScreenLoading,
     cancelOrder,
     refreshData,
@@ -62,6 +61,15 @@ const _OrderList: React.FC<OrderListProps> = props => {
     [navigation],
   );
 
+  const navigateToEditOrder = useCallback(
+    (id: number) => {
+      navigation.navigate('EditOrder', {
+        id,
+      });
+    },
+    [navigation],
+  );
+
   return (
     <View style={styles.container}>
       <FullScreenLoadingIndicator visible={fullScreenLoading} />
@@ -71,7 +79,7 @@ const _OrderList: React.FC<OrderListProps> = props => {
         indicatorStyle="black"
         style={styles.list}
         refreshControl={
-          <RefreshControl refreshing={loading} onRefresh={refreshData} />
+          <RefreshControl refreshing={false} onRefresh={refreshData} />
         }
         ListEmptyComponent={renderEmpty()}
         keyExtractor={item => item.orderId.toString()}
@@ -88,6 +96,7 @@ const _OrderList: React.FC<OrderListProps> = props => {
               rowMap={rowMap}
             />
             <Order
+              onEdit={() => navigateToEditOrder(rowData.item.orderId)}
               onPress={() => navigateToDetail(rowData.item.orderId)}
               item={rowData.item}
             />

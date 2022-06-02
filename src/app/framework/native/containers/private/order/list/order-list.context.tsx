@@ -56,11 +56,13 @@ export const OrderListProvider = memo(
     //   done: 0,
     //   unDone: 0,
     // });
+
     const [fullScreenLoading, setFullScreenLoading] =
       React.useState<boolean>(false);
     const [data, setData] = React.useState<IOrder[]>([]);
     const currentPage = useRef(0);
     const lastPage = useRef(1);
+    const timer = useRef<NodeJS.Timeout>();
 
     const fetchData = useCallback(
       async (isLoadMore?: boolean) => {
@@ -89,11 +91,13 @@ export const OrderListProvider = memo(
         currentPage.current = currentPage.current + 1;
         lastPage.current = _lastPage || currentPage.current + 1;
         if (isLoadMore) {
-          setData(pre => pre.concat(order.map(i => ({...i, key: i.orderId}))));
+          return setData(pre =>
+            pre.concat(order.map(i => ({...i, key: i.orderId}))),
+          );
         }
         setData(order.map(i => ({...i, key: i.orderId})));
       },
-      [filter, index, loading],
+      [index, loading],
     );
 
     const setSearch = useCallback((value: string) => {
@@ -102,7 +106,10 @@ export const OrderListProvider = memo(
 
     const loadMore = useCallback(() => {
       if (loading) return;
-      fetchData(true);
+      if (!!timer.current) clearTimeout(timer.current);
+      timer.current = setTimeout(() => {
+        fetchData(true);
+      }, 300);
     }, [fetchData, loading]);
 
     const refreshData = useCallback(() => {
@@ -113,6 +120,12 @@ export const OrderListProvider = memo(
       lastPage.current = 1;
       fetchData();
     }, [fetchData, loading]);
+
+    React.useEffect(() => {
+      const unsubscribe = navigation.addListener('focus', refreshData);
+
+      return unsubscribe;
+    }, [navigation, refreshData]);
 
     const UndoneOrderFilter = useMemo(() => {
       return OrderStatusFilter.filter(i => i.id > 0 && !i.finishedStatus).map(
@@ -136,10 +149,12 @@ export const OrderListProvider = memo(
       (e: FilterItem[]) => {
         currentPage.current = 0;
         lastPage.current = 1;
-        filter.current = e;
-        refreshData();
+        filter.current = [...e];
+        console.log('-----e', e);
+
+        fetchData();
       },
-      [refreshData],
+      [fetchData],
     );
 
     const showFilter = useCallback(() => {
@@ -193,6 +208,7 @@ export const OrderListProvider = memo(
       lastPage.current = 1;
       fetchData();
     }, [fetchData]);
+
     /* eslint-disable */
     useEffect(() => {
       refreshData();

@@ -12,7 +12,7 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 // localImport
 import {NotificationsProps} from './notifications.type';
 import {NotificationItem} from './notification-item';
-import {NotificationModel} from '@data/models';
+import {NotificationModel, NotificationType} from '@data/models';
 import FontAwesome5Icon from 'react-native-vector-icons/FontAwesome5';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {TextView} from '@app/framework/native/components';
@@ -129,6 +129,17 @@ const _Notifications: React.FC<NotificationsProps> = ({navigation}) => {
       const data = {
         notifyId,
       };
+      console.log('----notificationList', notificationList);
+      const notiData = notificationList.find(i => notifyId === i.orderNotifyId);
+      if (!notiData) return;
+
+      if (notiData.forwardTo === NotificationType.ORDER) {
+        navigation.navigate('OrderDetail', {
+          id: notiData.orderId,
+        });
+      } else if (notiData.forwardTo === NotificationType.REVENUE) {
+        navigation.navigate('Revenue');
+      }
       readDetailNotification({
         data,
         onRequestSuccess: () => {
@@ -144,7 +155,7 @@ const _Notifications: React.FC<NotificationsProps> = ({navigation}) => {
         },
       });
     },
-    [readDetailNotification, setNotificationList],
+    [readDetailNotification, setNotificationList, notificationList, navigation],
   );
 
   const renderListEmpty = useCallback(() => {
