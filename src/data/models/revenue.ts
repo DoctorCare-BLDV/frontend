@@ -13,6 +13,7 @@ export type TotalRevenueType = {
   totalFailureOrder: number;
   totalMV: number;
   totalRevenue: number;
+  paymentStatus: boolean;
 };
 
 export type TotalRevenueRequest = {
