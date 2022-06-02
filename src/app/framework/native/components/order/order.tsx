@@ -10,10 +10,11 @@ import {IconButton} from '../icon-button';
 export interface OrderProps {
   item: IOrder;
   onPress?: () => void;
+  onEdit?: () => void;
 }
 
 export const Order: React.FC<OrderProps> = props => {
-  const {item, onPress} = props;
+  const {item, onPress, onEdit} = props;
 
   const {status, editable} = useMemo(() => {
     const orderStatus = OrderStatusFilter.filter(i => i.id === item.status);
@@ -96,7 +97,11 @@ export const Order: React.FC<OrderProps> = props => {
           {status}
         </TextView>
         {editable && (
-          <IconButton name="edit" containerStyle={styles.editWrapper} />
+          <IconButton
+            onPress={onEdit}
+            name="edit"
+            containerStyle={styles.editWrapper}
+          />
         )}
       </View>
     </TouchableOpacity>

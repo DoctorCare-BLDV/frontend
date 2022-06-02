@@ -84,7 +84,7 @@ export const ProductSectionList = ({
   const renderSectionHeader = useCallback(
     ({section}) => {
       const inventoryId = section?.heading?.id;
-
+      if (!section?.heading?.id) return null;
       return (
         <View style={headerContainerStyle}>
           <View style={styles.headerContentContainer}>
