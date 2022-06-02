@@ -2,13 +2,13 @@ import React, {useCallback} from 'react';
 import {FlatList, RefreshControl, StyleSheet, View} from 'react-native';
 // import from library
 import {Divider} from 'react-native-elements';
+import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
+import {faInbox} from '@fortawesome/free-solid-svg-icons';
+import {Icon} from '@fortawesome/fontawesome-svg-core';
 // import from alias
 import {TextView} from '@native/components';
 import {AppDimensions, Colors, Layout} from '@app/resources';
 import {GetAllCustomersResponse} from '@data/models';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faInbox} from '@fortawesome/free-solid-svg-icons';
-import {Icon} from '@fortawesome/fontawesome-svg-core';
 // localImport
 
 interface Props {
@@ -19,8 +19,6 @@ interface Props {
 }
 export const Client = React.memo((props: Props) => {
   const {data, loadMore, loading, refreshData} = props;
-  console.log('loadingloading', loading);
-
   const renderEmpty = React.useCallback(() => {
     if (data && !!data.length) return undefined;
     return (
@@ -37,7 +35,7 @@ export const Client = React.memo((props: Props) => {
 
   const renderItem = useCallback(({item}) => {
     return (
-      <>
+      <View>
         <View style={styles.item}>
           <View style={styles.container}>
             <TextView style={styles.userName}>{item.orderReceived}</TextView>
@@ -46,7 +44,7 @@ export const Client = React.memo((props: Props) => {
           <TextView style={styles.address}>{item.orderAddress}</TextView>
         </View>
         <Divider />
-      </>
+      </View>
     );
   }, []);
 

@@ -8,7 +8,7 @@ import {Colors, vndCurrencyFormat} from '@app/resources';
 import {getUserAvatarForImage} from '@app/utils';
 // localImport
 import {UsedetailModel} from './detail.hook';
-import {detailProps} from './detail.type';
+import {DetailProps} from './detail.type';
 import {styles} from './detail.style';
 
 const Info = [
@@ -20,7 +20,7 @@ const Info = [
   {key: 'totalBenefit', value: 'Lợi nhuận'},
 ];
 
-const _detail: React.FC<detailProps> = props => {
+const _detail: React.FC<DetailProps> = props => {
   const {} = props;
   const {customerDetail} = UsedetailModel(props);
 

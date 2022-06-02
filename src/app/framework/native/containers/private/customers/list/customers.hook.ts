@@ -97,9 +97,6 @@ export function UsecustomersModel() {
 
   const loadMore = useCallback(() => {
     if (loading) return;
-    console.log('loading', loading);
-    console.log('currentPage', currentPage.current);
-    console.log('lastPage', lastPage.current);
     if (index === 0) {
       getCustomerLevel2(true);
     } else {

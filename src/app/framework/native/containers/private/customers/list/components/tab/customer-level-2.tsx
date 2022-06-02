@@ -9,10 +9,10 @@ import {
 } from 'react-native';
 // import from library
 import {Divider} from 'react-native-elements';
-// import from alias
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faInbox} from '@fortawesome/free-solid-svg-icons';
 import {Icon} from '@fortawesome/fontawesome-svg-core';
+// import from alias
 import {TextView} from '@app/framework/native/components';
 import {AppDimensions, Colors, Layout} from '@app/resources';
 import {ICustomer} from '@data/models';
@@ -54,7 +54,7 @@ export const CustomerLevel2 = React.memo((props: Props) => {
   const renderItem = useCallback(
     ({item}) => {
       return (
-        <>
+        <View>
           <TouchableOpacity
             onPress={() => navigateToDetail(item.userInfoId)}
             style={styles.item}>
@@ -68,7 +68,7 @@ export const CustomerLevel2 = React.memo((props: Props) => {
             </View>
           </TouchableOpacity>
           <Divider />
-        </>
+        </View>
       );
     },
     [navigateToDetail],

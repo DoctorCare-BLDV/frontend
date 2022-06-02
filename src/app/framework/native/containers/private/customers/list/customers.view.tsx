@@ -5,7 +5,7 @@ import {View} from 'react-native';
 import {Tabbar} from '@native/components';
 // localImport
 import {UsecustomersModel} from './customers.hook';
-import {customersProps} from './customers.type';
+import {CustomersProps} from './customers.type';
 import {styles} from './customers.style';
 import {Header} from './components';
 import {Client, CustomerLevel2} from './components';
@@ -14,7 +14,7 @@ const Tab = [
   {key: 'customer', name: 'DS Khách hàng'},
 ];
 
-const Customers: React.FC<customersProps> = props => {
+const Customers: React.FC<CustomersProps> = props => {
   const {navigation} = props;
   const {
     index,
