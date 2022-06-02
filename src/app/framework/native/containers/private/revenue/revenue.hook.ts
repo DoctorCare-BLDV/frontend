@@ -16,9 +16,9 @@ export function useRevenueModel() {
   const [revenueByMonth, setRevenueByMonth] = useState<
     TotalRevenueType | undefined
   >();
-  const [dataRevenueLevel2, setRevenueLevel2] = useState<
-    Array<MemberLevel2> | undefined
-  >();
+  const [dataRevenueLevel2, setRevenueLevel2] = useState<Array<MemberLevel2>>(
+    [],
+  );
   const [index, setIndex] = useState(0);
   const sortDESC = useRef(false);
   const [onSelect, setOnSelect] = useState(SelectDateData[0].key);
@@ -43,37 +43,45 @@ export function useRevenueModel() {
     [],
   );
 
-  const fetchDataLevel2 = useCallback(async () => {
-    if (loading || currentPage.current >= lastPage.current) return;
-    setLoading(true);
-    const {
-      revenueLevel2,
-      lastPage: _lastPage,
-      errMessage,
-    } = await RevenueService.getRevenueLevel2({
-      pageIndex: currentPage.current + 1,
-      pageSize: 20,
-      fromDate: moment(startDate).format('YYYY-MM-DD'),
-      toDate: moment(endDate).format('YYYY-MM-DD'),
-      sortValues: {
-        MV: sortDESC.current ? 'DESC' : 'ASC',
-      },
-    });
-    setLoading(false);
-    if (!!errMessage) {
-      return showMessage({
-        message: errMessage,
-        type: 'danger',
+  const fetchDataLevel2 = useCallback(
+    async (isLoadMore?: boolean) => {
+      if (loading || currentPage.current >= lastPage.current) return;
+      setLoading(true);
+      const {
+        revenueLevel2,
+        lastPage: _lastPage,
+        errMessage,
+      } = await RevenueService.getRevenueLevel2({
+        pageIndex: currentPage.current + 1,
+        pageSize: 20,
+        fromDate: moment(startDate).format('YYYY-MM-DD'),
+        toDate: moment(endDate).format('YYYY-MM-DD'),
+        sortValues: {
+          MV: sortDESC.current ? 'DESC' : 'ASC',
+        },
       });
-    }
-    currentPage.current = currentPage.current + 1;
-    lastPage.current = _lastPage || currentPage.current + 1;
-    setRevenueLevel2(revenueLevel2);
-  }, [endDate, loading, startDate]);
+      setLoading(false);
+      if (!!errMessage) {
+        return showMessage({
+          message: errMessage,
+          type: 'danger',
+        });
+      }
+      currentPage.current = currentPage.current + 1;
+      lastPage.current = _lastPage || currentPage.current + 1;
+      setRevenueLevel2(revenueLevel2);
+      if (isLoadMore) {
+        setRevenueLevel2(pre => pre.concat(revenueLevel2));
+      } else {
+        setRevenueLevel2(revenueLevel2);
+      }
+    },
+    [endDate, loading, startDate],
+  );
 
   const loadMore = useCallback(() => {
     if (loading) return;
-    fetchDataLevel2();
+    fetchDataLevel2(true);
   }, [fetchDataLevel2, loading]);
 
   const refreshData = useCallback(() => {
