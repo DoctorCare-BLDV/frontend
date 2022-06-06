@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
 export const CartFooter: React.FC<CartFooterProps> = props => {
   const isFocused = useIsFocused();
   const labelBlockRef = useRef();
-  const {cartTotalPrice} = useCart();
+  const {cartTotalPrice, productList} = useCart();
   const {setFloatingReactionTarget} = useFloatingReaction();
 
   useEffect(() => {
@@ -53,6 +53,10 @@ export const CartFooter: React.FC<CartFooterProps> = props => {
       </View>
     );
   }, []);
+
+  if (!productList.length) {
+    return null;
+  }
 
   return (
     <FooterActionBar
