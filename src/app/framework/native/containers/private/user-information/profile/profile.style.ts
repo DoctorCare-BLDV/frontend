@@ -52,7 +52,7 @@ export const styles = StyleSheet.create({
   logo: {
     fontWeight: '500',
     fontSize: 15,
-    color: Colors.PRIMARY_ORAGE,
+    color: Colors.PRIMARY_ORANGE,
   },
   achievement: {
     alignItems: 'center',

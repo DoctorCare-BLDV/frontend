@@ -10,10 +10,11 @@ import {IconButton} from '../icon-button';
 export interface OrderProps {
   item: IOrder;
   onPress?: () => void;
+  onEdit?: () => void;
 }
 
 export const Order: React.FC<OrderProps> = props => {
-  const {item, onPress} = props;
+  const {item, onPress, onEdit} = props;
 
   const {status, editable} = useMemo(() => {
     const orderStatus = OrderStatusFilter.filter(i => i.id === item.status);
@@ -81,14 +82,14 @@ export const Order: React.FC<OrderProps> = props => {
         <View style={styles.infoSpacing} />
         <TextView style={[styles.title, styles.flex1]} numberOfLines={1}>
           {'Tiền hàng: '}
-          <TextView style={styles.bold} color={Colors.PRIMARY_ORAGE}>
+          <TextView style={styles.bold} color={Colors.PRIMARY_ORANGE}>
             {convertNumberToPrice(item.totalPrice)}
           </TextView>
         </TextView>
         <View style={styles.infoSpacing} />
         <TextView style={styles.title} numberOfLines={1}>
           {'Lợi nhuận: '}
-          <TextView style={styles.bold} color={Colors.PRIMARY_ORAGE}>
+          <TextView style={styles.bold} color={Colors.PRIMARY_ORANGE}>
             {convertNumberToPrice(item.totalBenefit)}
           </TextView>
         </TextView>
@@ -96,7 +97,11 @@ export const Order: React.FC<OrderProps> = props => {
           {status}
         </TextView>
         {editable && (
-          <IconButton name="edit" containerStyle={styles.editWrapper} />
+          <IconButton
+            onPress={onEdit}
+            name="edit"
+            containerStyle={styles.editWrapper}
+          />
         )}
       </View>
     </TouchableOpacity>

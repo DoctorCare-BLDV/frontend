@@ -13,6 +13,7 @@ export interface IOrder {
   orderProvince: string;
   orderReceived: string;
   orderWard: string;
+  productChanged: boolean;
   status:
     | ORDER_STATUS.CANCEL
     | ORDER_STATUS.COMPLETED
@@ -31,6 +32,7 @@ export interface IOrderProduct {
   benefit: number;
   count: number;
   listFileAttach: {url: string}[];
+  inventoryId: number;
   orderProductId: number;
   productId: number;
   totalPoint: number;
@@ -60,6 +62,23 @@ export type AddOrderApiRequest = {
       point: number;
     }[];
   }[];
+  orderAddress: string;
+  orderDistrict: string;
+  orderPhone: string;
+  orderProvince: string;
+  orderReceived: string;
+  orderWard: string;
+};
+
+export type UpdateOrderApiRequest = {
+  orderProductList: {
+    inventoryId: number;
+    productId: number;
+    count: number;
+    sellPrice: number;
+    point: number;
+  }[];
+  orderId: number;
   orderAddress: string;
   orderDistrict: string;
   orderPhone: string;

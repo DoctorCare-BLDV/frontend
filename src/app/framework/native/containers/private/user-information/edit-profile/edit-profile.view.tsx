@@ -90,7 +90,7 @@ const _EditProfile: React.FC<EditProfileProps> = props => {
         />
         <View style={styles.alertWrapper}>
           <FontAwesomeIcon
-            color={Colors.PRIMARY_ORAGE}
+            color={Colors.PRIMARY_ORANGE}
             icon={faTriangleExclamation as Icon}
           />
           <TextView style={styles.alertText}>

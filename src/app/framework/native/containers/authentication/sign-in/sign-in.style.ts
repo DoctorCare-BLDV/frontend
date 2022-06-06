@@ -62,7 +62,7 @@ export const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   forgotPassText: {
-    color: Colors.PRIMARY_ORAGE,
+    color: Colors.PRIMARY_ORANGE,
     fontWeight: '700',
   },
   registerContainer: {
@@ -70,14 +70,14 @@ export const styles = StyleSheet.create({
     marginTop: 10,
   },
   registerText: {
-    color: Colors.PRIMARY_ORAGE,
+    color: Colors.PRIMARY_ORANGE,
     fontWeight: '700',
   },
   textLogo: {
     marginTop: 15,
     fontWeight: 'bold',
     fontSize: 20,
-    color: Colors.PRIMARY_ORAGE,
+    color: Colors.PRIMARY_ORANGE,
   },
   textLogoRed: {
     color: Colors.PRIMARY_RED,

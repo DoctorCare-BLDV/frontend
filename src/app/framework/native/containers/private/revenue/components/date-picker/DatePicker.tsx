@@ -91,7 +91,6 @@ export const DatePickerComponent = React.memo((props: DatePickerProps) => {
     if (onChangeMonth) onChangeMonth(selectedDate.toDate());
     onCancel();
   }, [onCancel, onChangeMonth, selectedDate]);
-  console.log('isVisible', isVisible);
   return (
     <>
       {type === 'month' ? (

@@ -36,6 +36,6 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 14,
     fontWeight: '500',
-    color: Colors.PRIMARY_ORAGE,
+    color: Colors.PRIMARY_ORANGE,
   },
 });

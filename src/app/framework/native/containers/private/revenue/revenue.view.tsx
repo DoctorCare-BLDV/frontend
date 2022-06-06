@@ -78,19 +78,31 @@ const _Revenue: React.FC<RevenueProps> = () => {
             onPress={() => setPopupMonth(true)}>
             <FontAwesome
               name="calendar"
-              color={Colors.PRIMARY_ORAGE}
+              color={Colors.PRIMARY_ORANGE}
               size={16}
             />
-            <TextView style={styles.textFooter} color={Colors.PRIMARY_ORAGE}>
+            <TextView style={styles.textFooter} color={Colors.PRIMARY_ORANGE}>
               Tháng {moment(month).format('MM')}
             </TextView>
           </TouchableOpacity>
-          <TextView style={styles.textFooter} color={Colors.PRIMARY_ORAGE}>
+          <TextView style={styles.textFooter} color={Colors.PRIMARY_ORANGE}>
             {vndCurrencyFormat(revenueByMonth?.totalRevenue)}
           </TextView>
         </View>
-        <View style={styles.status}>
-          <TextView style={styles.textStatus}>Chưa thanh toán</TextView>
+        <View
+          style={[
+            styles.status,
+            {
+              backgroundColor: revenueByMonth?.paymentStatus
+                ? Colors.SUCCESS
+                : Colors.WARNING,
+            },
+          ]}>
+          <TextView style={styles.textStatus}>
+            {revenueByMonth?.paymentStatus
+              ? 'Đã thanh toán'
+              : `Chưa thanh toán`}
+          </TextView>
         </View>
       </View>
       <DatePickerComponent

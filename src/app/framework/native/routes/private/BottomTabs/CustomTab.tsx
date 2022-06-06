@@ -71,49 +71,11 @@ const styles = StyleSheet.create({
     fontSize: 10,
     marginTop: 3,
   },
-  notiWrapper: {
-    position: 'absolute',
-    top: 5,
-    alignItems: 'center',
-  },
-  noti: {
-    minWidth: 14,
-    height: 14,
-    padding: 2,
-    marginLeft: 20,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: Colors.PRIMARY_RED,
-    borderRadius: 500,
-  },
-  notiText: {
-    fontSize: 8,
-    color: Colors.WHITE,
-  },
 });
 
 const CustomTab = ({state, descriptors, navigation}: BottomTabBarProps) => {
   const {bottom} = useSafeAreaInsets();
   const theme = useTheme();
-  // const [user] = useUser();
-  // const [count, setCount] = useState(0);
-
-  // useEffect(() => {
-  //   if (!user?.userId) return;
-  //   const unSubCountMessage = FirebaseDataSource.countUnReadMessage(
-  //     user?.userId,
-  //     (newCounNumb: number) => {
-  //       try {
-  //         setCount(newCounNumb);
-  //         PushNotification.setApplicationIconBadgeNumber(newCounNumb);
-  //         if (!newCounNumb && Platform.OS === 'android') {
-  //           PushNotification.removeAllDeliveredNotifications();
-  //         }
-  //       } catch (error) {}
-  //     },
-  //   );
-  //   return unSubCountMessage;
-  // }, []);
 
   const containerStyle = useMemo(() => {
     return [
@@ -166,10 +128,8 @@ const CustomTab = ({state, descriptors, navigation}: BottomTabBarProps) => {
             : route.name;
         const IconComponent = TAB_BAR_ICON[index].bundle;
         const iconName = TAB_BAR_ICON[index].name;
-        // const iconStyle = TAB_BAR_ICON[index].style;
 
         const isFocused = state.index === index;
-        // const shownNotiCount = route.name === 'Messenger';
         const onPress = () => {
           const event = navigation.emit({
             type: 'tabPress',
@@ -211,7 +171,6 @@ const CustomTab = ({state, descriptors, navigation}: BottomTabBarProps) => {
               style={[
                 labelInactiveStyle,
                 styles.icon,
-                // iconStyle,
                 isFocused && labelActiveStyle,
               ]}
             />
@@ -223,13 +182,6 @@ const CustomTab = ({state, descriptors, navigation}: BottomTabBarProps) => {
               ]}>
               {label}
             </TextView>
-            {/* {shownNotiCount && !!count && (
-              <View style={styles.notiWrapper}>
-                <View style={styles.noti}>
-                  <TextView style={styles.notiText}>{count}</TextView>
-                </View>
-              </View>
-            )} */}
           </TouchableOpacity>
         );
       })}

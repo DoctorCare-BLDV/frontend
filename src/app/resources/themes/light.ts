@@ -3,7 +3,7 @@ import {Colors} from '../values';
 
 export const LightTheme: Theme = {
   colorScheme: {
-    primary: Colors.RED,
+    primary: Colors.PRIMARY_ORANGE,
     secondary: Colors.BLUE,
     onSecondary: Colors.WHITE,
     background: Colors.LIGHT_GRAY_2,

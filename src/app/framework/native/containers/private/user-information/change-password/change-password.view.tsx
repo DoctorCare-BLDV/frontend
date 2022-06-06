@@ -86,7 +86,7 @@ const _ChangePassword: React.FC<ChangePasswordProps> = props => {
               color={
                 isDisabled
                   ? [Colors.GRAY, Colors.GRAY]
-                  : [Colors.PRIMARY_ORAGE, Colors.PRIMARY_ORAGE]
+                  : [Colors.PRIMARY_ORANGE, Colors.PRIMARY_ORANGE]
               }
               title="Đổi mật khẩu"
               textStyle={styles.btnText}

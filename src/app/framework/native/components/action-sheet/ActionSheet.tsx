@@ -79,6 +79,6 @@ const styles = StyleSheet.create({
     flex: 1,
     fontWeight: '500',
     fontSize: 14,
-    color: Colors.PRIMARY_ORAGE,
+    color: Colors.PRIMARY_ORANGE,
   },
 });

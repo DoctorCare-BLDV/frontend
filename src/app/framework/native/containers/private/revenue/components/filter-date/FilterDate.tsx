@@ -41,14 +41,16 @@ export const FilterDate = React.memo((props: FilterDateProps) => {
                 <FontAwesome
                   name="calendar"
                   color={
-                    onSelect === v.key ? Colors.PRIMARY_ORAGE : Colors.GRAY
+                    onSelect === v.key ? Colors.PRIMARY_ORANGE : Colors.GRAY
                   }
                   size={16}
                   style={styles.iconCalendar}
                 />
               )}
               <TextView
-                color={onSelect === v.key ? Colors.PRIMARY_ORAGE : Colors.GRAY}>
+                color={
+                  onSelect === v.key ? Colors.PRIMARY_ORANGE : Colors.GRAY
+                }>
                 {v.value}
               </TextView>
             </TouchableOpacity>

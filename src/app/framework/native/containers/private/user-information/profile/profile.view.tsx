@@ -64,7 +64,7 @@ const _Profile: React.FC<ProfileProps> = props => {
             onPress={navigateToEditScreen}
             style={styles.editBtn}>
             <FontAwesomeIcon
-              color={Colors.PRIMARY_ORAGE}
+              color={Colors.PRIMARY_ORANGE}
               size={20}
               icon={faPenToSquare as Icon}
             />

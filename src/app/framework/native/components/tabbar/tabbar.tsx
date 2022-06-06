@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     fontSize: 15,
     lineHeight: 18,
-    color: Colors.PRIMARY_ORAGE,
+    color: Colors.PRIMARY_ORANGE,
   },
   normalText: {
     fontSize: 15,
@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
   divider: {
     width: '100%',
     height: 2,
-    backgroundColor: Colors.PRIMARY_ORAGE,
+    backgroundColor: Colors.PRIMARY_ORANGE,
     position: 'absolute',
     bottom: 0,
   },

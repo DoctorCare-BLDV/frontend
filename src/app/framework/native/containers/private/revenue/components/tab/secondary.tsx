@@ -73,7 +73,7 @@ export const SecondaryRevenue = React.memo((props: SecondaryRevenueProps) => {
           <View style={[styles.row, styles.alignStart]}>
             <FontAwesome5
               name={'info-circle'}
-              color={Colors.PRIMARY_ORAGE}
+              color={Colors.PRIMARY_ORANGE}
               size={20}
             />
             <View style={styles.infoMV}>
@@ -101,7 +101,7 @@ export const SecondaryRevenue = React.memo((props: SecondaryRevenueProps) => {
               style={styles.iconSort}
               name="sort"
               size={18}
-              color={Colors.PRIMARY_ORAGE}
+              color={Colors.PRIMARY_ORANGE}
             />
           </TouchableOpacity>
         </View>
@@ -114,6 +114,7 @@ export const SecondaryRevenue = React.memo((props: SecondaryRevenueProps) => {
           keyExtractor={(item, index) => index.toString()}
           data={data}
           renderItem={({item, index}) => renderItem(item, index)}
+          onEndReachedThreshold={1}
         />
       </View>
     </>
@@ -144,7 +145,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     fontSize: 16,
     marginBottom: 8,
-    color: Colors.PRIMARY_ORAGE,
+    color: Colors.PRIMARY_ORANGE,
   },
   table: {
     backgroundColor: Colors.LIGHT_GRAY_4,

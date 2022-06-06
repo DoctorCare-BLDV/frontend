@@ -4,30 +4,21 @@ import {RevenueService} from '@app/framework/native/infrastructure';
 import {MemberLevel2, TotalRevenueType} from '@data/models';
 import {showMessage} from 'react-native-flash-message';
 
-const SecondaryData = [
-  {id: 1, name: 'nguyen van 1', revenue: '1.000.000d', mv: '401'},
-  {id: 2, name: 'nguyen van 2', revenue: '1.000.000d', mv: '402'},
-  {id: 3, name: 'nguyen van 3', revenue: '1.000.000d', mv: '403'},
-  {id: 4, name: 'nguyen van 4', revenue: '1.000.000d', mv: '404'},
-  {id: 5, name: 'nguyen van 5', revenue: '1.000.000d', mv: '405'},
-];
-
 const SelectDateData = [
   {key: 0, value: '7 ngày'},
   {key: 1, value: '30 ngày'},
   {key: 2, value: 'Chọn ngày'},
 ];
 export function useRevenueModel() {
-  const [dataSecodary] = useState(SecondaryData);
   const [totalRevenue, setTotalRevenue] = useState<
     TotalRevenueType | undefined
   >();
   const [revenueByMonth, setRevenueByMonth] = useState<
     TotalRevenueType | undefined
   >();
-  const [dataRevenueLevel2, setRevenueLevel2] = useState<
-    Array<MemberLevel2> | undefined
-  >();
+  const [dataRevenueLevel2, setRevenueLevel2] = useState<Array<MemberLevel2>>(
+    [],
+  );
   const [index, setIndex] = useState(0);
   const sortDESC = useRef(false);
   const [onSelect, setOnSelect] = useState(SelectDateData[0].key);
@@ -52,37 +43,45 @@ export function useRevenueModel() {
     [],
   );
 
-  const fetchDataLevel2 = useCallback(async () => {
-    if (loading || currentPage.current >= lastPage.current) return;
-    setLoading(true);
-    const {
-      revenueLevel2,
-      lastPage: _lastPage,
-      errMessage,
-    } = await RevenueService.getRevenueLevel2({
-      pageIndex: currentPage.current + 1,
-      pageSize: 20,
-      fromDate: moment(startDate).format('YYYY-MM-DD'),
-      toDate: moment(endDate).format('YYYY-MM-DD'),
-      sortValues: {
-        MV: sortDESC.current ? 'DESC' : 'ASC',
-      },
-    });
-    setLoading(false);
-    if (!!errMessage) {
-      return showMessage({
-        message: errMessage,
-        type: 'danger',
+  const fetchDataLevel2 = useCallback(
+    async (isLoadMore?: boolean) => {
+      if (loading || currentPage.current >= lastPage.current) return;
+      setLoading(true);
+      const {
+        revenueLevel2,
+        lastPage: _lastPage,
+        errMessage,
+      } = await RevenueService.getRevenueLevel2({
+        pageIndex: currentPage.current + 1,
+        pageSize: 20,
+        fromDate: moment(startDate).format('YYYY-MM-DD'),
+        toDate: moment(endDate).format('YYYY-MM-DD'),
+        sortValues: {
+          MV: sortDESC.current ? 'DESC' : 'ASC',
+        },
       });
-    }
-    currentPage.current = currentPage.current + 1;
-    lastPage.current = _lastPage || currentPage.current + 1;
-    setRevenueLevel2(revenueLevel2);
-  }, [endDate, loading, startDate]);
+      setLoading(false);
+      if (!!errMessage) {
+        return showMessage({
+          message: errMessage,
+          type: 'danger',
+        });
+      }
+      currentPage.current = currentPage.current + 1;
+      lastPage.current = _lastPage || currentPage.current + 1;
+      setRevenueLevel2(revenueLevel2);
+      if (isLoadMore) {
+        setRevenueLevel2(pre => pre.concat(revenueLevel2));
+      } else {
+        setRevenueLevel2(revenueLevel2);
+      }
+    },
+    [endDate, loading, startDate],
+  );
 
   const loadMore = useCallback(() => {
     if (loading) return;
-    fetchDataLevel2();
+    fetchDataLevel2(true);
   }, [fetchDataLevel2, loading]);
 
   const refreshData = useCallback(() => {
@@ -168,7 +167,6 @@ export function useRevenueModel() {
   };
   return {
     sortData,
-    dataSecodary,
     totalRevenue,
     onSelect,
     onSelectDate,

@@ -70,7 +70,7 @@ const _SignIn: React.FC<SignInProps> = props => {
           <View>
             <View style={styles.shadow}>
               <RoundedButton
-                color={[Colors.PRIMARY_ORAGE, Colors.PRIMARY_ORAGE]}
+                color={[Colors.PRIMARY_ORANGE, Colors.PRIMARY_ORANGE]}
                 loading={loading}
                 containerStyle={styles.buttonContainer}
                 title={'Đăng nhập'}

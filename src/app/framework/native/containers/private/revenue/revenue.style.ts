@@ -24,7 +24,7 @@ export const styles = StyleSheet.create({
   },
   titleRevenue: {
     fontSize: 16,
-    color: Colors.PRIMARY_ORAGE,
+    color: Colors.PRIMARY_ORANGE,
     fontWeight: '700',
   },
 

@@ -19,7 +19,7 @@ export const OrderInfo: React.FC<OrderInfoProps> = ({orderDetail}) => {
       <FontAwesomeIcon
         icon={faCircleInfo as Icon}
         size={20}
-        color={Colors.PRIMARY_ORAGE}
+        color={Colors.PRIMARY_ORANGE}
       />
       <View style={styles.content}>
         <TextView style={styles.title}>{'Thông tin khách hàng'}</TextView>
@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 14,
     fontWeight: '500',
-    color: Colors.PRIMARY_ORAGE,
+    color: Colors.PRIMARY_ORANGE,
   },
   value: {
     fontSize: 14,

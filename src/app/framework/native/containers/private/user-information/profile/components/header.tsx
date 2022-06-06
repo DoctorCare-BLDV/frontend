@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
   container: {justifyContent: 'center', alignItems: 'center', flex: 1},
   avatar: {
     borderWidth: 3,
-    borderColor: Colors.PRIMARY_ORAGE,
+    borderColor: Colors.PRIMARY_ORANGE,
     alignSelf: 'center',
     marginTop: 30,
     overflow: 'hidden',
@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 8,
     right: 8,
-    backgroundColor: Colors.PRIMARY_ORAGE,
+    backgroundColor: Colors.PRIMARY_ORANGE,
     borderRadius: 14,
     width: 28,
     height: 28,

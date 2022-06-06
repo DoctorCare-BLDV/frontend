@@ -63,7 +63,7 @@ const _ForgotPassword: React.FC<ForgotPasswordProps> = props => {
               color={
                 isDisabled
                   ? [Colors.GRAY, Colors.GRAY]
-                  : [Colors.PRIMARY_ORAGE, Colors.PRIMARY_ORAGE]
+                  : [Colors.PRIMARY_ORANGE, Colors.PRIMARY_ORANGE]
               }
               title={MESSAGES.CONFIRM}
               textStyle={styles.btnText}

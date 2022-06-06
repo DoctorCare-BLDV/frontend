@@ -8,6 +8,3 @@ export type RevenueNavigationProps = StackNavigationProp<
   PrivateParamList,
   'Revenue'
 >;
-export interface TotalRevenueProps {
-  data?: any;
-}

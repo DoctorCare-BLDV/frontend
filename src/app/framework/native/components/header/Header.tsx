@@ -86,7 +86,7 @@ export const Header: React.FC<HeaderProps> = props => {
 const styles = StyleSheet.create({
   container: {
     paddingTop: getStatusBarHeight(true),
-    backgroundColor: Colors.PRIMARY_ORAGE,
+    backgroundColor: Colors.PRIMARY_ORANGE,
   },
   content: {
     height: 55,

@@ -45,7 +45,7 @@ export class RevenueApiService {
     }
   }
   async getRevenueLevel2(body: GetAllRevenueLevel2Request): Promise<{
-    revenueLevel2?: Array<MemberLevel2>;
+    revenueLevel2: Array<MemberLevel2>;
     lastPage?: number;
     errMessage?: string;
   }> {
@@ -60,6 +60,7 @@ export class RevenueApiService {
       };
     } catch (error: any) {
       return {
+        revenueLevel2: [],
         errMessage:
           error?.response?.data?.message ||
           'Đã có lỗi xảy ra, vui lòng thử lại sau',

@@ -18,7 +18,7 @@ export const styles = StyleSheet.create({
   },
   alertText: {
     fontSize: 12,
-    color: Colors.PRIMARY_ORAGE,
+    color: Colors.PRIMARY_ORANGE,
     flex: 1,
     marginLeft: 6,
   },

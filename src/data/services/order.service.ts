@@ -3,6 +3,7 @@ import {
   AddOrderAPIResponse,
   ApiRequestor,
   IOrder,
+  UpdateOrderApiRequest,
 } from '@data/models';
 import {AxiosInstance} from 'axios';
 export class OrderAPIService {
@@ -18,6 +19,9 @@ export class OrderAPIService {
         pageIndex: body.pageIndex - 1,
         pageSize: 20,
         filterValues: {},
+        sortValues: {
+          createAt: 'ASC',
+        },
       };
       if (body.keyword) {
         params.filterValues.keyword = body.keyword;
@@ -28,7 +32,7 @@ export class OrderAPIService {
       const {data} = await this.provider.post('/public/order/getAll', params);
       return {
         order: data?.content?.content || [],
-        lastPage: data?.content?.totalPages || 1,
+        lastPage: data?.content?.totalPages - 1 || 1,
       };
     } catch (error: any) {
       return {
@@ -67,12 +71,50 @@ export class OrderAPIService {
     };
   }
 
+  async updateOrder(
+    body: UpdateOrderApiRequest,
+  ): Promise<{order?: IOrder; errorMessage: string}> {
+    try {
+      const {data} = await this.provider.post('/public/order/update', body);
+      return {
+        order: data?.content,
+        errorMessage: '',
+      };
+    } catch (error: any) {
+      return {
+        errorMessage:
+          error?.response?.data?.message ||
+          'Đã có lỗi xảy ra, vui lòng thử lại sau',
+      };
+    }
+  }
+
   async fetchOrderDetail(
     orderId: number,
   ): Promise<{order?: IOrder; errorMessage: string}> {
     try {
       const {data} = await this.provider.post(
         '/public/order/getDetailById/' + orderId,
+      );
+      return {
+        order: data?.content,
+        errorMessage: '',
+      };
+    } catch (error: any) {
+      return {
+        errorMessage:
+          error?.response?.data?.message ||
+          'Đã có lỗi xảy ra, vui lòng thử lại sau',
+      };
+    }
+  }
+
+  async fetchNewOrderInfo(
+    orderId: number,
+  ): Promise<{order?: IOrder; errorMessage: string}> {
+    try {
+      const {data} = await this.provider.post(
+        '/public/order/updateProductInfo/' + orderId,
       );
       return {
         order: data?.content,

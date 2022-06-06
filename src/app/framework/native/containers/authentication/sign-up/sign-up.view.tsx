@@ -162,7 +162,7 @@ const _SignUp: React.FC<SignUpProps> = props => {
                 // disabled={disabledBtn}
                 loading={false}
                 containerStyle={styles.buttonContainer}
-                color={[Colors.PRIMARY_ORAGE, Colors.PRIMARY_ORAGE]}
+                color={[Colors.PRIMARY_ORANGE, Colors.PRIMARY_ORANGE]}
                 // color={
                 //   disabledBtn
                 //     ? [Colors.GRAY, Colors.GRAY]
