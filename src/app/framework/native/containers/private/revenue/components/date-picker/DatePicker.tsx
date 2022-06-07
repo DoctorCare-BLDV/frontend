@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useMemo, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import moment from 'moment';
 import DatePicker from 'react-native-date-picker';
@@ -36,6 +36,9 @@ export const DatePickerComponent = React.memo((props: DatePickerProps) => {
   const [selectedDate, setSelectedDate] = useState(
     date ? moment(date) : moment(),
   );
+  const maxYearSelect = useRef(
+    Number(moment().add(50, 'years').format('YYYY')) - moment().year(),
+  );
 
   const changeValue = useCallback(
     (value: any, isType: 'year' | 'month') => {
@@ -48,8 +51,8 @@ export const DatePickerComponent = React.memo((props: DatePickerProps) => {
   );
   const arrYear = useMemo(
     () =>
-      Array.from({length: 500}, (_, i) => {
-        return i + 1900;
+      Array.from({length: maxYearSelect.current}, (_, i) => {
+        return i + 2000;
       }),
     [],
   );
@@ -85,6 +88,7 @@ export const DatePickerComponent = React.memo((props: DatePickerProps) => {
   const onClose = () => {
     setVisible(!isVisible);
     onCancel();
+    setSelectedDate(date ? moment(date) : moment());
   };
 
   const confirmMonth = useCallback(() => {
