@@ -50,7 +50,7 @@ export class CustomersApiService {
         filterValues: {},
       };
       if (body.keyword) {
-        params.filterValues.orderReceived = body.keyword;
+        params.filterValues.keyword = body.keyword;
       }
       if (body.doctorId) {
         params.filterValues.doctorId = body.doctorId;
