@@ -85,6 +85,7 @@ const _OrderList: React.FC<OrderListProps> = props => {
         ListEmptyComponent={renderEmpty()}
         keyExtractor={item => item.orderId.toString()}
         data={data}
+        ItemSeparatorComponent={() => <View style={styles.divider} />}
         onEndReached={loadMore}
         renderItem={(rowData, rowMap) => (
           <SwipeRow
