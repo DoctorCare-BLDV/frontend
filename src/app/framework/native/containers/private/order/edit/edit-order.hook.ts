@@ -152,11 +152,12 @@ export function useEditOrderModel(props: EditOrderProps) {
       });
       return;
     }
+    props.route.params?.refreshData?.();
     showMessage({
       message: 'Cập nhật đơn hàng thành công!',
       type: 'success',
     });
-  }, [productList]);
+  }, [productList, props.route.params]);
 
   /* eslint-disable */
   useEffect(() => {
