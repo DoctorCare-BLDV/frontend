@@ -65,9 +65,10 @@ const _OrderList: React.FC<OrderListProps> = props => {
     (id: number) => {
       navigation.navigate('EditOrder', {
         id,
+        refreshData: refreshData,
       });
     },
-    [navigation],
+    [navigation, refreshData],
   );
 
   return (
