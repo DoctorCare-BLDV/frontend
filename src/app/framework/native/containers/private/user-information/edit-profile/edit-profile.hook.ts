@@ -1,4 +1,5 @@
 import {useUser} from '@app/shared/contexts';
+import {checkValidEmail} from '@app/utils';
 import {useCallback, useRef, useState} from 'react';
 import {} from 'react-native';
 import {showMessage} from 'react-native-flash-message';
@@ -13,15 +14,15 @@ export function useEditProfileModel() {
   const bankName = useRef(user?.bankName || '');
 
   const onSubmit = useCallback(async () => {
-    if (
-      !address.current ||
-      !bankAccount.current ||
-      !bankName.current ||
-      !email.current ||
-      !name.current
-    ) {
+    if (!address.current || !email.current || !name.current) {
       return showMessage({
         message: 'Vui lòng điền đủ thông tin yêu cầu!',
+        type: 'warning',
+      });
+    }
+    if (!checkValidEmail(email.current)) {
+      return showMessage({
+        message: 'Email không hợp lệ',
         type: 'warning',
       });
     }
