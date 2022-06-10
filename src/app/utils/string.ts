@@ -23,3 +23,7 @@ export const convertNumberToPrice = (
     return '';
   }
 };
+
+export const checkValidEmail = (input: string) => {
+  return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(input);
+};
