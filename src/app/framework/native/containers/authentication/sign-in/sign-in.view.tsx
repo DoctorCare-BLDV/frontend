@@ -15,6 +15,7 @@ import {Colors} from '@app/resources';
 import {useSignInModel} from './sign-in.hook';
 import {SignInProps} from './sign-in.type';
 import {styles} from './sign-in.style';
+import {LOGO} from '@assets';
 
 const _SignIn: React.FC<SignInProps> = props => {
   const {navigation} = props;
@@ -22,6 +23,10 @@ const _SignIn: React.FC<SignInProps> = props => {
 
   const navigateForgotPassScreen = useCallback(() => {
     navigation.navigate('ForgotPassword');
+  }, [navigation]);
+
+  const navigateToSignUp = useCallback(() => {
+    navigation.navigate('SignUp');
   }, [navigation]);
 
   return (
@@ -34,16 +39,11 @@ const _SignIn: React.FC<SignInProps> = props => {
         <View style={styles.content}>
           <Image
             style={styles.logo}
-            source={{
-              uri: 'https://whenindanang.com/wp-content/uploads/2020/11/logo-designs-that-you-may-fall-in-love-with-7.png',
-            }}
+            source={LOGO}
             resizeMethod="scale"
             resizeMode="contain"
           />
-          <TextView style={styles.textLogo}>
-            {'Doctor Care'}
-            {/* <TextView style={styles.textLogoRed}>{' ĐẤT VIỆT'}</TextView> */}
-          </TextView>
+          <TextView style={styles.textLogo}>{'Doctor Care'}</TextView>
           <TextField
             containerStyle={styles.inputContainer}
             inputProps={{
@@ -86,7 +86,7 @@ const _SignIn: React.FC<SignInProps> = props => {
             />
           </View>
         </View>
-        {/* <View style={styles.footer}>
+        <View style={styles.footer}>
           <TextView style={{color: Colors.GRAY}} text={'hoặc'} />
           <FlatButton
             onPress={navigateToSignUp}
@@ -94,7 +94,7 @@ const _SignIn: React.FC<SignInProps> = props => {
             containerStyle={styles.registerContainer}
             textStyle={styles.registerText}
           />
-        </View> */}
+        </View>
       </KeyboardAwareScrollView>
     </View>
   );

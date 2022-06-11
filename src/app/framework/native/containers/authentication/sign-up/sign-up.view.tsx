@@ -5,13 +5,7 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import Animated, {Easing} from 'react-native-reanimated';
 import {CheckBox} from 'react-native-elements';
 // import from alias
-import {
-  Header,
-  PasswordInput,
-  RoundedButton,
-  TextField,
-  TextView,
-} from '@native/components';
+import {Header, RoundedButton, TextField, TextView} from '@native/components';
 import {Colors} from '@app/resources';
 // localImport
 import {useSignUpModel} from './sign-up.hook';
@@ -62,8 +56,8 @@ const useAnimation = () => {
 
 const _SignUp: React.FC<SignUpProps> = props => {
   const {navigation} = props;
-  const {} = useSignUpModel();
-  const {opacityStyle, tranYStyle} = useAnimation();
+  const {email, name, phone, refCode, onSubmit} = useSignUpModel();
+  const {tranYStyle} = useAnimation();
   return (
     <View style={[styles.container]}>
       <Header leftOnpress={navigation.goBack} title="Đăng ký" />
@@ -75,111 +69,52 @@ const _SignUp: React.FC<SignUpProps> = props => {
           <TextField
             containerStyle={styles.inputContainer}
             inputProps={{
-              // onChangeText: value => (phone.current = value),
+              onChangeText: value => (phone.current = value),
               style: styles.input,
-              // editable: !isVerifying,
               keyboardType: 'phone-pad',
               placeholder: 'Số điện thoại *',
-              // placeholderTextColor: Colors.BLACK,
             }}
           />
           <TextField
             containerStyle={styles.inputContainer}
             inputProps={{
-              // onChangeText: value => (name.current = value),
+              onChangeText: value => (name.current = value),
               style: styles.input,
-              // editable: !isVerifying,
               placeholder: 'Họ và tên *',
-              // placeholderTextColor: Colors.BLACK,
             }}
           />
           <TextField
             containerStyle={styles.inputContainer}
             inputProps={{
-              // editable: !isVerifying,
               style: styles.input,
               placeholder: 'Email *',
-              // onChangeText: value => (email.current = value),
-              // placeholderTextColor: Colors.BLACK,
+              onChangeText: value => (email.current = value),
               autoCapitalize: 'none',
               autoCorrect: false,
-            }}
-          />
-          <PasswordInput
-            containerStyle={styles.inputContainer}
-            inputProps={{
-              // editable: !isVerifying,
-              style: styles.input,
-              placeholder: 'Mật khẩu * (6 - 50 ký tự)',
-              // onChangeText: value => (password.current = value),
-              // placeholderTextColor: Colors.BLACK,
-              autoCapitalize: 'none',
-              autoCorrect: false,
-              secureTextEntry: true,
-            }}
-          />
-          <PasswordInput
-            containerStyle={styles.inputContainer}
-            inputProps={{
-              // editable: !isVerifying,
-              style: styles.input,
-              placeholder: 'Nhập lại mật khẩu *',
-              // onChangeText: value => (confirmPassword.current = value),
-              // placeholderTextColor: Colors.BLACK,
-              autoCapitalize: 'none',
-              autoCorrect: false,
-              secureTextEntry: true,
             }}
           />
           <TextField
             containerStyle={styles.inputContainer}
             inputProps={{
-              // onChangeText: value => (refCode.current = value),
+              onChangeText: value => (refCode.current = value),
               style: styles.input,
-              // editable: !isVerifying,
               placeholder: 'Mã giới thiệu',
-              // placeholderTextColor: Colors.BLACK,
+              defaultValue: 'DCMANAGER',
             }}
           />
-          <Animated.View style={opacityStyle}>
-            <TextField
-              containerStyle={styles.inputContainer}
-              inputProps={{
-                // onChangeText: value => (otp.current = value),
-                style: styles.input,
-                maxLength: 6,
-                // editable: isVerifying,
-                // value: !isVerifying ? '' : undefined,
-                keyboardType: 'phone-pad',
-                placeholder: 'OTP',
-                // placeholderTextColor: Colors.BLACK,
-              }}
-            />
-          </Animated.View>
           <Animated.View style={tranYStyle}>
             <View style={styles.shadow}>
               <RoundedButton
-                // disabled={disabledBtn}
                 loading={false}
                 containerStyle={styles.buttonContainer}
                 color={[Colors.PRIMARY_ORANGE, Colors.PRIMARY_ORANGE]}
-                // color={
-                //   disabledBtn
-                //     ? [Colors.GRAY, Colors.GRAY]
-                //     : [Colors.PRIMARY_BLUE, Colors.PRIMARY_BLUE]
-                // }
                 title="Đăng ký"
                 textStyle={styles.btnText}
-                onPress={() => {}}
+                onPress={onSubmit}
               />
             </View>
             <View style={styles.btnPolicy}>
-              <CheckBox
-                size={16}
-                // onPress={toggleBtn}
-                containerStyle={styles.checkbox}
-                // checked={!disabledBtn}
-              />
+              <CheckBox size={16} containerStyle={styles.checkbox} />
               <TextView style={styles.textPolicy}>
                 {'Đồng ý '}
                 <TextView onPress={() => {}} style={styles.underline}>

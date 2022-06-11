@@ -2,6 +2,7 @@ import {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 
 import {useDebouncedCallback} from 'use-debounce';
 
+import {notificationConfiguration} from '@app/framework/native/infrastructure';
 import {RowItemData} from '@app/framework/native/components';
 import {useProductList} from '@app/framework/native/hooks';
 import {convertItemModelListToRowItemDataList} from '@app/resources';
@@ -26,6 +27,10 @@ export function useProductListModel(initValue?: {
   const [isLoading, setLoading] = useState(false);
   const [isLoadMore, setLoadMore] = useState(false);
   const [isRefreshing, setRefreshing] = useState(false);
+
+  useEffect(() => {
+    notificationConfiguration();
+  }, []);
 
   const filterValues: ProductFilterValues = useMemo(() => {
     return {
