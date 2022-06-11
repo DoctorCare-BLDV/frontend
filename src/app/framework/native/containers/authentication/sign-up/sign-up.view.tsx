@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {View} from 'react-native';
 // import from library
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
@@ -56,7 +56,9 @@ const useAnimation = () => {
 
 const _SignUp: React.FC<SignUpProps> = props => {
   const {navigation} = props;
-  const {email, name, phone, refCode, onSubmit} = useSignUpModel();
+  const {email, name, phone, refCode, onSubmit, openPolicyLink, loading} =
+    useSignUpModel(props);
+  const [checked, setChecked] = useState<boolean>(true);
   const {tranYStyle} = useAnimation();
   return (
     <View style={[styles.container]}>
@@ -105,19 +107,29 @@ const _SignUp: React.FC<SignUpProps> = props => {
           <Animated.View style={tranYStyle}>
             <View style={styles.shadow}>
               <RoundedButton
-                loading={false}
+                disabled={!checked}
+                loading={loading}
+                color={
+                  !checked
+                    ? [Colors.GRAY, Colors.GRAY]
+                    : [Colors.PRIMARY_ORANGE, Colors.PRIMARY_ORANGE]
+                }
                 containerStyle={styles.buttonContainer}
-                color={[Colors.PRIMARY_ORANGE, Colors.PRIMARY_ORANGE]}
                 title="Đăng ký"
                 textStyle={styles.btnText}
                 onPress={onSubmit}
               />
             </View>
             <View style={styles.btnPolicy}>
-              <CheckBox size={16} containerStyle={styles.checkbox} />
+              <CheckBox
+                size={16}
+                containerStyle={styles.checkbox}
+                checked={checked}
+                onPress={() => setChecked(pre => !pre)}
+              />
               <TextView style={styles.textPolicy}>
                 {'Đồng ý '}
-                <TextView onPress={() => {}} style={styles.underline}>
+                <TextView onPress={openPolicyLink} style={styles.underline}>
                   {'điều khoản sử dụng'}
                 </TextView>
               </TextView>
