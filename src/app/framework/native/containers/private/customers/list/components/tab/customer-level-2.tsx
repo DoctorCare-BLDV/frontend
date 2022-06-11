@@ -64,7 +64,7 @@ export const CustomerLevel2 = React.memo((props: Props) => {
             />
             <View>
               <TextView style={styles.userName}>{item.fullName}</TextView>
-              <TextView style={styles.code}>{item.introCode}</TextView>
+              <TextView style={styles.code}>{item.myIntroCode}</TextView>
             </View>
           </TouchableOpacity>
           <Divider />
