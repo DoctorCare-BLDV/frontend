@@ -51,7 +51,7 @@ export type PrivateParamList = {
   EditProfile: undefined;
   ChangePassword: undefined;
   Revenue: undefined;
-  EditOrder: {id: number};
+  EditOrder: {id: number; refreshData: () => void};
   OrderDetail: {id: number};
   CustomersDetail: {id: number};
   Customer: undefined;

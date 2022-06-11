@@ -77,8 +77,7 @@ const styles = StyleSheet.create({
   },
   title: {
     flex: 1,
-    fontWeight: '500',
+    fontWeight: '400',
     fontSize: 14,
-    color: Colors.PRIMARY_ORANGE,
   },
 });

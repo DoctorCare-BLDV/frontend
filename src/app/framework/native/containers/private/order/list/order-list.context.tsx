@@ -168,8 +168,6 @@ export const OrderListProvider = memo(
         currentPage.current = 0;
         lastPage.current = 1;
         filter.current = [...e];
-        console.log('-----e', e);
-
         fetchData();
       },
       [fetchData],

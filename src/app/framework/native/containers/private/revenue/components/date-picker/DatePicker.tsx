@@ -46,6 +46,7 @@ export const DatePickerComponent = React.memo((props: DatePickerProps) => {
     },
     [selectedDate],
   );
+
   const arrYear = useMemo(() => {
     const startYear = 2022;
 
@@ -56,6 +57,7 @@ export const DatePickerComponent = React.memo((props: DatePickerProps) => {
       },
     );
   }, []);
+
   const arrMonth = useMemo(() => {
     return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].filter(month => {
       return month;
@@ -88,6 +90,7 @@ export const DatePickerComponent = React.memo((props: DatePickerProps) => {
   const onClose = () => {
     setVisible(!isVisible);
     onCancel();
+    setSelectedDate(date ? moment(date) : moment());
   };
 
   const confirmMonth = useCallback(() => {
