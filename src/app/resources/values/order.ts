@@ -22,7 +22,7 @@ export const OrderStatusFilter = [
   },
   {
     id: 4,
-    label: 'Hoàn thành',
+    label: 'Thành công',
     finishedStatus: true,
     message: 'Đơn hàng đã hoàn thành.\nCảm ơn quý khách!',
   },
