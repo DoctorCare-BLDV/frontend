@@ -40,7 +40,7 @@ const _FullScreenLoadingIndicator: React.FC<
   );
 
   return useModal ? (
-    <Modal visible={visible} animationType="fade" transparent>
+    <Modal visible={visible} transparent>
       {renderLoading(true)}
     </Modal>
   ) : (

@@ -11,7 +11,7 @@ export function UsedetailModel(props: detailProps) {
       id,
     );
     if (!customer) {
-      props.navigation.goBack();
+      // props.navigation.goBack();
       showMessage({
         message: errorMessage,
         type: 'danger',
@@ -19,7 +19,7 @@ export function UsedetailModel(props: detailProps) {
       return;
     }
     setCustomers(customer);
-  }, [id, props.navigation]);
+  }, [id]);
 
   /* eslint-disable */
   useEffect(() => {

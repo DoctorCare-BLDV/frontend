@@ -20,7 +20,7 @@ export class OrderAPIService {
         pageSize: 20,
         filterValues: {},
         sortValues: {
-          createAt: 'ASC',
+          createAt: 'DESC',
         },
       };
       if (body.keyword) {

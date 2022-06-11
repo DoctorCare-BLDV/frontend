@@ -34,8 +34,8 @@ const styles = StyleSheet.create({
     paddingBottom: getBottomSpace(),
   },
   text: {
-    fontSize: 14,
-    fontWeight: '500',
+    fontSize: 16,
+    fontWeight: 'bold',
     color: Colors.PRIMARY_ORANGE,
   },
 });

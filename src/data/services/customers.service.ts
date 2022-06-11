@@ -15,7 +15,9 @@ export class CustomersApiService {
       let params: any = {
         pageIndex: body.pageIndex - 1,
         pageSize: 20,
-        filterValues: {},
+        filterValues: {
+          userLv2: true,
+        },
       };
       if (body.keyword) {
         params.filterValues.fullName = body.keyword;

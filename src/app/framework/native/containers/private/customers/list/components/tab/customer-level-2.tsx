@@ -59,7 +59,7 @@ export const CustomerLevel2 = React.memo((props: Props) => {
             onPress={() => navigateToDetail(item.userInfoId)}
             style={styles.item}>
             <Image
-              source={getUserAvatarForImage(item.avatar)}
+              source={getUserAvatarForImage(item)}
               style={styles.imgAvatar}
             />
             <View>

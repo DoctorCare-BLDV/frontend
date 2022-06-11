@@ -148,10 +148,7 @@ const _OrderConfirmation: React.FC<OrderConfirmationProps> = ({navigation}) => {
       onRequestSuccess: response => {
         if (response?.status === HTTPS_SUCCESS_STATUS) {
           clearCart();
-          navigation.reset({
-            index: 0,
-            routes: [{name: 'BottomTab'}],
-          });
+          navigation.navigate('BottomTab');
         }
       },
       onEndRequest: () => {

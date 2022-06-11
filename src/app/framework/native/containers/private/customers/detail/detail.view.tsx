@@ -28,7 +28,7 @@ const _detail: React.FC<DetailProps> = props => {
     <View style={[styles.container]}>
       <Header leftOnpress={props.navigation.goBack} title={'Thông tin'} />
       <Image
-        source={getUserAvatarForImage(customerDetail?.avatar)}
+        source={getUserAvatarForImage(customerDetail)}
         style={styles.image}
       />
       {Info.map(item => {

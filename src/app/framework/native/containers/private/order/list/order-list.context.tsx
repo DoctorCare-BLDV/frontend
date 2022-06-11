@@ -27,6 +27,7 @@ export const OrderListContext = createContext<{
   data: IOrder[];
   cancelOrder: (orderId: number) => void;
   fullScreenLoading: boolean;
+  refreshing: boolean;
 }>({
   index: 0,
   setIndex: () => null,
@@ -39,6 +40,7 @@ export const OrderListContext = createContext<{
   loadMore: () => null,
   cancelOrder: () => null,
   fullScreenLoading: false,
+  refreshing: false,
 });
 
 interface FilterItem {
@@ -52,6 +54,7 @@ export const OrderListProvider = memo(
     const filter = useRef<FilterItem[]>([]);
     const search = useRef<string>('');
     const [loading, setLoading] = React.useState<boolean>(false);
+    const [refreshing, setRefreshing] = React.useState<boolean>(false);
     // const [total, setTotal] = React.useState<{unDone: number; done: number}>({
     //   done: 0,
     //   unDone: 0,
@@ -65,9 +68,15 @@ export const OrderListProvider = memo(
     const timer = useRef<NodeJS.Timeout>();
 
     const fetchData = useCallback(
-      async (isLoadMore?: boolean) => {
+      async (
+        isLoadMore?: boolean,
+        isRefresh?: boolean,
+        showLoading?: boolean,
+      ) => {
         if (loading || currentPage.current >= lastPage.current) return;
-        setLoading(true);
+        if (!isRefresh && showLoading) {
+          setLoading(true);
+        }
         const status = index === 0 ? '1, 2, 3' : '4, 5';
         const {
           order,
@@ -82,6 +91,7 @@ export const OrderListProvider = memo(
               : status,
         });
         setLoading(false);
+        setRefreshing(false);
         if (!!errorMessage) {
           return showMessage({
             message: errorMessage,
@@ -112,20 +122,28 @@ export const OrderListProvider = memo(
       }, 300);
     }, [fetchData, loading]);
 
-    const refreshData = useCallback(() => {
-      if (loading) return;
-      search.current = '';
-      filter.current = [];
-      currentPage.current = 0;
-      lastPage.current = 1;
-      fetchData();
-    }, [fetchData, loading]);
+    const refreshData = useCallback(
+      (isRefresh = true, showLoading = true) => {
+        if (loading || refreshing) return;
+        if (isRefresh) {
+          setRefreshing(true);
+        }
+        search.current = '';
+        filter.current = [];
+        currentPage.current = 0;
+        lastPage.current = 1;
+        fetchData(false, isRefresh, showLoading);
+      },
+      [fetchData, loading, refreshing],
+    );
 
     React.useEffect(() => {
-      const unsubscribe = navigation.addListener('focus', refreshData);
+      const unsubscribe = navigation.addListener('focus', () =>
+        refreshData(false, !data.length),
+      );
 
       return unsubscribe;
-    }, [navigation, refreshData]);
+    }, [navigation, refreshData, data]);
 
     const UndoneOrderFilter = useMemo(() => {
       return OrderStatusFilter.filter(i => i.id > 0 && !i.finishedStatus).map(
@@ -211,7 +229,7 @@ export const OrderListProvider = memo(
 
     /* eslint-disable */
     useEffect(() => {
-      refreshData();
+      refreshData(false);
     }, [index]);
     /* eslint-enable */
 
@@ -229,6 +247,7 @@ export const OrderListProvider = memo(
           loading,
           cancelOrder,
           refreshData,
+          refreshing,
         }}>
         {children}
       </OrderListContext.Provider>

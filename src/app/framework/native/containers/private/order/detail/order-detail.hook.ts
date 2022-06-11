@@ -12,7 +12,7 @@ export function useOrderDetailModel(props: OrderDetailProps) {
   const getOrderDetail = useCallback(async () => {
     const {errorMessage, order} = await OrderService.fetchOrderDetail(id);
     if (!order) {
-      props.navigation.goBack();
+      // props.navigation.goBack();
       showMessage({
         message: errorMessage,
         type: 'danger',
@@ -20,7 +20,7 @@ export function useOrderDetailModel(props: OrderDetailProps) {
       return;
     }
     setOrder(order);
-  }, [id, props.navigation]);
+  }, [id]);
 
   /* eslint-disable */
   useEffect(() => {

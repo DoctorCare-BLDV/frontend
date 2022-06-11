@@ -30,10 +30,11 @@ const _OrderList: React.FC<OrderListProps> = props => {
     index,
     setIndex,
     data,
-    fullScreenLoading,
+    loading,
     cancelOrder,
     refreshData,
     loadMore,
+    refreshing,
   } = useContext(OrderListContext);
 
   const renderEmpty = React.useCallback(() => {
@@ -72,14 +73,14 @@ const _OrderList: React.FC<OrderListProps> = props => {
 
   return (
     <View style={styles.container}>
-      <FullScreenLoadingIndicator visible={fullScreenLoading} />
+      <FullScreenLoadingIndicator visible={loading} />
       <Tabbar list={Tab} currentIdx={index} onChangeTab={setIndex} />
       <Header />
       <SwipeListView
         indicatorStyle="black"
         style={styles.list}
         refreshControl={
-          <RefreshControl refreshing={false} onRefresh={refreshData} />
+          <RefreshControl refreshing={refreshing} onRefresh={refreshData} />
         }
         ListEmptyComponent={renderEmpty()}
         keyExtractor={item => item.orderId.toString()}

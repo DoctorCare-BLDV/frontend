@@ -25,7 +25,7 @@ export const TotalRevenue = React.memo((props: TotalRevenueProps) => {
                 style={styles.valueCategories}
                 color={Colors.PRIMARY_ORANGE}>
                 {CategoriesRevenue[1].key === v.key
-                  ? `${props.data?.[v.value]} MV`
+                  ? `${props.data?.[v.value] || 0} MV`
                   : vndCurrencyFormat(props.data?.[v.value] ?? 0)}
               </TextView>
             </View>

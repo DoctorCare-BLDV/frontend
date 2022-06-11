@@ -46,13 +46,16 @@ export const DatePickerComponent = React.memo((props: DatePickerProps) => {
     },
     [selectedDate],
   );
-  const arrYear = useMemo(
-    () =>
-      Array.from({length: 500}, (_, i) => {
-        return i + 1900;
-      }),
-    [],
-  );
+  const arrYear = useMemo(() => {
+    const startYear = 2022;
+
+    return Array.from(
+      {length: new Date().getFullYear() - startYear + 1},
+      (_, i) => {
+        return i + startYear;
+      },
+    );
+  }, []);
   const arrMonth = useMemo(() => {
     return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].filter(month => {
       return month;

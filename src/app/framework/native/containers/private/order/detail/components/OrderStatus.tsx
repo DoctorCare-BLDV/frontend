@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingHorizontal: 16,
     paddingVertical: 8,
-    backgroundColor: Colors.WARNING_50,
+    backgroundColor: Colors.WARNING,
   },
   text: {
     color: Colors.GRAY,
@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
     color: Colors.WHITE,
   },
   successBg: {
-    backgroundColor: Colors.SUCCESS_70,
+    backgroundColor: Colors.SUCCESS,
   },
   failBg: {
     backgroundColor: Colors.GRAY_50,
