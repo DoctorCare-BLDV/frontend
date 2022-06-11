@@ -3,6 +3,7 @@ import {ActivityIndicator, Image, SafeAreaView} from 'react-native';
 // import from library
 // import from alias
 import {Colors} from '@app/resources';
+import {LOGO} from '@assets';
 // localImport
 import {useLaunchScreenModel} from './launch-screen.hook';
 import {LaunchScreenProps} from './launch-screen.type';
@@ -16,9 +17,7 @@ const _LaunchScreen: React.FC<LaunchScreenProps> = props => {
     <SafeAreaView style={[styles.container]}>
       <Image
         style={styles.logo}
-        source={{
-          uri: 'https://whenindanang.com/wp-content/uploads/2020/11/logo-designs-that-you-may-fall-in-love-with-7.png',
-        }}
+        source={LOGO}
         resizeMethod="scale"
         resizeMode="contain"
       />

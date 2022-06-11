@@ -78,4 +78,25 @@ export class ApiAuthenticationService {
       );
     }
   }
+
+  async register(body: {
+    phone: string;
+    fullName: string;
+    email: string;
+    introCode: string;
+  }): Promise<string | null> {
+    try {
+      await this.provider.post('/public/user/register', {
+        ...body,
+        env: 'MOBILE',
+        roleCode: 'DOCTOR',
+      });
+      return null;
+    } catch (error: any) {
+      return (
+        error?.response?.data?.message ||
+        'Đã có lỗi xảy ra, vui lòng thử lại sau'
+      );
+    }
+  }
 }
