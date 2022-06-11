@@ -137,14 +137,6 @@ export const OrderListProvider = memo(
       [fetchData, loading, refreshing],
     );
 
-    React.useEffect(() => {
-      const unsubscribe = navigation.addListener('focus', () =>
-        refreshData(false, !data.length),
-      );
-
-      return unsubscribe;
-    }, [navigation, refreshData, data]);
-
     const UndoneOrderFilter = useMemo(() => {
       return OrderStatusFilter.filter(i => i.id > 0 && !i.finishedStatus).map(
         i => ({

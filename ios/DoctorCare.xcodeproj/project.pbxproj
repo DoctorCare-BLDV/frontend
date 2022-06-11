@@ -86,6 +86,7 @@
 		CB4F742A8DF779E0D6B5D507 /* Pods-DoctorCare-DoctorCareTests.staging-debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DoctorCare-DoctorCareTests.staging-debug.xcconfig"; path = "Target Support Files/Pods-DoctorCare-DoctorCareTests/Pods-DoctorCare-DoctorCareTests.staging-debug.xcconfig"; sourceTree = "<group>"; };
 		E8CB96AC2843ACA500CA8288 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		F099617228548A44001F2669 /* DoctorCare.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = DoctorCare.entitlements; path = DoctorCare/DoctorCare.entitlements; sourceTree = "<group>"; };
 		F71B563D66B9EEFD11A2C529 /* Pods-DoctorCare-DoctorCareTests.production-release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DoctorCare-DoctorCareTests.production-release.xcconfig"; path = "Target Support Files/Pods-DoctorCare-DoctorCareTests/Pods-DoctorCare-DoctorCareTests.production-release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -153,6 +154,7 @@
 		13B07FAE1A68108700A75B9A /* DoctorCare */ = {
 			isa = PBXGroup;
 			children = (
+				F099617228548A44001F2669 /* DoctorCare.entitlements */,
 				E8CB96AC2843ACA500CA8288 /* GoogleService-Info.plist */,
 				B6A447ED280AD34E0061A857 /* Configurations */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
@@ -600,9 +602,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_ENTITLEMENTS = DoctorCare/DoctorCare.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 4V5FHL47NA;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = DoctorCare/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -629,6 +633,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = DoctorCare/DoctorCare.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 4V5FHL47NA;
 				INFOPLIST_FILE = DoctorCare/Info.plist;
@@ -863,6 +868,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = DoctorCare/DoctorCare.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 4V5FHL47NA;
 				ENABLE_BITCODE = NO;
@@ -982,6 +988,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = DoctorCare/DoctorCare.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 4V5FHL47NA;
 				INFOPLIST_FILE = DoctorCare/Info.plist;

@@ -1,4 +1,5 @@
 import {useUser} from '@app/shared/contexts';
+import {validatePhone} from '@app/utils';
 import {useCallback, useRef, useState} from 'react';
 import {} from 'react-native';
 import {showMessage} from 'react-native-flash-message';
@@ -12,6 +13,13 @@ export function useSignInModel() {
     if (!phone.current || !password.current) {
       return showMessage({
         message: 'Vui lòng nhập số điện thoại và mật khẩu',
+        type: 'warning',
+      });
+    }
+    const {message, result} = validatePhone(phone.current);
+    if (!result) {
+      return showMessage({
+        message: message,
         type: 'warning',
       });
     }

@@ -10,3 +10,4 @@ export * from './axios-address.service';
 export * from './address-local.service';
 export * from './axios-notification.service';
 export * from './axios-customers.service';
+export * from './firebase-notification.service';

@@ -4,6 +4,7 @@ import {showMessage} from 'react-native-flash-message';
 import AsyncStorage from '@react-native-community/async-storage';
 import {
   AuthenticationService,
+  FirebaseService,
   UserLocalService,
   UserService,
 } from '@native/infrastructure';
@@ -45,6 +46,7 @@ export const UserContextProvider: React.FC = ({children}) => {
   const signOut = React.useCallback(async () => {
     const id = await AsyncStorage.getItem('userId');
     if (!id) return;
+    FirebaseService.deleteFcmToken(id);
     const errMessage = await AuthenticationService.logout(id);
     if (!errMessage) {
       UserLocalService.clearLocalData();

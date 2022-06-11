@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingBottom: getBottomSpace(),
+    paddingBottom: getBottomSpace() || 16,
   },
   text: {
     fontSize: 16,

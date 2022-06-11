@@ -7,3 +7,4 @@ export * from './revenue.service';
 export * from './address.service';
 export * from './notification.service';
 export * from './customers.service';
+export * from './firebase-notification.service';
