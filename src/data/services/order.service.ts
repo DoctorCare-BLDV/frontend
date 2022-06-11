@@ -32,7 +32,7 @@ export class OrderAPIService {
       const {data} = await this.provider.post('/public/order/getAll', params);
       return {
         order: data?.content?.content || [],
-        lastPage: data?.content?.totalPages - 1 || 1,
+        lastPage: data?.content?.totalPages || 1,
       };
     } catch (error: any) {
       return {

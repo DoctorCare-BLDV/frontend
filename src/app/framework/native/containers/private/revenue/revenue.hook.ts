@@ -28,6 +28,7 @@ export function useRevenueModel() {
   const currentPage = useRef(0);
   const lastPage = useRef(1);
   const [loading, setLoading] = useState<boolean>(false);
+  const timer = useRef<NodeJS.Timeout>();
 
   const responseTotalRevenue = useCallback(
     async (body: {fromDate?: string; toDate?: string}) => {
@@ -81,7 +82,10 @@ export function useRevenueModel() {
 
   const loadMore = useCallback(() => {
     if (loading) return;
-    fetchDataLevel2(true);
+    if (!!timer.current) clearTimeout(timer.current);
+    timer.current = setTimeout(() => {
+      fetchDataLevel2(true);
+    }, 300);
   }, [fetchDataLevel2, loading]);
 
   const refreshData = useCallback(() => {
