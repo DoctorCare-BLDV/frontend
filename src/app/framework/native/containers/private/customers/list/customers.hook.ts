@@ -15,6 +15,7 @@ export function UsecustomersModel() {
   const currentPage = useRef(0);
   const lastPage = useRef(1);
   const search = useRef<string>('');
+  const timer = useRef<NodeJS.Timeout>();
 
   const getAllCustomer = useCallback(
     async (isLoadMore?: boolean) => {
@@ -97,11 +98,14 @@ export function UsecustomersModel() {
 
   const loadMore = useCallback(() => {
     if (loading) return;
-    if (index === 0) {
-      getCustomerLevel2(true);
-    } else {
-      getAllCustomer(true);
-    }
+    if (!!timer.current) clearTimeout(timer.current);
+    timer.current = setTimeout(() => {
+      if (index === 0) {
+        getCustomerLevel2(true);
+      } else {
+        getAllCustomer(true);
+      }
+    }, 300);
   }, [getAllCustomer, getCustomerLevel2, index, loading]);
 
   const setSearch = useCallback((value: string) => {

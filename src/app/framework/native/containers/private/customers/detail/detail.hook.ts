@@ -1,9 +1,9 @@
 import {useCallback, useEffect, useState} from 'react';
 import {showMessage} from 'react-native-flash-message';
 import {CustomerService} from '@app/framework/native/infrastructure';
-import {detailProps} from './detail.type';
+import {DetailProps} from './detail.type';
 
-export function UsedetailModel(props: detailProps) {
+export function UsedetailModel(props: DetailProps) {
   const {id} = props.route.params;
   const [customerDetail, setCustomers] = useState<any>();
   const getCustomerDetail = useCallback(async () => {
