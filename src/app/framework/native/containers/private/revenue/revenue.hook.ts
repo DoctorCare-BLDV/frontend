@@ -55,8 +55,8 @@ export function useRevenueModel() {
       } = await RevenueService.getRevenueLevel2({
         pageIndex: currentPage.current + 1,
         pageSize: 20,
-        fromDate: moment(startDate).format('YYYY-MM-DD'),
-        toDate: moment(endDate).format('YYYY-MM-DD'),
+        fromDate: moment(startDate).format('YYYY-MM-DDT00:00:00'),
+        toDate: moment(endDate).format('YYYY-MM-DDT23:59:59'),
         sortValues: {
           MV: sortDESC.current ? 'DESC' : 'ASC',
         },
@@ -119,8 +119,8 @@ export function useRevenueModel() {
       setStartDate(moment().toDate());
       setEndDate(moment().toDate());
     } else if (onSelect === SelectDateData[1].key) {
-      setStartDate(moment().toDate());
-      setEndDate(moment().subtract(1, 'months').toDate());
+      setStartDate(moment().subtract(1, 'months').toDate());
+      setEndDate(moment().toDate());
     }
   }, [onSelect]);
   /* eslint-enable */
