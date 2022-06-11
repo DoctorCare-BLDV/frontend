@@ -20,7 +20,7 @@ export class CustomersApiService {
         },
       };
       if (body.keyword) {
-        params.filterValues.fullName = body.keyword;
+        params.filterValues.keyword = body.keyword;
       }
       const {data} = await this.provider.post('/public/user/getAll', params);
       return {

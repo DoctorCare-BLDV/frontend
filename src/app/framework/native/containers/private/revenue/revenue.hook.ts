@@ -5,7 +5,7 @@ import {MemberLevel2, TotalRevenueType} from '@data/models';
 import {showMessage} from 'react-native-flash-message';
 
 const SelectDateData = [
-  {key: 0, value: '7 ngày'},
+  {key: 0, value: 'Hôm nay'},
   {key: 1, value: '30 ngày'},
   {key: 2, value: 'Chọn ngày'},
 ];
@@ -113,7 +113,7 @@ export function useRevenueModel() {
     }
     if (onSelect === SelectDateData[0].key) {
       setStartDate(moment().toDate());
-      setEndDate(moment().subtract(1, 'weeks').toDate());
+      setEndDate(moment().toDate());
     } else if (onSelect === SelectDateData[1].key) {
       setStartDate(moment().toDate());
       setEndDate(moment().subtract(1, 'months').toDate());
