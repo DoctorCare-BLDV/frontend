@@ -125,10 +125,6 @@ export function UsecustomersModel() {
     refreshData();
   }, [index]);
 
-  // useEffect(() => {
-  //   refreshData();
-  // }, []);
-
   /* eslint-enable */
   return {
     index,

@@ -93,8 +93,8 @@ export function useRevenueModel() {
 
   const getTotalRevenue = useCallback(async () => {
     const body = {
-      fromDate: moment(startDate).format('YYYY-MM-DD'),
-      toDate: moment(endDate).format('YYYY-MM-DD'),
+      fromDate: moment(startDate).format('YYYY-MM-DDT00:00:00'),
+      toDate: moment(endDate).format('YYYY-MM-DDT23:59:59'),
     };
     if (onSelect === SelectDateData[2].key && startDate && endDate) {
       responseTotalRevenue(body);
@@ -122,8 +122,11 @@ export function useRevenueModel() {
   /* eslint-enable */
   /* eslint-disable */
   useEffect(() => {
-    getTotalRevenue();
-    refreshData();
+    if (index == 0) {
+      getTotalRevenue();
+    } else {
+      refreshData();
+    }
   }, [endDate, startDate]);
   /* eslint-enable */
 
@@ -147,10 +150,13 @@ export function useRevenueModel() {
   }, [month]);
 
   useEffect(() => {
-    getTotalRevenue();
     getRenevueByMonth();
-    refreshData();
-  }, []);
+    if (index == 0) {
+      getTotalRevenue();
+    } else {
+      refreshData();
+    }
+  }, [index]);
   /* eslint-enable */
 
   useEffect(() => {
