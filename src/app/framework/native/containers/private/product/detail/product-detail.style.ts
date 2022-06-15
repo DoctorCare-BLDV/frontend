@@ -22,6 +22,7 @@ export const styles = StyleSheet.create({
   },
   title: {
     fontSize: 20,
+    fontWeight: '600',
   },
   tagPriceContainer: {
     flexDirection: 'row',
@@ -54,6 +55,7 @@ export const styles = StyleSheet.create({
   },
   blockTitle: {
     fontSize: 16,
+    fontWeight: '600',
   },
   blockContentText: {
     marginTop: Layout.spacingHorizontal,

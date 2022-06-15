@@ -44,6 +44,9 @@ export const Order: React.FC<OrderProps> = props => {
       return Colors.GREEN;
     }
     if (orderStatus.id === ORDER_STATUS.FAILURE) {
+      return Colors.PRIMARY_RED;
+    }
+    if (orderStatus.id === ORDER_STATUS.CANCEL) {
       return Colors.GRAY;
     }
     return Colors.YELLOW;
