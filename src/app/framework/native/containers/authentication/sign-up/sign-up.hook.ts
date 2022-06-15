@@ -14,7 +14,7 @@ export function useSignUpModel(props: SignUpProps) {
 
   const openPolicyLink = useCallback(() => {
     try {
-      Linking.openURL('https://www.bluedatviet.com/');
+      Linking.openURL('http://www.doctorcare.info/');
     } catch (error) {}
   }, []);
 
