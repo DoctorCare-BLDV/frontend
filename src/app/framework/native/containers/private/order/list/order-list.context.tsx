@@ -77,7 +77,7 @@ export const OrderListProvider = memo(
         if (!isRefresh && showLoading) {
           setLoading(true);
         }
-        const status = index === 0 ? '1, 2, 3' : '4, 5';
+        const status = index === 0 ? '1, 2, 3' : '0, 4, 5';
         const {
           order,
           lastPage: _lastPage,
@@ -138,12 +138,10 @@ export const OrderListProvider = memo(
     );
 
     const UndoneOrderFilter = useMemo(() => {
-      return OrderStatusFilter.filter(i => i.id > 0 && !i.finishedStatus).map(
-        i => ({
-          ...i,
-          type: RowItemType.CHECK_BOX,
-        }),
-      );
+      return OrderStatusFilter.filter(i => !i.finishedStatus).map(i => ({
+        ...i,
+        type: RowItemType.CHECK_BOX,
+      }));
     }, []);
 
     const FinishedOrderFilter = useMemo(() => {

@@ -7,6 +7,7 @@ import {RowItemData} from '@app/framework/native/components';
 import {useProductList} from '@app/framework/native/hooks';
 import {convertItemModelListToRowItemDataList} from '@app/resources';
 import {ItemCategoryCode, ProductFilterValues} from '@data/models';
+import {useNavigation} from '@react-navigation/native';
 
 export function useProductListModel(initValue?: {
   selectedFilters: RowItemData[];
@@ -15,7 +16,7 @@ export function useProductListModel(initValue?: {
   const {productList, getProductList, totalProduct, inventory} = useProductList(
     [],
   );
-
+  const navigation = useNavigation();
   const isFirstTimeSetInventory = useRef(true);
 
   const [selectedFilters, setSelectedFilters] = useState<RowItemData[]>(
@@ -28,9 +29,11 @@ export function useProductListModel(initValue?: {
   const [isLoadMore, setLoadMore] = useState(false);
   const [isRefreshing, setRefreshing] = useState(false);
 
+  /* eslint-disable */
   useEffect(() => {
-    notificationConfiguration();
+    notificationConfiguration(navigation);
   }, []);
+  /* eslint-enable */
 
   const filterValues: ProductFilterValues = useMemo(() => {
     return {

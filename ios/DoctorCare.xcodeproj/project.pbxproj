@@ -618,7 +618,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "$(BUNDLE_ID)";
+				PRODUCT_BUNDLE_IDENTIFIER = vn.bluedatviet.doctorcare.staging;
 				PRODUCT_NAME = DoctorCare;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -648,7 +648,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "$(BUNDLE_ID)";
+				PRODUCT_BUNDLE_IDENTIFIER = vn.bluedatviet.doctorcare.staging;
 				PRODUCT_NAME = DoctorCare;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
@@ -887,7 +887,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "$(BUNDLE_ID)";
+				PRODUCT_BUNDLE_IDENTIFIER = vn.bluedatviet.doctorcare.staging;
 				PRODUCT_NAME = DoctorCare;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -1009,7 +1009,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "$(BUNDLE_ID)";
+				PRODUCT_BUNDLE_IDENTIFIER = vn.bluedatviet.doctorcare.staging;
 				PRODUCT_NAME = DoctorCare;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
