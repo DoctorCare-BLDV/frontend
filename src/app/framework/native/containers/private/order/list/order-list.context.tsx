@@ -147,12 +147,10 @@ export const OrderListProvider = memo(
     }, []);
 
     const FinishedOrderFilter = useMemo(() => {
-      return OrderStatusFilter.filter(i => i.id > 0 && i.finishedStatus).map(
-        i => ({
-          ...i,
-          type: RowItemType.CHECK_BOX,
-        }),
-      );
+      return OrderStatusFilter.filter(i => i.finishedStatus).map(i => ({
+        ...i,
+        type: RowItemType.CHECK_BOX,
+      }));
     }, []);
 
     const onFilter = useCallback(

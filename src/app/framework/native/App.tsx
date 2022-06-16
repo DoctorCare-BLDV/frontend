@@ -9,7 +9,7 @@
  */
 
 import React from 'react';
-import {LogBox, StyleSheet} from 'react-native';
+import {LogBox, StatusBar, StyleSheet} from 'react-native';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import {
   CartContextProvider,
@@ -41,6 +41,7 @@ const App = () => {
           <UserContextProvider>
             <CartContextProvider>
               <NotificationsContextProvider>
+                <StatusBar barStyle={'dark-content'} />
                 <RootNavigator />
                 <FlashMessage />
 
