@@ -33,31 +33,34 @@ export const notificationConfiguration = async (
   };
 
   fbMessaging.onMessage(mess => {
-    if (!mess.notification?.body) {
+    if (!mess?.data?.INFO) {
       return;
     }
-    const notification = JSON.parse(mess.notification?.body);
+    const notification = JSON.parse(mess.data.INFO);
     if (!notification?.forwardTo) {
       return;
     }
     handleNotificationOnPress({
       ...notification,
-      title: mess?.notification?.title || '',
+      title: mess?.notification?.body || '',
     });
   });
 
   fbMessaging.onNotificationOpenedApp(mess => {
-    if (!mess.notification?.body) {
+    if (!mess?.data?.INFO) {
       return;
     }
-    const notification = JSON.parse(mess.notification?.body);
+    const notification = JSON.parse(mess.data.INFO);
     if (!notification?.forwardTo) {
       return;
     }
-    handleNotificationOnPress({
-      ...notification,
-      title: mess?.notification?.title || '',
-    });
+    handleNotificationOnPress(
+      {
+        ...notification,
+        title: mess?.notification?.body || '',
+      },
+      true,
+    );
   });
 
   fbMessaging.onTokenRefresh(async token => {
@@ -66,17 +69,17 @@ export const notificationConfiguration = async (
 
   const mess = await fbMessaging.getInitialNotification();
   if (mess) {
-    if (!mess.notification?.body) {
+    if (!mess?.data?.INFO) {
       return;
     }
-    const notification = JSON.parse(mess.notification?.body);
+    const notification = JSON.parse(mess.data.INFO);
     if (!notification?.forwardTo) {
       return;
     }
     handleNotificationOnPress(
       {
         ...notification,
-        title: mess?.notification?.title || '',
+        title: mess?.notification?.body || '',
       },
       true,
     );
