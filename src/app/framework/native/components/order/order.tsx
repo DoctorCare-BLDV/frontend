@@ -52,6 +52,12 @@ export const Order: React.FC<OrderProps> = props => {
     return Colors.YELLOW;
   }, [item.status]);
 
+  const disabled = useMemo(() => {
+    const orderStatus = OrderStatusFilter.find(i => i.id === item.status);
+    if (!orderStatus) return false;
+    return orderStatus.id === ORDER_STATUS.CANCEL;
+  }, [item.status]);
+
   return (
     <TouchableOpacity
       activeOpacity={1}
@@ -73,29 +79,43 @@ export const Order: React.FC<OrderProps> = props => {
       <View style={styles.infoWrapper}>
         <TextView style={[styles.title, styles.name]} numberOfLines={1}>
           {'Khách hàng: '}
-          <TextView style={styles.bold}>{item.orderReceived}</TextView>
+          <TextView
+            style={styles.bold}
+            color={!disabled ? Colors.BLACK : Colors.GRAY}>
+            {item.orderReceived}
+          </TextView>
         </TextView>
         <View style={styles.infoSpacing} />
         <TextView style={styles.title} numberOfLines={1}>
-          {`Số điện thoại: ${item.orderPhone}`}
+          {`Số điện thoại: `}
+          <TextView color={!disabled ? Colors.BLACK : Colors.GRAY}>
+            {item.orderPhone}
+          </TextView>
         </TextView>
         <View style={styles.infoSpacing} />
         <View style={styles.row}>
           <TextView style={styles.title} numberOfLines={1}>
-            {`Ngày lên đơn: ${moment(item.createAt).format('DD/MM/YYYY')}`}
+            {`Ngày lên đơn: `}
+            <TextView color={!disabled ? Colors.BLACK : Colors.GRAY}>
+              {moment(item.createAt).format('DD/MM/YYYY')}
+            </TextView>
           </TextView>
         </View>
         <View style={styles.infoSpacing} />
         <TextView style={[styles.title, styles.flex1]} numberOfLines={1}>
           {'Tiền hàng: '}
-          <TextView style={styles.bold} color={Colors.PRIMARY_ORANGE}>
+          <TextView
+            style={styles.bold}
+            color={!disabled ? Colors.PRIMARY_ORANGE : Colors.GRAY}>
             {convertNumberToPrice(item.totalPrice)}
           </TextView>
         </TextView>
         <View style={styles.infoSpacing} />
         <TextView style={styles.title} numberOfLines={1}>
           {'Lợi nhuận: '}
-          <TextView style={styles.bold} color={Colors.PRIMARY_ORANGE}>
+          <TextView
+            style={styles.bold}
+            color={!disabled ? Colors.PRIMARY_ORANGE : Colors.GRAY}>
             {convertNumberToPrice(item.totalBenefit)}
           </TextView>
         </TextView>
