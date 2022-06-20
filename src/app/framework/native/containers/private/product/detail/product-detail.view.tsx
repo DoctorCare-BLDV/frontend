@@ -1,4 +1,4 @@
-import React, {useCallback, useMemo, useRef} from 'react';
+import React, {useCallback, useEffect, useMemo, useRef} from 'react';
 import {ScrollView, View} from 'react-native';
 // import from library
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
@@ -18,25 +18,30 @@ import {useNavigation} from '@react-navigation/native';
 import {ProductDetailProps} from './product-detail.type';
 import {styles} from './product-detail.style';
 import {CarNavigationProps} from '../../cart/cart.type';
+import {ConfirmationModalNavigationProps} from '../../confirmation-modal/types';
 
 const MESSAGES = {
-  TITLE:
-    'Viên Uống Hỗ Trợ Cải Thiện Giấc Ngủ Hush & Hush Mind Your Mind, 30 viên',
-  PRICE: '100.000đ',
-  MV: '48MV',
-  PRICE_2: '480.000đ',
   PRODUCT_DESC_TITLE: 'Mô tả sản phẩm',
-  PRODUCT_DESC: `Thuốc bổ não giúp hỗ trợ điều trị chóng mặt, đau đầu và các bệnh về thần kinh, não. Ngoài ra, thuốc giúp tăng cường trí nhớ và sự minh mẫn của não bộ. Không những vậy, thuốc có thể làm giảm độ nhớt máu, điều hòa mạch máu, giảm ngưng kết...
-  Thuốc bổ não giúp hỗ trợ điều trị chóng mặt, đau đầu và các bệnh về thần kinh, não. Ngoài ra, thuốc giúp tăng cường trí nhớ và sự minh mẫn của não bộ. Không những vậy, thuốc có thể làm giảm độ nhớt máu, điều hòa mạch máu, giảm ngưng kết...
-  `,
+  REMOVE_PRODUCT_CONFIRM_DESCRIPTION:
+    'Bạn có chắc muốn xoá sản phẩm này ra khỏi giỏ hàng?',
 };
 
 const _ProductDetail: React.FC<ProductDetailProps> = ({route}) => {
   const theme = useTheme();
   const imageRef = useRef();
+  const intervalId = useRef<any>(-1);
+  const isQuantityModalOpen = useRef(false);
   const {addFloatingReactionSource} = useFloatingReaction();
   const {setCartProduct, getCartProduct} = useCart();
   const cartNavigation = useNavigation<CarNavigationProps>();
+  const confirmationModalNavigation =
+    useNavigation<ConfirmationModalNavigationProps>();
+
+  useEffect(() => {
+    return () => {
+      clearInterval(intervalId.current);
+    };
+  }, []);
 
   const {id, name, files, point, sellPrice, profitPrice, description} =
     useMemo(() => {
@@ -50,6 +55,14 @@ const _ProductDetail: React.FC<ProductDetailProps> = ({route}) => {
   const finalPoint = pointFormat((point || 0) * (quantity || 1));
 
   const {bottom} = useSafeAreaInsets();
+
+  const handleQuantityModalShow = useCallback(() => {
+    isQuantityModalOpen.current = true;
+  }, []);
+
+  const handleQuantityModalHide = useCallback(() => {
+    isQuantityModalOpen.current = false;
+  }, []);
 
   const animateCart = useCallback(() => {
     if (imageRef.current) {
@@ -85,9 +98,35 @@ const _ProductDetail: React.FC<ProductDetailProps> = ({route}) => {
       if (updatedQuantity > quantity) {
         animateCart();
       }
+
+      if (updatedQuantity <= 0) {
+        intervalId.current = setInterval(() => {
+          if (!isQuantityModalOpen.current) {
+            clearInterval(intervalId.current);
+            confirmationModalNavigation.navigate('ConfirmationModal', {
+              content: MESSAGES.REMOVE_PRODUCT_CONFIRM_DESCRIPTION,
+              onConfirm: () =>
+                setCartProduct({
+                  ...route.params.product,
+                  quantity: updatedQuantity,
+                }),
+            });
+            clearInterval(intervalId.current);
+          }
+        }, 50);
+
+        return;
+      }
+
       setCartProduct({...route.params.product, quantity: updatedQuantity});
     },
-    [setCartProduct, route.params.product, quantity, animateCart],
+    [
+      setCartProduct,
+      route.params.product,
+      quantity,
+      animateCart,
+      confirmationModalNavigation,
+    ],
   );
 
   const goToCart = useCallback(() => {
@@ -151,6 +190,8 @@ const _ProductDetail: React.FC<ProductDetailProps> = ({route}) => {
                 <NumberPicker
                   value={quantity}
                   onChange={handleChangeQuantity}
+                  onModalHide={handleQuantityModalHide}
+                  onModalShow={handleQuantityModalShow}
                 />
               </View>
             </View>

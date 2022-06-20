@@ -1,4 +1,4 @@
-import React, {useCallback, useMemo} from 'react';
+import React, {useCallback, useEffect, useMemo} from 'react';
 import {View} from 'react-native';
 // import from library
 import {useNavigation} from '@react-navigation/native';
@@ -31,8 +31,11 @@ const MESSAGES = {
     'Bạn có chắc muốn xoá toàn bộ sản phẩm trong giỏ hàng thuộc ',
 };
 
-const _Cart: React.FC<CartProps> = ({}) => {
+const _Cart: React.FC<CartProps> = ({navigation}) => {
   const isQuantityModalOpen = useRef(false);
+  const intervalCheckQuantityModalOpenId = useRef<any>(-1);
+  const intervalCheckRemoveConfirmationModalOpenId = useRef<any>(-1);
+  const hasAction = useRef(false);
 
   const {
     productList,
@@ -45,6 +48,30 @@ const _Cart: React.FC<CartProps> = ({}) => {
   const confirmationModalNavigation =
     useNavigation<ConfirmationModalNavigationProps>();
   const orderConfirmationNavigation = useNavigation<any>();
+
+  useEffect(() => {
+    return () => {
+      hasAction.current = false;
+      clearInterval(intervalCheckRemoveConfirmationModalOpenId.current);
+      clearInterval(intervalCheckQuantityModalOpenId.current);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!productList.length && hasAction.current) {
+      clearInterval(intervalCheckRemoveConfirmationModalOpenId.current);
+      intervalCheckRemoveConfirmationModalOpenId.current = setInterval(() => {
+        if (!isQuantityModalOpen.current) {
+          clearInterval(intervalCheckRemoveConfirmationModalOpenId.current);
+          navigation.goBack();
+        }
+      }, 50);
+    }
+
+    return () => {
+      clearInterval(intervalCheckRemoveConfirmationModalOpenId.current);
+    };
+  }, [productList, navigation]);
 
   const totalProfit = useMemo(() => {
     return (productList || []).reduce((prev, current) => {
@@ -134,6 +161,7 @@ const _Cart: React.FC<CartProps> = ({}) => {
 
   const updateCartProduct = useCallback(
     (product, quantity) => {
+      hasAction.current = true;
       setCartProduct({
         ...product,
         quantity,
@@ -144,16 +172,15 @@ const _Cart: React.FC<CartProps> = ({}) => {
 
   const handleProductChangeQuantity = useCallback(
     (quantity, product) => {
-      let intervalId: any = 0;
-
       if (quantity <= 0) {
-        intervalId = setInterval(() => {
+        clearInterval(intervalCheckQuantityModalOpenId.current);
+        intervalCheckQuantityModalOpenId.current = setInterval(() => {
           if (!isQuantityModalOpen.current) {
             confirmationModalNavigation.navigate('ConfirmationModal', {
               content: MESSAGES.REMOVE_PRODUCT_CONFIRM_DESCRIPTION,
               onConfirm: () => updateCartProduct(product, quantity),
             });
-            clearInterval(intervalId);
+            clearInterval(intervalCheckQuantityModalOpenId.current);
           }
         }, 50);
 
@@ -161,10 +188,6 @@ const _Cart: React.FC<CartProps> = ({}) => {
       }
 
       updateCartProduct(product, quantity);
-
-      return () => {
-        clearInterval(intervalId);
-      };
     },
     [confirmationModalNavigation, updateCartProduct],
   );

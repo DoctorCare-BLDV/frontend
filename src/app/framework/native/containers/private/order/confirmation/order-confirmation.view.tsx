@@ -28,7 +28,7 @@ const MESSAGES = {
 
 const _OrderConfirmation: React.FC<OrderConfirmationProps> = ({navigation}) => {
   const theme = useTheme();
-  const {productList, addOrder, clearCart} = useCart();
+  const {productList, cartTotalPrice, addOrder, clearCart} = useCart();
   const [isLoading, setLoading] = useState(false);
   const [orderPostParam, setOrderPostParam] = useState({
     name: '',
@@ -38,14 +38,6 @@ const _OrderConfirmation: React.FC<OrderConfirmationProps> = ({navigation}) => {
     ward: '',
     address: '',
   });
-
-  const totalPrice = useMemo(() => {
-    return (
-      productList?.reduce((prev, current) => {
-        return Number(prev || 0) + Number(current.sellPrice || 0);
-      }, 0) || 0
-    );
-  }, [productList]);
 
   const sections: CartSection = useMemo(() => {
     const cartSections: CartSection = [];
@@ -174,7 +166,7 @@ const _OrderConfirmation: React.FC<OrderConfirmationProps> = ({navigation}) => {
       <FooterActionBar
         safeLayout
         label={MESSAGES.TOTAL_PRICE_TITLE}
-        value={vndCurrencyFormat(totalPrice)}
+        value={vndCurrencyFormat(cartTotalPrice)}
         valueStyle={styles.price}
         btnTitle={MESSAGES.ORDER}
         onBtnPress={handleOrder}
