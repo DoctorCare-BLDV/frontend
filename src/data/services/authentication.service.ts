@@ -84,6 +84,7 @@ export class ApiAuthenticationService {
     fullName: string;
     email: string;
     introCode: string;
+    password: string;
   }): Promise<string | null> {
     try {
       await this.provider.post('/public/user/register', {
