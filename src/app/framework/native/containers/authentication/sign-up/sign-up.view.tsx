@@ -5,7 +5,13 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import Animated, {Easing} from 'react-native-reanimated';
 import {CheckBox} from 'react-native-elements';
 // import from alias
-import {Header, RoundedButton, TextField, TextView} from '@native/components';
+import {
+  Header,
+  PasswordInput,
+  RoundedButton,
+  TextField,
+  TextView,
+} from '@native/components';
 import {Colors} from '@app/resources';
 // localImport
 import {useSignUpModel} from './sign-up.hook';
@@ -56,8 +62,17 @@ const useAnimation = () => {
 
 const _SignUp: React.FC<SignUpProps> = props => {
   const {navigation} = props;
-  const {email, name, phone, refCode, onSubmit, openPolicyLink, loading} =
-    useSignUpModel(props);
+  const {
+    email,
+    name,
+    phone,
+    refCode,
+    password,
+    confirmPassword,
+    onSubmit,
+    openPolicyLink,
+    loading,
+  } = useSignUpModel(props);
   const [checked, setChecked] = useState<boolean>(true);
   const {tranYStyle} = useAnimation();
   return (
@@ -93,6 +108,30 @@ const _SignUp: React.FC<SignUpProps> = props => {
               onChangeText: value => (email.current = value),
               autoCapitalize: 'none',
               autoCorrect: false,
+            }}
+          />
+          <PasswordInput
+            containerStyle={styles.inputContainer}
+            inputProps={{
+              style: styles.input,
+              placeholder: `Mật khẩu * (6 - 50 ký tự)`,
+              onChangeText: value => (password.current = value),
+              // placeholderTextColor: Colors.BLACK,
+              autoCapitalize: 'none',
+              autoCorrect: false,
+              secureTextEntry: true,
+            }}
+          />
+          <PasswordInput
+            containerStyle={styles.inputContainer}
+            inputProps={{
+              style: styles.input,
+              placeholder: 'Nhập lại mật khẩu *',
+              onChangeText: value => (confirmPassword.current = value),
+              // placeholderTextColor: Colors.BLACK,
+              autoCapitalize: 'none',
+              autoCorrect: false,
+              secureTextEntry: true,
             }}
           />
           <TextField

@@ -9,6 +9,8 @@ export function useSignUpModel(props: SignUpProps) {
   const phone = useRef('');
   const name = useRef('');
   const email = useRef('');
+  const password = useRef('');
+  const confirmPassword = useRef('');
   const refCode = useRef('DCMANAGER');
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -19,7 +21,14 @@ export function useSignUpModel(props: SignUpProps) {
   }, []);
 
   const onSubmit = useCallback(async () => {
-    if (!phone.current || !name.current || !refCode.current || !email.current) {
+    if (
+      !phone.current ||
+      !name.current ||
+      !refCode.current ||
+      !email.current ||
+      !password.current ||
+      !confirmPassword.current
+    ) {
       return showMessage({
         message: 'Vui lòng điền đầy đủ thông tin',
         type: 'warning',
@@ -38,12 +47,19 @@ export function useSignUpModel(props: SignUpProps) {
         type: 'warning',
       });
     }
+    if (password.current !== confirmPassword.current) {
+      return showMessage({
+        message: 'Nhập lại mật khẩu không khớp',
+        type: 'warning',
+      });
+    }
     setLoading(true);
     const error = await AuthenticationService.register({
       email: email.current,
       fullName: name.current,
       introCode: refCode.current,
       phone: phone.current,
+      password: password.current,
     });
     setLoading(false);
     if (!!error) {
@@ -55,7 +71,7 @@ export function useSignUpModel(props: SignUpProps) {
 
     Alert.alert(
       'Đăng kí thành công',
-      'Admin sẽ review và gửi thông tin tài khoản qua email cho bạn!',
+      'Admin sẽ review và kích hoạt tài khoản của bạn sớm nhất để có thể đặt hàng!',
       [
         {
           text: 'Đã hiểu',
@@ -72,5 +88,7 @@ export function useSignUpModel(props: SignUpProps) {
     onSubmit,
     loading,
     openPolicyLink,
+    password,
+    confirmPassword,
   };
 }
