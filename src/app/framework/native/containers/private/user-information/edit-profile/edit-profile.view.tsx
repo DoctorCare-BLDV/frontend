@@ -67,7 +67,7 @@ const _EditProfile: React.FC<EditProfileProps> = props => {
           }}
         />
         <InputWithTitle
-          disabled
+          disabled={!!user?.bankName}
           inputProps={{
             defaultValue: user?.bankName || '',
           }}
@@ -78,7 +78,7 @@ const _EditProfile: React.FC<EditProfileProps> = props => {
           }}
         />
         <InputWithTitle
-          disabled
+          disabled={!!user?.bankAccount}
           inputProps={{
             defaultValue: user?.bankAccount || '',
           }}
@@ -88,17 +88,19 @@ const _EditProfile: React.FC<EditProfileProps> = props => {
             bankAccount.current = e;
           }}
         />
-        <View style={styles.alertWrapper}>
-          <FontAwesomeIcon
-            color={Colors.PRIMARY_ORANGE}
-            icon={faTriangleExclamation as Icon}
-          />
-          <TextView style={styles.alertText}>
-            {
-              'Bạn không thể tự đổi thông tin ngân hàng, vui lòng liên hệ với admin để được hỗ trợ.'
-            }
-          </TextView>
-        </View>
+        {!!user?.bankAccount && (
+          <View style={styles.alertWrapper}>
+            <FontAwesomeIcon
+              color={Colors.PRIMARY_ORANGE}
+              icon={faTriangleExclamation as Icon}
+            />
+            <TextView style={styles.alertText}>
+              {
+                'Bạn không thể tự đổi thông tin ngân hàng, vui lòng liên hệ với admin để được hỗ trợ.'
+              }
+            </TextView>
+          </View>
+        )}
       </KeyboardAwareScrollView>
     </View>
   );
