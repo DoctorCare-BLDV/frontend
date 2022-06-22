@@ -79,7 +79,7 @@ export const UserContextProvider: React.FC = ({children}) => {
         message: 'Cập nhật thông tin thành công',
         type: 'success',
       });
-      setUser(user);
+      setUser(oldUser => ({...oldUser, ...user}));
     },
     [],
   );

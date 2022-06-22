@@ -20,6 +20,18 @@ export function useEditProfileModel() {
         type: 'warning',
       });
     }
+    if (!!bankAccount.current && !bankName.current) {
+      return showMessage({
+        message: 'Vui lòng nhập tên ngân hàng!',
+        type: 'warning',
+      });
+    }
+    if (!bankAccount.current && !!bankName.current) {
+      return showMessage({
+        message: 'Vui lòng nhập số tài khoản ngân hàng!',
+        type: 'warning',
+      });
+    }
     if (!checkValidEmail(email.current)) {
       return showMessage({
         message: 'Email không hợp lệ',

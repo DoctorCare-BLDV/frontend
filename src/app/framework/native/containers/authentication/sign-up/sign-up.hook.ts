@@ -70,7 +70,7 @@ export function useSignUpModel(props: SignUpProps) {
     }
 
     Alert.alert(
-      'Đăng kí thành công',
+      'Đăng ký thành công',
       'Admin sẽ review và kích hoạt tài khoản của bạn sớm nhất để có thể đặt hàng!',
       [
         {

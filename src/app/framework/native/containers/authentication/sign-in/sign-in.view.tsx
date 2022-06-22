@@ -90,7 +90,7 @@ const _SignIn: React.FC<SignInProps> = props => {
           <TextView style={{color: Colors.GRAY}} text={'hoặc'} />
           <FlatButton
             onPress={navigateToSignUp}
-            title="Đăng kí tài khoản mới"
+            title="Đăng ký tài khoản mới"
             containerStyle={styles.registerContainer}
             textStyle={styles.registerText}
           />
