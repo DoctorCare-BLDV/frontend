@@ -5,6 +5,8 @@ import {
   StyleProp,
   ViewStyle,
 } from 'react-native';
+import {ImageViewerPropsDefine} from 'react-native-image-zoom-viewer';
+
 import {RowItemData} from '../components';
 import {ConfirmationModalProps} from '../components/confirmation-modal';
 import {FilterModalData} from '../containers';
@@ -38,6 +40,8 @@ export interface ProductDetailProps {
   product: ProductData;
 }
 
+export interface GalleryProps extends ImageViewerPropsDefine {}
+
 export type PrivateParamList = {
   BottomTab: undefined;
   ProductDetail: ProductDetailProps;
@@ -55,4 +59,5 @@ export type PrivateParamList = {
   OrderDetail: {id: number};
   CustomersDetail: {id: number};
   Customer: undefined;
+  Gallery: GalleryProps;
 };

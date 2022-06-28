@@ -21,3 +21,4 @@ export * from './form';
 export * from './action-sheet';
 export * from './address-picker';
 export * from './skeleton';
+export * from './media-carousel';

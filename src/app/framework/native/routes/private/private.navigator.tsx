@@ -7,8 +7,6 @@ import {
 import {PrivateParamList} from '@native/navigation';
 import {Colors} from '@app/resources';
 import {useTheme} from '@app/shared/hooks/useTheme';
-
-import BottomTabs from './BottomTabs';
 import {
   FilterModal,
   ProductDetail,
@@ -22,7 +20,10 @@ import {
   OrderDetail,
   CustomersDetail,
   EditOrder,
+  Gallery,
 } from '@native/containers';
+
+import BottomTabs from './BottomTabs';
 
 const Stack = createNativeStackNavigator<PrivateParamList>();
 
@@ -171,6 +172,12 @@ export function PrivateNavigator() {
             animation: 'none',
           }}
           component={ConfirmationModal}
+        />
+
+        <Stack.Screen
+          name="Gallery"
+          options={{headerShown: false}}
+          component={Gallery}
         />
       </Stack.Group>
     </Stack.Navigator>

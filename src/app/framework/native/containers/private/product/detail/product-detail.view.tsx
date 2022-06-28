@@ -2,18 +2,19 @@ import React, {useCallback, useEffect, useMemo, useRef} from 'react';
 import {ScrollView, View} from 'react-native';
 // import from library
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {useNavigation} from '@react-navigation/native';
 // import from alias
 import {
   CartFooter,
   Image,
+  MediaCarousel,
   NumberPicker,
   Tag,
   TextView,
 } from '@native/components';
 import {useTheme} from '@app/shared/hooks/useTheme';
 import {useCart, useFloatingReaction} from '@app/shared/contexts';
-import {pointFormat, vndCurrencyFormat} from '@app/resources';
-import {useNavigation} from '@react-navigation/native';
+import {AppDimensions, pointFormat, vndCurrencyFormat} from '@app/resources';
 // localImport
 import {ProductDetailProps} from './product-detail.type';
 import {styles} from './product-detail.style';
@@ -168,12 +169,10 @@ const _ProductDetail: React.FC<ProductDetailProps> = ({route}) => {
         style={containerStyle}
         contentContainerStyle={contentContainerStyle}>
         <View style={styles.imageContainer}>
-          <Image
-            ref={imageRef}
-            source={{
-              uri: files?.[0]?.url,
-            }}
-            style={styles.image}
+          <MediaCarousel
+            data={files || []}
+            sliderWidth={AppDimensions.width}
+            itemWidth={AppDimensions.width}
           />
         </View>
 
