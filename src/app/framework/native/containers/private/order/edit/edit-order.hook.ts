@@ -166,6 +166,7 @@ export function useEditOrderModel(props: EditOrderProps) {
       return;
     }
     props.navigation.goBack();
+    props.route.params?.refreshData?.();
     showMessage({
       message: 'Cập nhật đơn hàng thành công!',
       type: 'success',
