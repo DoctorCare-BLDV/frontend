@@ -11,7 +11,7 @@ import {Alert} from 'react-native';
 import {showMessage} from 'react-native-flash-message';
 import {RowItemType} from '@app/framework/native/components';
 import {OrderService} from '@app/framework/native/infrastructure';
-import {OrderStatusFilter} from '@app/resources';
+import {delay, OrderStatusFilter} from '@app/resources';
 import {IOrder, ORDER_STATUS} from '@data/models';
 import {OrderListProps} from './order-list.type';
 
@@ -90,9 +90,9 @@ export const OrderListProvider = memo(
               ? filter.current.map(i => i.id).join(', ')
               : status,
         });
-        setLoading(false);
         setRefreshing(false);
         if (!!errorMessage) {
+          setLoading(false);
           return showMessage({
             message: errorMessage,
             type: 'danger',
@@ -101,11 +101,13 @@ export const OrderListProvider = memo(
         currentPage.current = currentPage.current + 1;
         lastPage.current = _lastPage || currentPage.current + 1;
         if (isLoadMore) {
-          return setData(pre =>
-            pre.concat(order.map(i => ({...i, key: i.orderId}))),
-          );
+          setData(pre => pre.concat(order.map(i => ({...i, key: i.orderId}))));
+          setLoading(false);
+          return;
         }
         setData(order.map(i => ({...i, key: i.orderId})));
+        await delay(100);
+        setLoading(false);
       },
       [index, loading],
     );

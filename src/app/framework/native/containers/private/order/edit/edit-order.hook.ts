@@ -9,6 +9,7 @@ import {
   UpdateOrderApiRequest,
 } from '@data/models';
 import {EditOrderProps} from './edit-order.type';
+import {validatePhone} from '@app/utils';
 
 export function useEditOrderModel(props: EditOrderProps) {
   const {id} = props.route.params;
@@ -126,10 +127,22 @@ export function useEditOrderModel(props: EditOrderProps) {
       });
     }
 
+    const {message, result} = validatePhone(orderDetail.current.orderPhone);
+    if (!result) {
+      return showMessage({
+        message: message,
+        type: 'warning',
+      });
+    }
+    const phone =
+      orderDetail.current.orderPhone.length === 10
+        ? orderDetail.current.orderPhone
+        : '0' + orderDetail.current.orderPhone;
+
     const data: UpdateOrderApiRequest = {
       orderId: orderDetail.current.orderId,
       orderReceived: orderDetail.current.orderReceived,
-      orderPhone: orderDetail.current.orderPhone,
+      orderPhone: phone,
       orderProvince: orderDetail.current.orderProvince,
       orderDistrict: orderDetail.current.orderDistrict,
       orderWard: orderDetail.current.orderWard,
