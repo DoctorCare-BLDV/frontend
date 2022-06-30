@@ -171,7 +171,7 @@ export function useEditOrderModel(props: EditOrderProps) {
       message: 'Cập nhật đơn hàng thành công!',
       type: 'success',
     });
-  }, [productList, props.navigation]);
+  }, [productList, props]);
 
   /* eslint-disable */
   useEffect(() => {
