@@ -2,9 +2,6 @@ import React from 'react';
 import {View} from 'react-native';
 // import from library
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faTriangleExclamation} from '@fortawesome/free-solid-svg-icons';
-import {Icon} from '@fortawesome/fontawesome-svg-core';
 // import from alias
 import {
   FullScreenLoadingIndicator,
@@ -12,7 +9,6 @@ import {
   InputWithTitle,
   TextView,
 } from '@native/components';
-import {Colors} from '@app/resources';
 // localImport
 import {useEditProfileModel} from './edit-profile.hook';
 import {EditProfileProps} from './edit-profile.type';
@@ -20,8 +16,7 @@ import {styles} from './edit-profile.style';
 
 const _EditProfile: React.FC<EditProfileProps> = props => {
   const {} = props;
-  const {name, address, email, loading, bankAccount, bankName, onSubmit, user} =
-    useEditProfileModel();
+  const {name, address, email, loading, onSubmit, user} = useEditProfileModel();
 
   return (
     <View style={styles.container}>
@@ -66,7 +61,7 @@ const _EditProfile: React.FC<EditProfileProps> = props => {
             address.current = e;
           }}
         />
-        <InputWithTitle
+        {/* <InputWithTitle
           disabled={!!user?.bankName}
           inputProps={{
             defaultValue: user?.bankName || '',
@@ -100,7 +95,7 @@ const _EditProfile: React.FC<EditProfileProps> = props => {
               }
             </TextView>
           </View>
-        )}
+        )} */}
       </KeyboardAwareScrollView>
     </View>
   );

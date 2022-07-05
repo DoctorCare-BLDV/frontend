@@ -10,8 +10,8 @@ export type UserContextState = {
   checkAuthentication: () => void;
   updateProfile: (body: {
     address: string;
-    bankAccount: string;
-    bankName: string;
+    bankAccount?: string;
+    bankName?: string;
     fullName: string;
     email: string;
   }) => Promise<void>;

@@ -20,18 +20,18 @@ export function useEditProfileModel() {
         type: 'warning',
       });
     }
-    if (!!bankAccount.current && !bankName.current) {
-      return showMessage({
-        message: 'Vui lòng nhập tên ngân hàng!',
-        type: 'warning',
-      });
-    }
-    if (!bankAccount.current && !!bankName.current) {
-      return showMessage({
-        message: 'Vui lòng nhập số tài khoản ngân hàng!',
-        type: 'warning',
-      });
-    }
+    // if (!!bankAccount.current && !bankName.current) {
+    //   return showMessage({
+    //     message: 'Vui lòng nhập tên ngân hàng!',
+    //     type: 'warning',
+    //   });
+    // }
+    // if (!bankAccount.current && !!bankName.current) {
+    //   return showMessage({
+    //     message: 'Vui lòng nhập số tài khoản ngân hàng!',
+    //     type: 'warning',
+    //   });
+    // }
     if (!checkValidEmail(email.current)) {
       return showMessage({
         message: 'Email không hợp lệ',
@@ -41,8 +41,8 @@ export function useEditProfileModel() {
     setLoading(true);
     await updateProfile({
       address: address.current,
-      bankAccount: bankAccount.current,
-      bankName: bankName.current,
+      // bankAccount: bankAccount.current,
+      // bankName: bankName.current,
       fullName: name.current,
       email: email.current,
     });
