@@ -41,8 +41,8 @@ export function useEditProfileModel() {
     setLoading(true);
     await updateProfile({
       address: address.current,
-      // bankAccount: bankAccount.current,
-      // bankName: bankName.current,
+      bankAccount: bankAccount.current,
+      bankName: bankName.current,
       fullName: name.current,
       email: email.current,
     });
