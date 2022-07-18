@@ -112,7 +112,7 @@ const _Profile: React.FC<ProfileProps> = props => {
             containerStyle={styles.copyrightWrapper}
             labelStyle={styles.copyright}
             text="Bản quyền:"
-            suffix={<TextView style={styles.logo}>{'Mera Care'}</TextView>}
+            suffix={<TextView style={styles.logo}>{'DMetaCare'}</TextView>}
           />
           <KeyValueLabel
             containerStyle={styles.infoRow}
