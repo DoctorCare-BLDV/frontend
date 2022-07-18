@@ -40,6 +40,7 @@ const _Profile: React.FC<ProfileProps> = props => {
     fetchUser,
     isPhotoPickerVisible,
     setPhotoPickerVisible,
+    onConfirmDeleteAccount,
   } = useProfileModel();
   const {user, onUpdateAvatar} = useUser();
 
@@ -104,7 +105,9 @@ const _Profile: React.FC<ProfileProps> = props => {
               containerStyle={styles.achievement}
               labelStyle={styles.copyright}
               text={'Đổi mật khẩu'}
-              suffix={<FontAwesome5Icon name="chevron-right" />}
+              suffix={
+                <FontAwesome5Icon color={Colors.GRAY} name="chevron-right" />
+              }
             />
             <Divider />
           </TouchableOpacity>
@@ -112,7 +115,7 @@ const _Profile: React.FC<ProfileProps> = props => {
             containerStyle={styles.copyrightWrapper}
             labelStyle={styles.copyright}
             text="Bản quyền:"
-            suffix={<TextView style={styles.logo}>{'DMetaCare'}</TextView>}
+            suffix={<TextView style={styles.logo}>{'Vera Tech'}</TextView>}
           />
           <KeyValueLabel
             containerStyle={styles.infoRow}
@@ -123,6 +126,17 @@ const _Profile: React.FC<ProfileProps> = props => {
             valueStyle={styles.infoValue}
             divider={1}
           />
+          <TouchableOpacity activeOpacity={1} onPress={onConfirmDeleteAccount}>
+            <IconLabel
+              containerStyle={styles.achievement}
+              labelStyle={styles.deleteAccount}
+              text={'Xóa tài khoản'}
+              suffix={
+                <FontAwesome5Icon color={Colors.GRAY} name="chevron-right" />
+              }
+            />
+            <Divider />
+          </TouchableOpacity>
           <TouchableOpacity onPress={onConfirmLogout}>
             <KeyValueLabel
               disabled

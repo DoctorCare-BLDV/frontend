@@ -4,6 +4,7 @@ import {PostImageAPI, User} from '@data/models';
 export type UserContextState = {
   user?: User;
   signOut: () => Promise<void>;
+  deleteAccount: () => Promise<void>;
   signIn: (props: {phone: string; password: string}) => Promise<void>;
   isOnLaunchScreen: boolean;
   fetchUser: () => void;
@@ -20,6 +21,7 @@ export type UserContextState = {
 
 export const INITIAL_VALUE: UserContextState = {
   signOut: () => Promise.resolve(),
+  deleteAccount: () => Promise.resolve(),
   signIn: () => Promise.resolve(),
   updateProfile: () => Promise.resolve(),
   fetchUser: () => null,

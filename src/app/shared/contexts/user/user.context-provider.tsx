@@ -54,6 +54,25 @@ export const UserContextProvider: React.FC = ({children}) => {
     }
   }, []);
 
+  const deleteAccount = React.useCallback(async () => {
+    const id = await AsyncStorage.getItem('userId');
+    if (!id) return;
+    FirebaseService.deleteFcmToken(id);
+    const errMessage = await AuthenticationService.deleteUser();
+    if (!!errMessage) {
+      return showMessage({
+        message: errMessage,
+        type: 'danger',
+      });
+    }
+    showMessage({
+      message: 'Tài khoản của bạn đã bị xóa',
+      type: 'success',
+    });
+    UserLocalService.clearLocalData();
+    setUser(undefined);
+  }, []);
+
   const updateProfile = React.useCallback(
     async (body: {
       address?: string;
@@ -126,6 +145,7 @@ export const UserContextProvider: React.FC = ({children}) => {
     <UserContext.Provider
       value={{
         user: data,
+        deleteAccount,
         updateProfile,
         isOnLaunchScreen,
         fetchUser,

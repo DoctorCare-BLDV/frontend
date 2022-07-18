@@ -65,6 +65,12 @@ export const styles = StyleSheet.create({
     fontWeight: '600',
     fontSize: 14,
   },
+  deleteAccount: {
+    color: Colors.RED,
+    fontWeight: '600',
+    fontSize: 14,
+    marginHorizontal: 0,
+  },
   copyright: {
     marginHorizontal: 0,
     fontSize: 14,
