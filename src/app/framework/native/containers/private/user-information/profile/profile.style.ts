@@ -34,6 +34,10 @@ export const styles = StyleSheet.create({
   infoRow: {
     margin: 16,
   },
+  infoRowCenter: {
+    margin: 16,
+    alignItems: 'center',
+  },
   infoKey: {
     fontSize: 14,
     color: Colors.BLACK,

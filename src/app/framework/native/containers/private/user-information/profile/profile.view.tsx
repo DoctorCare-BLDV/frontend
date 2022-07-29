@@ -88,18 +88,19 @@ const _Profile: React.FC<ProfileProps> = props => {
               divider={1}
             />
           ))}
-          {/* <KeyValueLabel
-            containerStyle={styles.infoRow}
+          <KeyValueLabel
+            containerStyle={styles.infoRowCenter}
             keyLabel={'Thông tin ngân hàng:'}
             valueLabel={
               !!user?.bankAccount
-                ? user.bankAccount + '\n' + user.bankName
+                ? user.bankName + '\n' + user.bankAccount
                 : 'Chưa có thông tin ngân hàng'
             }
+            multiline
             keyStyle={styles.infoKey}
             valueStyle={styles.infoValue}
             divider={1}
-          /> */}
+          />
           <TouchableOpacity activeOpacity={1} onPress={goToChangePassword}>
             <IconLabel
               containerStyle={styles.achievement}
@@ -115,7 +116,7 @@ const _Profile: React.FC<ProfileProps> = props => {
             containerStyle={styles.copyrightWrapper}
             labelStyle={styles.copyright}
             text="Bản quyền:"
-            suffix={<TextView style={styles.logo}>{'Vera Tech'}</TextView>}
+            suffix={<TextView style={styles.logo}>{'Pharmaceutical'}</TextView>}
           />
           <KeyValueLabel
             containerStyle={styles.infoRow}

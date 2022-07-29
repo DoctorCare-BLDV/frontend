@@ -1,5 +1,5 @@
 import {useCallback, useRef, useState} from 'react';
-import {Linking} from 'react-native';
+import {Alert, Linking} from 'react-native';
 import {showMessage} from 'react-native-flash-message';
 import {checkValidEmail, validatePhone} from '@app/utils';
 import {AuthenticationService} from '@app/framework/native/infrastructure';
@@ -68,21 +68,21 @@ export function useSignUpModel(props: SignUpProps) {
         type: 'danger',
       });
     }
-    showMessage({
-      message: 'Đăng kí thành công',
-      type: 'success',
-    });
-    props.navigation.pop();
-    // Alert.alert(
-    //   'Đăng ký thành công',
-    //   '',
-    //   [
-    //     {
-    //       text: 'Đã hiểu',
-    //       onPress: () => props.navigation.pop(),
-    //     },
-    //   ],
-    // );
+    // showMessage({
+    //   message: 'Đăng kí thành công',
+    //   type: 'success',
+    // });
+    // props.navigation.pop();
+    Alert.alert(
+      'Đăng ký thành công',
+      'Admin sẽ duyệt tài khoản của bạn và gửi email cho bạn trong thời gian sớm nhất',
+      [
+        {
+          text: 'Đã hiểu',
+          onPress: () => props.navigation.pop(),
+        },
+      ],
+    );
   }, [props.navigation]);
   return {
     phone,
