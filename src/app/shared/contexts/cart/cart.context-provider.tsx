@@ -55,6 +55,10 @@ export const CartContextProvider: React.FC = ({children}) => {
   //   initCartLocal();
   // }, [initCartLocal]);
 
+  const resetCart = useCallback(() => {
+    setProductList([]);
+  }, []);
+
   const setCartProduct = useCallback(
     (product: ProductData, quantity?: number) => {
       let tempProductList = [...productList];
@@ -186,6 +190,7 @@ export const CartContextProvider: React.FC = ({children}) => {
         productList,
         totalProduct,
         clearCart,
+        resetCart,
         addOrder,
         getCartProduct,
         setCartProduct,

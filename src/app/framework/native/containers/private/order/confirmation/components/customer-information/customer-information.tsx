@@ -197,6 +197,7 @@ export const CustomerInformation: React.FC<CustomerInformationProps> = ({
             styles.formInputLabelContainer,
             styles.formInputAddressLabelContainer,
           ]}
+          maxLength={150}
           label={MESSAGES.ADDRESS}
           containerStyle={styles.formInputContainer}
           multiline

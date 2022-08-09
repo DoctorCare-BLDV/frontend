@@ -45,13 +45,19 @@ export const UserContextProvider: React.FC = ({children}) => {
 
   const signOut = React.useCallback(async () => {
     const id = await AsyncStorage.getItem('userId');
-    if (!id) return;
+    if (!id) return false;
     FirebaseService.deleteFcmToken(id);
     const errMessage = await AuthenticationService.logout(id);
     if (!errMessage) {
       UserLocalService.clearLocalData();
       setUser(undefined);
+      return true;
     }
+    showMessage({
+      message: errMessage + '',
+      type: 'danger',
+    });
+    return false;
   }, []);
 
   const deleteAccount = React.useCallback(async () => {

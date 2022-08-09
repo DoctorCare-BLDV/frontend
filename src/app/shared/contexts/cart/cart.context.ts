@@ -8,6 +8,7 @@ export type CartContextState = Omit<CartLocal, 'userId'> & {
   productList: CartLocalProduct[];
   setCartProduct: (product: CartLocalProduct, quantity?: number) => void;
   removeProductFromCart: (productId: number) => void;
+  resetCart: () => void;
   getCartProduct: (productId: number) => CartLocalProduct | undefined;
   removeAllProductFromInventory: (inventoryId: number) => void;
   clearCart: () => void;
@@ -19,6 +20,7 @@ export const INITIAL_VALUE: CartContextState = {
   totalProduct: 0,
   productList: [],
   setCartProduct: () => {},
+  resetCart: () => {},
   removeProductFromCart: () => {},
   getCartProduct: () => undefined,
   removeAllProductFromInventory: () => {},
