@@ -218,16 +218,16 @@ export const OrderListProvider = memo(
       lastPage.current = 1;
       fetchData();
     }, [fetchData]);
-
+    /* eslint-disable */
     useEffect(() => {
-      const listener = navigation.addListener('blur', e => {
+      const listener = navigation.addListener('blur', _ => {
         isBlur.current = true;
       });
       return listener;
     }, []);
 
     useEffect(() => {
-      const listener = navigation.addListener('focus', e => {
+      const listener = navigation.addListener('focus', _ => {
         if (!isBlur.current) return;
         refreshData(true, false);
         isBlur.current = false;
@@ -235,7 +235,6 @@ export const OrderListProvider = memo(
       return listener;
     }, [refreshData]);
 
-    /* eslint-disable */
     useEffect(() => {
       refreshData(false);
     }, [index]);
