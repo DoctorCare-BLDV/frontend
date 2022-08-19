@@ -36,11 +36,11 @@
 		</dict>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>Cho phép ứng dụng sử dụng dụng Camera để chụp ảnh</string>
+	<string>Cho phép ứng dụng sử dụng dụng Camera để chụp ảnh đổi ảnh đại diện cá nhân</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string>Cho phép ứng dụng sử dụng dụng địa chỉ hiện tại của bạn để cập nhật lên bản đồ</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Cho phép ứng dụng truy cập Thư viện ảnh để chia sẻ ảnh</string>
+	<string>Cho phép ứng dụng truy cập Thư viện ảnh để đổi ảnh đại diện cá nhân</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>AntDesign.ttf</string>

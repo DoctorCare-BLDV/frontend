@@ -116,7 +116,7 @@ export const Order: React.FC<OrderProps> = props => {
           <TextView
             style={styles.bold}
             color={!disabled ? Colors.PRIMARY_ORANGE : Colors.GRAY}>
-            {convertNumberToPrice(item.totalBenefit)}
+            {convertNumberToPrice(item.totalDoctorBenefit)}
           </TextView>
         </TextView>
         <TextView color={statusColor} style={styles.status}>

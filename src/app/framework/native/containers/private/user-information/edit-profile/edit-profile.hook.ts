@@ -14,7 +14,13 @@ export function useEditProfileModel() {
   const bankName = useRef(user?.bankName || '');
 
   const onSubmit = useCallback(async () => {
-    if (!address.current || !email.current || !name.current) {
+    if (
+      !address.current ||
+      !email.current ||
+      !name.current ||
+      !bankName.current ||
+      !bankAccount.current
+    ) {
       return showMessage({
         message: 'Vui lòng điền đủ thông tin yêu cầu!',
         type: 'warning',

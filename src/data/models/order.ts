@@ -13,6 +13,7 @@ export interface IOrder {
   orderProvince: string;
   orderReceived: string;
   orderWard: string;
+  totalDoctorBenefit: number;
   productChanged: boolean;
   status:
     | ORDER_STATUS.CANCEL

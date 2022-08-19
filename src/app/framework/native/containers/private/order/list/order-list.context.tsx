@@ -55,6 +55,8 @@ export const OrderListProvider = memo(
     const search = useRef<string>('');
     const [loading, setLoading] = React.useState<boolean>(false);
     const [refreshing, setRefreshing] = React.useState<boolean>(false);
+    const isBlur = useRef<boolean>(false);
+
     // const [total, setTotal] = React.useState<{unDone: number; done: number}>({
     //   done: 0,
     //   unDone: 0,
@@ -155,6 +157,7 @@ export const OrderListProvider = memo(
 
     const onFilter = useCallback(
       (e: FilterItem[]) => {
+        isBlur.current = false;
         currentPage.current = 0;
         lastPage.current = 1;
         filter.current = [...e];
@@ -164,6 +167,7 @@ export const OrderListProvider = memo(
     );
 
     const showFilter = useCallback(() => {
+      isBlur.current = false;
       navigation.navigate('FilterModal', {
         selectedData: filter.current.map(i => ({
           ...i,
@@ -214,6 +218,22 @@ export const OrderListProvider = memo(
       lastPage.current = 1;
       fetchData();
     }, [fetchData]);
+
+    useEffect(() => {
+      const listener = navigation.addListener('blur', e => {
+        isBlur.current = true;
+      });
+      return listener;
+    }, []);
+
+    useEffect(() => {
+      const listener = navigation.addListener('focus', e => {
+        if (!isBlur.current) return;
+        refreshData(true, false);
+        isBlur.current = false;
+      });
+      return listener;
+    }, [refreshData]);
 
     /* eslint-disable */
     useEffect(() => {
