@@ -2,11 +2,10 @@ import React, {useMemo} from 'react';
 import {View, StyleSheet, StyleProp, ViewStyle} from 'react-native';
 
 import {useTheme} from '@app/shared/hooks/useTheme';
-import {HIT_SLOP, Layout, pointFormat, vndCurrencyFormat} from '@app/resources';
+import {HIT_SLOP, Layout, vndCurrencyFormat} from '@app/resources';
 import {ProductData} from '@data/models';
 
 import {TextView} from '../../../label';
-import {Tag} from '../../../tag';
 import {Image} from '../../../image';
 import {NumberPicker} from '../../../number-picker';
 import {IconButton, IconButtonType} from '../../../icon-button';
@@ -29,7 +28,6 @@ export const ProductSectionItem: React.FC<ProductSectionItemProps> = ({
   name,
   image,
   sellPrice,
-  point,
   totalPrice,
   quantity,
   readonly,
@@ -70,10 +68,6 @@ export const ProductSectionItem: React.FC<ProductSectionItemProps> = ({
       },
     ];
   }, [theme]);
-
-  const totalPoint = useMemo(() => {
-    return (point || 0) * (quantity || 1);
-  }, [quantity, point]);
 
   return (
     <View style={containerBaseStyle}>

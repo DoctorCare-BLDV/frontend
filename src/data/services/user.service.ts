@@ -1,4 +1,4 @@
-import {GetAllItemAPIResponse, PostImageAPI, User} from '@data/models';
+import {PostImageAPI, User} from '@data/models';
 import {AxiosInstance} from 'axios';
 export class UserApiService {
   constructor(private readonly provider: AxiosInstance) {}

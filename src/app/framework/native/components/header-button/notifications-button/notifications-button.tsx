@@ -7,10 +7,10 @@ import {
   Linking,
 } from 'react-native';
 
-import {useNavigation} from '@react-navigation/native';
+// import {useNavigation} from '@react-navigation/native';
 
 import {IconButton} from '../../icon-button';
-import {NotificationsNavigationProps} from '@app/framework/native/containers/private/notifications/notifications.type';
+// import {NotificationsNavigationProps} from '@app/framework/native/containers/private/notifications/notifications.type';
 import {UserService} from '@app/framework/native/infrastructure';
 
 export interface NotificationsButtonProps {
@@ -23,7 +23,7 @@ export const NotificationsButton: React.FC<NotificationsButtonProps> = ({
   iconStyle,
 }) => {
   // const {totalUnread} = useNotifications();
-  const notificationsNavigation = useNavigation<NotificationsNavigationProps>();
+  // const notificationsNavigation = useNavigation<NotificationsNavigationProps>();
   const hotline = useRef('');
 
   const iconBaseStyle = useMemo(() => {
@@ -44,7 +44,7 @@ export const NotificationsButton: React.FC<NotificationsButtonProps> = ({
     Linking.canOpenURL('tel:' + phone).then(supported => {
       if (supported) Linking.openURL('tel:' + phone);
     });
-  }, [notificationsNavigation]);
+  }, []);
 
   return (
     <IconButton

@@ -4,12 +4,7 @@ import {Image, ScrollView, View} from 'react-native';
 import AntDesignIcon from 'react-native-vector-icons/AntDesign';
 import AutoHeightWebView from 'react-native-autoheight-webview';
 // import from alias
-import {
-  FullScreenLoadingIndicator,
-  Header,
-  Text,
-  TextView,
-} from '@native/components';
+import {FullScreenLoadingIndicator, Header, TextView} from '@native/components';
 // localImport
 import {useNotificationDetailModel} from './notification-detail.hook';
 import {NotificationDetailProps} from './notification-detail.type';

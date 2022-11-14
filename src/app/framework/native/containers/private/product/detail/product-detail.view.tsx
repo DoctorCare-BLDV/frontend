@@ -9,12 +9,11 @@ import {
   Image,
   MediaCarousel,
   NumberPicker,
-  Tag,
   TextView,
 } from '@native/components';
 import {useTheme} from '@app/shared/hooks/useTheme';
 import {useCart, useFloatingReaction} from '@app/shared/contexts';
-import {AppDimensions, pointFormat, vndCurrencyFormat} from '@app/resources';
+import {AppDimensions, vndCurrencyFormat} from '@app/resources';
 // localImport
 import {ProductDetailProps} from './product-detail.type';
 import {styles} from './product-detail.style';
@@ -44,16 +43,15 @@ const _ProductDetail: React.FC<ProductDetailProps> = ({route}) => {
     };
   }, []);
 
-  const {id, name, files, point, sellPrice, profitPrice, description} =
-    useMemo(() => {
-      return route.params.product || {};
-    }, [route.params.product]);
+  const {id, name, files, sellPrice, description} = useMemo(() => {
+    return route.params.product || {};
+  }, [route.params.product]);
 
   const quantity = getCartProduct(id)?.quantity || 0;
 
-  const totalProfit = (profitPrice || 0) * (quantity || 1);
+  // const totalProfit = (profitPrice || 0) * (quantity || 1);
 
-  const finalPoint = pointFormat((point || 0) * (quantity || 1));
+  // const finalPoint = pointFormat((point || 0) * (quantity || 1));
 
   const {bottom} = useSafeAreaInsets();
 

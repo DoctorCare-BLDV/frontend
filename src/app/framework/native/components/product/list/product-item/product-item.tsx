@@ -4,7 +4,7 @@ import {useNavigation} from '@react-navigation/native';
 
 import {ImageStyle} from 'react-native-fast-image';
 
-import {Colors, Layout, pointFormat, vndCurrencyFormat} from '@app/resources';
+import {Colors, Layout, vndCurrencyFormat} from '@app/resources';
 import {useTheme} from '@app/shared/hooks/useTheme';
 import {useCart, useFloatingReaction} from '@app/shared/contexts';
 import {ProductData} from '@data/models';
@@ -13,7 +13,6 @@ import {ProductDetailNavigationProps} from '@app/framework/native/containers';
 import {Image} from '../../../image';
 import {TextView} from '../../../label';
 import {IconButton} from '../../../icon-button';
-import {Tag} from '../../../tag';
 
 export interface ProductItemProps {
   product: ProductData;
@@ -30,7 +29,7 @@ export const ProductItem: React.FC<ProductItemProps> = ({
   const {addFloatingReactionSource} = useFloatingReaction();
   const imageRef = useRef();
 
-  const {name, sellPrice, point, image} = useMemo(() => {
+  const {name, sellPrice, image} = useMemo(() => {
     return product;
   }, [product]);
 

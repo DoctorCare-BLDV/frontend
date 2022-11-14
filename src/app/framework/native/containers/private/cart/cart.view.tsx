@@ -73,12 +73,6 @@ const _Cart: React.FC<CartProps> = ({navigation}) => {
     };
   }, [productList, navigation]);
 
-  const totalProfit = useMemo(() => {
-    return (productList || []).reduce((prev, current) => {
-      return prev + (current.quantity || 0) * (current.profitPrice || 0);
-    }, 0);
-  }, [productList]);
-
   const sections: CartSection = useMemo(() => {
     const cartSections: CartSection = [];
 
@@ -110,25 +104,6 @@ const _Cart: React.FC<CartProps> = ({navigation}) => {
       styles.container,
       {
         backgroundColor: theme.colorScheme.surface,
-      },
-    ];
-  }, [theme]);
-
-  const totalProfitContainerStyle = useMemo(() => {
-    return [
-      styles.totalProfitContainer,
-      {
-        backgroundColor: theme.colorScheme.surface,
-        borderColor: theme.colorScheme.primary,
-      },
-    ];
-  }, [theme]);
-
-  const totalProfitTextStyle = useMemo(() => {
-    return [
-      styles.totalProfitText,
-      {
-        color: theme.colorScheme.primary,
       },
     ];
   }, [theme]);

@@ -1,12 +1,10 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {
-  Customer,
   Notifications,
   OrderList,
   ProductList,
   Profile,
-  Revenue,
 } from '@native/containers';
 import CustomTab from './CustomTab';
 import {BottomTabsParamList} from '@app/framework/native/navigation';

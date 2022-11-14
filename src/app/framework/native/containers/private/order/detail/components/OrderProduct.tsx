@@ -2,7 +2,7 @@ import React from 'react';
 import {View, StyleSheet, Image} from 'react-native';
 
 import {Colors} from '@app/resources';
-import {Tag, TextView} from '@app/framework/native/components';
+import {TextView} from '@app/framework/native/components';
 import {IOrder} from '@data/models';
 import {convertNumberToPrice} from '@app/utils';
 
