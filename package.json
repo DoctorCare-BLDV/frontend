@@ -1,6 +1,6 @@
 {
-  "name": "DoctorCare",
-  "version": "0.0.1",
+  "name": "CloneAppOne",
+  "version": "1.0.1",
   "private": true,
   "scripts": {
     "ios": "yarn ios:staging",
@@ -43,7 +43,8 @@
     "moment": "^2.29.3",
     "react": "17.0.2",
     "react-clone-referenced-element": "^1.1.1",
-    "react-native": "0.68.1",
+    "react-native": "0.68.5",
+    "react-native-autoheight-webview": "^1.6.5",
     "react-native-config": "^1.4.5",
     "react-native-date-picker": "^4.2.1",
     "react-native-elements": "^3.4.2",
@@ -69,6 +70,7 @@
     "react-native-svg": "^12.3.0",
     "react-native-swipe-list-view": "^3.2.9",
     "react-native-vector-icons": "^9.1.0",
+    "react-native-webview": "^11.23.1",
     "react-query": "^3.34.20",
     "use-debounce": "^8.0.1"
   },

@@ -1,40 +1,64 @@
 {
   "project_info": {
-    "project_number": "597399170266",
-    "project_id": "doctor-care-14a2c",
-    "storage_bucket": "doctor-care-14a2c.appspot.com"
+    "project_number": "335966320649",
+    "project_id": "testcloneapp-32111",
+    "storage_bucket": "testcloneapp-32111.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:597399170266:android:236dd4eb9e39e344a789e3",
+        "mobilesdk_app_id": "1:335966320649:android:ca39d02b775a7c689020d8",
         "android_client_info": {
-          "package_name": "com.bluedatviet.doctorcare.staging"
+          "package_name": "com.clappcom.clappone"
         }
       },
       "oauth_client": [
         {
-          "client_id": "597399170266-qubnn0q7m6cg21plmv90nhhqfo8ga2r1.apps.googleusercontent.com",
+          "client_id": "335966320649-kr7a0imslu60e0pfdjk54qfg928jp93p.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.clappcom.clappone",
+            "certificate_hash": "ad89c8bff520473af325c2c5be9ec93dfdc2e6ad"
+          }
+        },
+        {
+          "client_id": "335966320649-lq2du5jhs5qtitsjtmelhoeit988du4j.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.clappcom.clappone",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "335966320649-sh5nlt4mobibog33mmv8mmdebp1mrueh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.clappcom.clappone",
+            "certificate_hash": "1552b59ef69cff87209e0486e940eb34156bbac1"
+          }
+        },
+        {
+          "client_id": "335966320649-b4tc1bgknujsu69ca970lbrh1dmtru14.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyD-tBQNsFtsWKMUP6JPDgvWwpWnRUAzBMQ"
+          "current_key": "AIzaSyDmqv6ptpcwN2YLqRJOdnAzyZp9M8kZJmw"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "597399170266-qubnn0q7m6cg21plmv90nhhqfo8ga2r1.apps.googleusercontent.com",
+              "client_id": "335966320649-b4tc1bgknujsu69ca970lbrh1dmtru14.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "597399170266-s5cj09778j645ah1ekr7bteen8hl4mf3.apps.googleusercontent.com",
+              "client_id": "335966320649-4cj9qiafsd12lr0jq8ueuh8nlt5r1itn.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "vn.bluedatviet.doctorcare.staging"
+                "bundle_id": "com.clappcom.clappone"
               }
             }
           ]

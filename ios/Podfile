@@ -4,13 +4,13 @@ require_relative '../node_modules/@react-native-community/cli-platform-ios/nativ
 platform :ios, '11.0'
 install! 'cocoapods', :deterministic_uuids => false
 
-project 'DoctorCare',
+project 'CloneAppOne',
   'Staging-Debug' => :debug,
   'Staging-Release' => :release,
   'Production-Debug' => :debug,
   'Production-Release' => :release
 
-target 'DoctorCare' do
+target 'CloneAppOne' do
   config = use_native_modules!
   permissions_path = '../node_modules/react-native-permissions/ios'
   # Flags change depending on the env values.
@@ -26,7 +26,7 @@ target 'DoctorCare' do
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
 
-  target 'DoctorCareTests' do
+  target 'CloneAppOneTests' do
     inherit! :complete
     # Pods for testing
   end

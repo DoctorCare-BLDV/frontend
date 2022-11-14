@@ -11,6 +11,7 @@ import {TextView} from '@native/components';
 import {useTheme} from '@app/shared/hooks/useTheme';
 // import {useUser} from '@hooks';
 // import {FirebaseDataSource} from '@data';
+import {useNotifications} from '@app/shared/contexts';
 
 const TAB_BAR_ICON = [
   {
@@ -23,16 +24,16 @@ const TAB_BAR_ICON = [
   },
   {
     bundle: FontAwesome5Icon,
-    name: 'file-invoice-dollar',
-  },
-  {
-    bundle: FontAwesome5Icon,
-    name: 'user-friends',
+    name: 'bell',
   },
   {
     bundle: FontAwesome5Icon,
     name: 'user-md',
   },
+  // {
+  //   bundle: FontAwesome5Icon,
+  //   name: 'user-md',
+  // },
 ];
 
 const styles = StyleSheet.create({
@@ -71,12 +72,24 @@ const styles = StyleSheet.create({
     fontSize: 10,
     marginTop: 3,
   },
+  badgeContainer: {
+    position: 'absolute',
+    justifyContent: 'center',
+    alignItems: 'center',
+    top: -6,
+    right: -6,
+    minWidth: 15,
+    height: 15,
+    borderRadius: 12,
+    borderWidth: 0.5,
+    paddingHorizontal: 2,
+  },
 });
 
 const CustomTab = ({state, descriptors, navigation}: BottomTabBarProps) => {
   const {bottom} = useSafeAreaInsets();
   const theme = useTheme();
-
+  const {totalUnread} = useNotifications();
   const containerStyle = useMemo(() => {
     return [
       styles.container,
@@ -165,15 +178,37 @@ const CustomTab = ({state, descriptors, navigation}: BottomTabBarProps) => {
             onLongPress={onLongPress}
             style={styles.btnContainer}>
             {isFocused && <View style={indicatorActiveStyle} />}
-            <IconComponent
-              name={iconName}
-              solid
-              style={[
-                labelInactiveStyle,
-                styles.icon,
-                isFocused && labelActiveStyle,
-              ]}
-            />
+            <View>
+              <IconComponent
+                name={iconName}
+                solid
+                style={[
+                  labelInactiveStyle,
+                  styles.icon,
+                  isFocused && labelActiveStyle,
+                ]}
+              />
+              {!!totalUnread && TAB_BAR_ICON[index].name === 'bell' && (
+                <View
+                  style={[
+                    styles.badgeContainer,
+                    {
+                      backgroundColor: theme.colorScheme.primary,
+                      borderColor: theme.colorScheme.onPrimary,
+                    },
+                  ]}>
+                  <TextView
+                    style={[
+                      {
+                        color: theme.colorScheme.onPrimary,
+                        fontSize: 7,
+                      },
+                    ]}>
+                    {totalUnread}
+                  </TextView>
+                </View>
+              )}
+            </View>
             <TextView
               style={[
                 labelInactiveStyle,

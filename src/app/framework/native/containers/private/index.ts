@@ -8,3 +8,4 @@ export * from './notifications';
 export * from './revenue';
 export * from './customers';
 export * from './gallery';
+export * from './notification-detail';

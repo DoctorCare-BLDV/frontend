@@ -1,4 +1,4 @@
-import {PostImageAPI, User} from '@data/models';
+import {GetAllItemAPIResponse, PostImageAPI, User} from '@data/models';
 import {AxiosInstance} from 'axios';
 export class UserApiService {
   constructor(private readonly provider: AxiosInstance) {}
@@ -56,6 +56,18 @@ export class UserApiService {
         error?.response?.data?.message ||
         'Đã có lỗi xảy ra, vui lòng thử lại sau'
       );
+    }
+  }
+
+  async getHotline() {
+    try {
+      const response = await this.provider.post(
+        '/public/item/getItemByCategoryCode/HOTLINE',
+      );
+      if (!response?.data?.content?.length) return '';
+      return response?.data?.content[0]?.itemName || '';
+    } catch (error) {
+      return '';
     }
   }
 }

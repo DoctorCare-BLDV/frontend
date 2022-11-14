@@ -2,6 +2,7 @@ import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {
   Customer,
+  Notifications,
   OrderList,
   ProductList,
   Profile,
@@ -28,15 +29,15 @@ const BottomTabs: React.FC = () => {
         component={OrderList}
       />
       <Tab.Screen
-        name="Revenue"
-        options={{title: 'Doanh thu'}}
-        component={Revenue}
+        name="Notifications"
+        options={{title: 'Thông báo'}}
+        component={Notifications}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name="Customers"
         options={{title: 'Khách hàng'}}
         component={Customer}
-      />
+      /> */}
       <Tab.Screen
         name="Profile"
         options={{title: 'Hồ sơ'}}

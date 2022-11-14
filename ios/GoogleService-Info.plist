@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>597399170266-s5cj09778j645ah1ekr7bteen8hl4mf3.apps.googleusercontent.com</string>
+	<string>335966320649-4cj9qiafsd12lr0jq8ueuh8nlt5r1itn.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.597399170266-s5cj09778j645ah1ekr7bteen8hl4mf3</string>
+	<string>com.googleusercontent.apps.335966320649-4cj9qiafsd12lr0jq8ueuh8nlt5r1itn</string>
 	<key>API_KEY</key>
-	<string>AIzaSyBnuqOh9LhmBEvrFdDH3cRpFi1Yx325ZGc</string>
+	<string>AIzaSyA2ZZiGEzPkzkHaWrqZHabTcdCukFNRIsg</string>
 	<key>GCM_SENDER_ID</key>
-	<string>597399170266</string>
+	<string>335966320649</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>vn.bluedatviet.doctorcare.staging</string>
+	<string>com.clappcom.clappone</string>
 	<key>PROJECT_ID</key>
-	<string>doctor-care-14a2c</string>
+	<string>testcloneapp-32111</string>
 	<key>STORAGE_BUCKET</key>
-	<string>doctor-care-14a2c.appspot.com</string>
+	<string>testcloneapp-32111.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:597399170266:ios:860f79600f90553ea789e3</string>
+	<string>1:335966320649:ios:066a6066cc0c24af9020d8</string>
 </dict>
 </plist>

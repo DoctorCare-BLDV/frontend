@@ -103,10 +103,10 @@ export const ProductItem: React.FC<ProductItemProps> = ({
               <TextView style={priceStyle}>
                 {vndCurrencyFormat(sellPrice)}
               </TextView>
-              <Tag
+              {/* <Tag
                 label={pointFormat(point)}
                 containerStyle={styles.coinPriceContainer}
-              />
+              /> */}
             </View>
 
             <IconButton

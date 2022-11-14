@@ -9,7 +9,7 @@ export const Colors = {
   OVERLAY: 'rgba(51,51,51,0.4)',
   BLACK_60: 'rgba(0,0,0,0.6)',
   PRIMARY_BLUE: '#005CA1',
-  PRIMARY_ORANGE: '#F25A5F',
+  PRIMARY_ORANGE: '#ffc300',
   SILVER_BACKGROUND: '#ebebeb',
   PRIMARY_RED: '#ED3237',
   GREEN: '#14B922',

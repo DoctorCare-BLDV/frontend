@@ -30,10 +30,12 @@ export type GetAllNotificationAPIResponse = AxiosResponse<{
 export type NotificationModel = {
   orderNotifyId: number;
   toUser: number;
+  title: string;
   orderId: number;
   oldStatus: number;
   newStatus: number;
   content: string;
+  description: string;
   createAt: number;
   isRead: boolean | null;
   forwardTo: NotificationType;

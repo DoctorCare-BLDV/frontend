@@ -98,10 +98,10 @@ export const ProductSectionItem: React.FC<ProductSectionItemProps> = ({
             <TextView style={priceStyle}>
               {vndCurrencyFormat(sellPrice)}
             </TextView>
-            <Tag
+            {/* <Tag
               label={pointFormat(totalPoint)}
               containerStyle={styles.coinPriceContainer}
-            />
+            /> */}
           </View>
 
           <View style={styles.quantityWrapper}>

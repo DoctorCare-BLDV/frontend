@@ -49,6 +49,13 @@ export type PrivateParamList = {
   OrderConfirmation: undefined;
   ProductSearch: ProductSearchProps;
   Notifications: undefined;
+  NotificationDetail: {
+    title: string;
+    content: string;
+    description: string;
+    img?: any;
+    createAt: number;
+  };
 
   FilterModal: FilterModalProps;
   ConfirmationModal: ConfirmationModalProps;

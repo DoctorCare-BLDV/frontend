@@ -35,6 +35,7 @@ buildscript {
     }
 }
 
+
 allprojects {
     repositories {
         maven {
@@ -49,7 +50,7 @@ allprojects {
             // We don't want to fetch react-native from Maven Central as there are
             // older versions over there.
             content {
-                excludeGroup "com.facebook.react"
+                excludeGroup("com.facebook.react")
             }
         }
         google()

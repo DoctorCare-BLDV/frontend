@@ -1,6 +1,6 @@
 import React, {useMemo} from 'react';
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
-
+import IoniconsIcon from 'react-native-vector-icons/Ionicons';
 import {Image, TextView} from '@app/framework/native/components';
 import {Colors, Layout} from '@app/resources';
 import {useTheme} from '@app/shared/hooks';
@@ -15,8 +15,11 @@ import {NotificationType, ORDER_STATUS} from '@data/models';
 export interface NotificationItemProps {
   id?: number;
   title?: string;
+  description?: string;
+  content?: string;
   image?: string;
   isUnread?: boolean;
+  isSystemNoti?: boolean;
   type?: NotificationType;
   status?: ORDER_STATUS;
   onPress?: () => void;
@@ -25,10 +28,13 @@ export interface NotificationItemProps {
 export const NotificationItem: React.FC<NotificationItemProps> = ({
   image,
   title,
+  description,
   isUnread,
+  content,
   type,
   status,
   onPress,
+  isSystemNoti,
 }) => {
   const theme = useTheme();
   const wrapperBaseStyle = useMemo(() => {
@@ -62,15 +68,35 @@ export const NotificationItem: React.FC<NotificationItemProps> = ({
       case NotificationType.REVENUE:
         return <SVGBullHorn fill="#F25A5F" style={styles.icon} />;
       default:
-        return null;
+        return (
+          <IoniconsIcon
+            name="notifications"
+            size={35}
+            color={Colors.PRIMARY_ORANGE}
+            style={{marginRight: 8}}
+          />
+        );
     }
   }, [type, status]);
+  if (isSystemNoti)
+    return (
+      <View style={wrapperBaseStyle}>
+        <TouchableOpacity onPress={onPress} style={styles.container}>
+          {image ? <Image source={{uri: image}} style={styles.image} /> : icon}
+          <View style={styles.title}>
+            <TextView>{title}</TextView>
+            <TextView>{description}</TextView>
+          </View>
+          {isUnread && <View style={styles.badge} />}
+        </TouchableOpacity>
+      </View>
+    );
 
   return (
     <View style={wrapperBaseStyle}>
       <TouchableOpacity onPress={onPress} style={styles.container}>
         {image ? <Image source={{uri: image}} style={styles.image} /> : icon}
-        <TextView style={styles.title}>{title}</TextView>
+        <TextView style={styles.title}>{content}</TextView>
         {isUnread && <View style={styles.badge} />}
       </TouchableOpacity>
     </View>

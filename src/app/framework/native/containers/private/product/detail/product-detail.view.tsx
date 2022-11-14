@@ -195,7 +195,7 @@ const _ProductDetail: React.FC<ProductDetailProps> = ({route}) => {
               </View>
             </View>
 
-            <View style={styles.tagPriceContainer}>
+            {/* <View style={styles.tagPriceContainer}>
               <Tag
                 label={finalPoint}
                 containerStyle={styles.tagContainer}
@@ -206,7 +206,7 @@ const _ProductDetail: React.FC<ProductDetailProps> = ({route}) => {
                 containerStyle={styles.tagContainer}
                 labelStyle={styles.tagLabel}
               />
-            </View>
+            </View> */}
           </View>
 
           <View style={styles.block}>

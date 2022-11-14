@@ -19,6 +19,7 @@ import {TextView} from '@app/framework/native/components';
 import {Colors, Layout} from '@app/resources';
 import {useTheme} from '@app/shared/hooks';
 import {useNotificationListModel} from './notifications.hook';
+import {getStatusBarHeight} from 'react-native-iphone-x-helper';
 
 const MESSAGES = {
   NO_RESULT: 'Chưa có thông báo!',
@@ -44,6 +45,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     paddingVertical: 30,
+  },
+  safeArea: {
+    marginTop: getStatusBarHeight(true) + 15,
   },
   checkAllIcon: {
     fontSize: 25,
@@ -133,11 +137,24 @@ const _Notifications: React.FC<NotificationsProps> = ({navigation}) => {
       });
 
       if (notification.forwardTo === NotificationType.ORDER) {
-        navigation.navigate('OrderDetail', {
-          id: notification.orderId,
-        });
+        !!notification.businessId &&
+          navigation.navigate('OrderDetail', {
+            id: notification.businessId,
+          });
       } else if (notification.forwardTo === NotificationType.REVENUE) {
         navigation.navigate('Revenue');
+      } else if (
+        !notification.forwardTo &&
+        !!notification.content &&
+        !!notification.description
+      ) {
+        navigation.navigate('NotificationDetail', {
+          content: notification.content,
+          description: notification.description,
+          createAt: notification.createAt,
+          title: notification.title,
+          img: notification.fileAttach,
+        });
       }
     },
     [readDetailNotification, navigation],
@@ -175,7 +192,10 @@ const _Notifications: React.FC<NotificationsProps> = ({navigation}) => {
   }) => {
     return (
       <NotificationItem
-        title={notification.content}
+        isSystemNoti={!notification.forwardTo}
+        title={notification.title}
+        description={notification.description}
+        content={notification.content}
         isUnread={!notification.isRead}
         type={notification.forwardTo}
         status={notification.newStatus}
@@ -189,10 +209,15 @@ const _Notifications: React.FC<NotificationsProps> = ({navigation}) => {
     [],
   );
 
+  const renderHeaderComponent = useCallback(() => {
+    return <View style={styles.safeArea} />;
+  }, []);
+
   return (
     <FlatList
       data={notificationList}
       contentContainerStyle={listContentContainerStyle}
+      ListHeaderComponent={renderHeaderComponent}
       renderItem={renderNotification}
       keyExtractor={keyExtractor}
       ListEmptyComponent={renderListEmpty}

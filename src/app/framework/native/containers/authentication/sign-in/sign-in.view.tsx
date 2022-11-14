@@ -43,7 +43,7 @@ const _SignIn: React.FC<SignInProps> = props => {
             resizeMethod="scale"
             resizeMode="contain"
           />
-          <TextView style={styles.textLogo}>{'Pharmaceutical'}</TextView>
+          <TextView style={styles.textLogo}>{'NPP Supermarket'}</TextView>
           <TextField
             containerStyle={styles.inputContainer}
             inputProps={{

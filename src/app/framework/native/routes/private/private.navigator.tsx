@@ -21,6 +21,7 @@ import {
   CustomersDetail,
   EditOrder,
   Gallery,
+  NotificationDetail,
 } from '@native/containers';
 
 import BottomTabs from './BottomTabs';
@@ -98,6 +99,11 @@ export function PrivateNavigator() {
             title: 'Chi tiết sản phẩm',
           }}
           component={ProductDetail}
+        />
+        <Stack.Screen
+          name="NotificationDetail"
+          options={{headerShown: false}}
+          component={NotificationDetail}
         />
         <Stack.Screen
           name="Cart"

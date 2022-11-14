@@ -224,14 +224,14 @@ const _Cart: React.FC<CartProps> = ({navigation}) => {
 
   return (
     <View style={containerStyle}>
-      <View style={totalProfitContainerStyle}>
+      {/* <View style={totalProfitContainerStyle}>
         <TextView style={totalProfitTextStyle}>
           {MESSAGES.TOTAL_PROFIT}
         </TextView>
         <TextView style={totalProfitTextStyle}>
           {vndCurrencyFormat(totalProfit)}
         </TextView>
-      </View>
+      </View> */}
       <ProductSectionList
         sections={sections}
         onProductChangeQuantity={handleProductChangeQuantity}

@@ -24,6 +24,7 @@ export function useOrderDetailModel(props: OrderDetailProps) {
 
   /* eslint-disable */
   useEffect(() => {
+    if (!id) props.navigation.pop();
     getOrderDetail();
   }, []);
   /* eslint-enable */

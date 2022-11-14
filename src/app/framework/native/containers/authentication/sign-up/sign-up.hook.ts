@@ -16,7 +16,7 @@ export function useSignUpModel(props: SignUpProps) {
 
   const openPolicyLink = useCallback(() => {
     try {
-      Linking.openURL('http://www.doctorcare.info/');
+      Linking.openURL('https://infor.pushstore.vn/');
     } catch (error) {}
   }, []);
 

@@ -111,14 +111,14 @@ export const Order: React.FC<OrderProps> = props => {
           </TextView>
         </TextView>
         <View style={styles.infoSpacing} />
-        <TextView style={styles.title} numberOfLines={1}>
+        {/* <TextView style={styles.title} numberOfLines={1}>
           {'Lợi nhuận: '}
           <TextView
             style={styles.bold}
             color={!disabled ? Colors.PRIMARY_ORANGE : Colors.GRAY}>
             {convertNumberToPrice(item.totalDoctorBenefit)}
           </TextView>
-        </TextView>
+        </TextView> */}
         <TextView color={statusColor} style={styles.status}>
           {status}
         </TextView>
@@ -181,7 +181,7 @@ const styles = StyleSheet.create({
   },
   status: {
     position: 'absolute',
-    bottom: 0,
+    bottom: 8,
     right: 0,
   },
   editWrapper: {
